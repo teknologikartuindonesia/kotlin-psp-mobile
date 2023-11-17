@@ -1,6 +1,10 @@
 package id.co.pspmobile.data.network
 
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.BuildConfig
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,12 +12,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class RemoteDataSource @Inject constructor() {
+class RemoteDataSource @Inject constructor(@ApplicationContext context: Context) {
 
     companion object {
         const val BASE_URL = "https://api.katalis.info"
         const val tempDebug = true
     }
+
+    val ctx = context
 
     val baseURL get() = BASE_URL
 
@@ -24,7 +30,8 @@ class RemoteDataSource @Inject constructor() {
             .baseUrl(baseURL)
             .client(
                 getRetrofitClient(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY),
+                    ctx
                 )
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -32,11 +39,12 @@ class RemoteDataSource @Inject constructor() {
             .create(api)
     }
 
-    private fun getRetrofitClient(logging: HttpLoggingInterceptor): OkHttpClient {
+    private fun getRetrofitClient(logging: HttpLoggingInterceptor, context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .addInterceptor(ChuckerInterceptor(context))
             .also { client ->
-                if (tempDebug) {
+                if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                     client.addInterceptor(logging)

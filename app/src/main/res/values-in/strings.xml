@@ -1,29 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PSP Mobile</string>
-    <string name="title_activity_home" translatable="false">HomeActivity</string>
-    <string name="title_home" translatable="false">Home</string>
-    <string name="title_dashboard" translatable="false">Dashboard</string>
-    <string name="title_notifications" translatable="false">Notifications</string>
-
-    <string name="tutorial_step_1">1. Pastikan nomor whatsapp/ email anda terdaftar ke sistem, jika belum hubungi <font color='#2189FA'>Customer Service</font></string>
+    <string name="tutorial_step_1">1. Pastikan nomor whatsapp/ email anda terdaftar ke sistem, jika belum hubungi <font color="#2189FA">Customer Service</font></string>
     <string name="tutorial_step_2">2. Masukan kode OTP berupa 5 digit kode yang sudah dikirim melalui whatsapp/ email anda</string>
     <string name="tutorial_step_3">3. Buat password baru dan konfirmasi password tersebut</string>
     <string name="tutorial_step_4">4. Silahkan login dengan Password Baru</string>
     <string name="syarat_1">1. Dalam satu hari reset password maksimal 3 kali</string>
     <string name="syarat_2">2. Jangka waktu pengulangan reset password 5 menit</string>
     <string name="terms_conditions">Syarat dan Ketentuan</string>
-    <string name="password">Password</string>
-    <string name="forgot_password">Lupa Password?</string>
+    <string name="password">Kata Sandi</string>
+    <string name="forgot_password">Lupa Kata Sandi?</string>
     <string name="butuh_bantuan_masuk_silahkan_hubungi">Butuh bantuan masuk? Silahkan hubungi</string>
-    <string name="customer_service">Customer Service</string>
     <string name="didukung_oleh">Didukung oleh:</string>
+    <string name="customer_service">Layanan Pelanggan</string>
     <string name="lupa_kata_sandi">Lupa Kata Sandi</string>
     <string name="tutorial_atur_ulang_password">Tutorial Atur Ulang Password</string>
     <string name="please_input_email_or_whatsapp">Silahkan Masukkan No. Whatsapp atau Email yang telah terdaftar</string>
     <string name="send_via_wa">Kirim Via Whatsapp</string>
     <string name="send_via_email">Kirim Via Email</string>
     <string name="send_otp">Kirim OTP</string>
-    <string name="otp_sent">Kami telah mengirim 5 digit kode OTP. Silahkan masukan untuk mereset password anda</string>
+    <string name="otp_sent">Kami telah mengirim 5 digit kode OTP. Silahkan masukan untuk mereset passwordmu</string>
     <string name="check_otp">Cek OTP</string>
     <string name="timer">Anda dapat mengirim ulang OTP dalam 05:00</string>
     <string name="resend_otp">Kirim Ulang OTP</string>
@@ -36,7 +32,6 @@
     <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
     <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
     <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
-    <string name="absensi">Absensi</string>
     <string name="digital_invoice">Tagihan Digital</string>
     <string name="memuat">Memuat...</string>
     <string name="input_name">Masukkan Nama Anda</string>
@@ -55,16 +50,17 @@
     <string name="please_complete_form">Mohon lengkapi form dahulu</string>
     <string name="otp_need_spare_time">Anda baru saja melakukan permintaan reset password, mohon menunggu minimal 5 menit untuk mencoba lagi</string>
     <string name="otp_more_than_three_times">Anda telah melebihi batas harian (3 kali) percobaan reset password. Anda dapat mencoba lagi esok hari atau menghubungi Customer Service</string>
-    <string name="please_otp_first">Mohon masukkan otp terlebih dahulu</string>
+    <string name="please_otp_first">Mohon masukkan kode otp terlebih dahulu</string>
     <string name="username_password_wrong">Username atau password tidak sesuai</string>
+    <string name="absensi">Absensi</string>
     <string name="notification_channel_id">PSP Notif</string>
     <string name="update_available">Mohon Update Aplikasi ini Sekarang dan Nikmati Performa yang Lebih Baik.</string>
     <string name="app_not_available">Mohon maaf aplikasi ini saat ini tidak bisa digunakan karena telah kadaluarsa, silahkan update ke versi gratis untuk menggunakan layanan aplikasi ini. Terima Kasih.</string>
     <string name="download_free_version">Gunakan versi gratis</string>
-    <string name="download_now">Unduh Sekarang</string>
+    <string name="download_now">Unduh</string>
     <string name="later">Nanti</string>
     <string name="close">Tutup</string>
-    <string name="title_update">Update Tersedia</string>
+    <string name="title_update">Update baru tersedia</string>
     <string name="tooltip_username">Masukkan Username dengan format <b>kodesekolah.nis</b></string>
     <string name="tooltip_password">Masukkan password anda dengan NIS anda</string>
     <string name="tooltip_cs">Jika anda menemui masalah, anda dapat menghubungi Layanan Pelanggan</string>
