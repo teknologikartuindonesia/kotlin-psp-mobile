@@ -2,7 +2,13 @@ package id.co.pspmobile.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.ui.login.LoginActivity
 
 object Utils {
 
@@ -26,6 +32,21 @@ object Utils {
                 view.snackbar(error)
             }
         }
+    }
+
+    fun Activity.logout() {
+        if (this is HomeActivity) {
+//            this.performLogout()
+        }
+    }
+    fun View.snackbar(message: String) {
+        val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        val layoutParams = FrameLayout.LayoutParams(snackbar.view.layoutParams)
+        layoutParams.gravity = Gravity.TOP
+        snackbar.view.setPadding(0, 20, 0, 0)
+        snackbar.view.layoutParams = layoutParams
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackbar.show()
     }
 
     fun View.visible(isVisible: Boolean) {
