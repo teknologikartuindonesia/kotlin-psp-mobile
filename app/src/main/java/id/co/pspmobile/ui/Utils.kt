@@ -44,8 +44,8 @@ object Utils {
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         val layoutParams = FrameLayout.LayoutParams(snackbar.view.layoutParams)
-        layoutParams.gravity = Gravity.TOP
-        snackbar.view.setPadding(0, 20, 0, 0)
+        layoutParams.gravity = Gravity.BOTTOM
+        snackbar.view.setPadding(0, 0, 0, 20)
         snackbar.view.layoutParams = layoutParams
         snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         snackbar.show()
