@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.auth.AuthRepository
-import id.co.pspmobile.data.network.responses.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,4 +38,7 @@ class LoginViewModel@Inject constructor(
         return userPreferences.getAccessToken()
     }
 
+    fun saveUserData(data: CheckCredentialResponse) = viewModelScope.launch {
+        userPreferences.saveUserData(data)
+    }
 }

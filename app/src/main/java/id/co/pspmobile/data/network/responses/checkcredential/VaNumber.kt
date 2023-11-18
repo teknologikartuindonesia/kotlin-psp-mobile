@@ -1,4 +1,4 @@
-package id.co.pspmobile.data.network.responses
+package id.co.pspmobile.data.network.responses.checkcredential
 
 data class VaNumber(
     val bankId: String,
