@@ -7,8 +7,10 @@ import android.view.View
 import android.widget.FrameLayout
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.ui.login.LoginActivity
+import kotlinx.coroutines.runBlocking
 
 object Utils {
 
@@ -24,7 +26,7 @@ object Utils {
                 if (this is LoginActivity) {
                     view.snackbar("Username dan password tidak valid")
                 } else {
-                    logout()
+                    this.logout()
                 }
             }
             else -> {
@@ -35,9 +37,9 @@ object Utils {
     }
 
     fun Activity.logout() {
-        if (this is HomeActivity) {
-//            this.performLogout()
-        }
+        val userPreferences = UserPreferences(this)
+        runBlocking { userPreferences.saveAccessToken("") }
+        startNewActivity(LoginActivity::class.java)
     }
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
