@@ -3,7 +3,6 @@ package id.co.pspmobile.data.local
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
-import okhttp3.Headers
 import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "psp_mobile_data_store")
@@ -27,12 +25,9 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
             preferences[ACCESS_TOKEN] ?: ""
         }
 
-    suspend fun saveAccessToken(headers: Headers) {
-        val accessToken = headers.get("Authorization")
-        if (accessToken !== null) {
-            appContext.dataStore.edit { preferences ->
-                preferences[ACCESS_TOKEN] = accessToken
-            }
+    suspend fun saveAccessToken(accessToken: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[ACCESS_TOKEN] = accessToken
         }
     }
 

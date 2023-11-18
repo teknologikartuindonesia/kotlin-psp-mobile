@@ -33,12 +33,12 @@
     <string name="save">Simpan</string>
     <string name="create_password">Buat Password</string>
     <string name="digital_card">Kartu Digital</string>
-    <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
-    <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
-    <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
+    <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla</string>
+    <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla</string>
+    <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla</string>
     <string name="absensi">Absensi</string>
     <string name="digital_invoice">Tagihan Digital</string>
-    <string name="memuat">Memuat...</string>
+    <string name="memuat">Memuat…</string>
     <string name="input_name">Masukkan Nama Anda</string>
     <string name="input_institution">Masukkan Institusi Anda</string>
     <string name="input_message">Masukkan Pesan Anda</string>
@@ -76,4 +76,5 @@
     <string name="update_now">Update Chrome Sekarang</string>
     <string name="announcement">Pemberitahuan</string>
     <string name="your_thanks_message">Terimakasih atas kerjasamanya</string>
+    <string name="logo_desc">app_logo</string>
 </resources>

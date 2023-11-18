@@ -27,13 +27,13 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="save">Save</string>
-    <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
+    <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla</string>
     <string name="create_password">Create Password</string>
     <string name="digital_card">Digital Card</string>
-    <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
-    <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla bla bla</string>
+    <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla</string>
+    <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla</string>
     <string name="digital_invoice">Digital Invoice</string>
-    <string name="memuat">Loading...</string>
+    <string name="memuat">Loading…</string>
     <string name="input_name">Input your name</string>
     <string name="input_institution">Input your institution</string>
     <string name="input_message">Input your message</string>
@@ -72,4 +72,5 @@
     <string name="update_now">Update Chrome Now</string>
     <string name="announcement">Announcement</string>
     <string name="your_thanks_message">Thank You</string>
+    <string name="logo_desc">app_logo</string>
 </resources>

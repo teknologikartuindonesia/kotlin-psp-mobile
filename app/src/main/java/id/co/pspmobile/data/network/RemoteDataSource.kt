@@ -2,6 +2,7 @@ package id.co.pspmobile.data.network
 
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,7 +17,6 @@ class RemoteDataSource @Inject constructor(@ApplicationContext context: Context)
 
     companion object {
         const val BASE_URL = "https://api.katalis.info"
-        const val tempDebug = true
     }
 
     val ctx = context
@@ -29,20 +29,15 @@ class RemoteDataSource @Inject constructor(@ApplicationContext context: Context)
         return Retrofit.Builder()
             .baseUrl(baseURL)
             .client(
-                getRetrofitClient(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY),
-                    ctx
-                )
+                getRetrofitClient(ctx)
             )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)
     }
 
-    private fun getRetrofitClient(logging: HttpLoggingInterceptor, context: Context): OkHttpClient {
+    private fun getRetrofitClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .addInterceptor(ChuckerInterceptor(context))
             .also { client ->
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
@@ -50,6 +45,15 @@ class RemoteDataSource @Inject constructor(@ApplicationContext context: Context)
                     client.addInterceptor(logging)
                 }
             }
+            .addInterceptor(AuthInterceptor(context))
+            .addInterceptor(
+                ChuckerInterceptor.Builder(context)
+                    .collector(ChuckerCollector(context))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            )
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
