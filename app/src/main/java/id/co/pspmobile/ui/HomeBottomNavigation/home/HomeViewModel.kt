@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
+import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import javax.inject.Inject
@@ -12,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor (
     private val authRepository: AuthRepository,
+    private val remoteDataSource: RemoteDataSource,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
 
@@ -22,5 +24,9 @@ class HomeViewModel @Inject constructor (
 
     fun getUserData(): CheckCredentialResponse {
         return userPreferences.getUserData()
+    }
+
+    fun getBaseUrl(): String {
+        return remoteDataSource.baseURL
     }
 }

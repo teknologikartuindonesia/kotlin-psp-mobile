@@ -5,14 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
+import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.FragmentHomeBinding
 
 @AndroidEntryPoint
@@ -24,8 +30,8 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var menuArray: ArrayList<MenuModel>? = null
-    private var otherMenuArray: ArrayList<MenuModel>? = null
+    private var menuArray: ArrayList<AppMenu>? = null
+    private var otherMenuArray: ArrayList<AppMenu>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +43,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         configureMenu()
+        configureAssets()
         getBalance()
         getInfoHeadline()
         if (viewModel.getUserData().activeCompany.customApps){
@@ -63,24 +70,31 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    fun configureAssets(){
+        showImage(binding.imgHomeLogo, "psp.svg")
+        Log.d("HomeFragment", "trying showImage")
+        binding.txtHomeCompanyName.text = viewModel.getUserData().activeCompany.name
+    }
     fun configureMenu(){
-        val menuList = ArrayList<MenuModel>()
-        menuList.add(MenuModel("Top up", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Invoice", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Mutation", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Transaction", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Attendance", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Digital Card", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Account", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Donation", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Schedule", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Calendar", R.drawable.ic_home_black_24dp))
-        menuList.add(MenuModel("Support", R.drawable.ic_home_black_24dp))
 
+        val menuList = ArrayList<AppMenu>()
+        val defaultMenuList = ArrayList<AppMenu>()
+
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238c", "1686195840.svg", true, "Top Up", "/topup", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238d", "invoice.svg", true, "Invoice", "/invoice", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238e", "mutation.svg", true, "Mutation", "/mutation", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238f", "transaction.svg", true, "Transaction", "/transaction-history", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12390", "attendance.svg", true, "Attendance", "/attendance", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12391", "card.svg", true, "Digital Card", "/digital-card", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12392", "account.svg", true, "Account", "/account", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12393", "donation.svg", true, "Donation", "/donation", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12394", "schedule.svg", true, "Schedule", "/schedule", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12395", "calendar.svg", true, "Calendar Academic", "/calendar", "PAGE"))
+        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12396", "support.svg", true, "Support", "/etc", "PAGE"))
         // split 7 menuList to menuArray then the rest to otherMenuArray
-        menuArray = ArrayList(menuList.subList(0, 7))
-        menuArray!!.add(MenuModel("More", R.drawable.ic_home_black_24dp))
-        otherMenuArray = ArrayList(menuList.subList(7, menuList.size))
+        menuArray = ArrayList(defaultMenuList.subList(0, 7))
+        menuArray!!.add(AppMenu("63dfc62c31bd560297c12397", "more.svg", true, "More", "/more", "PAGE"))
+        otherMenuArray = ArrayList(defaultMenuList.subList(7, defaultMenuList.size))
 
         val rv = binding.rvMenu
         val rvSpanCount = 4
@@ -89,11 +103,31 @@ class HomeFragment : Fragment() {
 
 
         val menuAdapter = MenuAdapter()
-        menuAdapter.setMenuList(menuArray!!)
+        menuAdapter.setMenuList(menuArray!!, viewModel.getBaseUrl(), viewModel.getUserData().activeCompany.id)
         menuAdapter.setOnclickListener { view ->
             Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
         }
 
         rv.adapter = menuAdapter
+    }
+    fun showImage(imageView: ImageView, iconUrl: String){
+        Log.d("HomeFragment", "showImage: $imageView $iconUrl")
+        try {
+            val imgUrl = "${viewModel.getBaseUrl()}/main_a/web_view/custom_apps/icon/${viewModel.getUserData().activeCompany.id}/$iconUrl"
+            val imageLoader = ImageLoader.Builder(requireContext())
+                .components {
+                    add(SvgDecoder.Factory())
+                }
+                .build()
+            val imageRequest = ImageRequest.Builder(requireContext())
+                .data(imgUrl)
+                .target(imageView)
+                .transformations(RoundedCornersTransformation())
+                .build()
+            val disposable = imageLoader.enqueue(imageRequest)
+            Log.d("HomeFragment", "showImage: $imageView $imgUrl")
+        } catch (e: Exception){
+            Log.e("HomeFragment", "showImage: $e")
+        }
     }
 }
