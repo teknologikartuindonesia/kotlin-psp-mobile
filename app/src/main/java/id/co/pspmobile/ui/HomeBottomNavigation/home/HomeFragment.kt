@@ -18,8 +18,14 @@ import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.model.infonews.DefaultBool
+import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
+import id.co.pspmobile.data.network.model.infonews.TagInSearch
 import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.FragmentHomeBinding
+import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.visible
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -50,15 +56,44 @@ class HomeFragment : Fragment() {
             getCustomAppData()
         }
 
+        viewModel.balanceResponse.observe(viewLifecycleOwner) {
+            binding.progressbar.visible(it is Resource.Loading)
+            if (it is Resource.Success) {
+                binding.txtHomeBalance.text = "Rp ${it.value.balance}"
+                Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
+            }else if (it is Resource.Failure) {
+                requireActivity().handleApiError(binding.progressbar, it)
+            }
+        }
+
+        viewModel.infoNewsResponse.observe(viewLifecycleOwner) {
+            binding.progressbar.visible(it is Resource.Loading)
+            if (it is Resource.Success) {
+                val infoNewsResponse = it.value
+                Log.d("HomeFragment", "infoNewsResponse: $infoNewsResponse")
+                val infoNews = infoNewsResponse.content
+                val infoNewsList = ArrayList(infoNews.subList(0, infoNews.size))
+                val infoNewsAdapter = InfoNewsAdapter()
+                infoNewsAdapter.setInfoList(infoNewsList, viewModel.getBaseUrl())
+                binding.rvInfoNews.adapter = infoNewsAdapter
+
+            }else if (it is Resource.Failure) {
+                requireActivity().handleApiError(binding.progressbar, it)
+            }
+        }
         return root
+
     }
 
     fun getBalance(){
-
+        viewModel.getBalance()
     }
 
     fun getInfoHeadline(){
-
+        val defaultBool: List<DefaultBool> = listOf(DefaultBool("isHeadline", true))
+        val tagInSearch: List<TagInSearch> = listOf(TagInSearch("tags", viewModel.getUserData().tags))
+        val body = ModelInfoNews(defaultBool, emptyList(), tagInSearch)
+        viewModel.getInfoNews(body,0)
     }
 
     fun getCustomAppData(){

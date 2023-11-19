@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/ic_home_slider_bg">
+    <ImageView
+        android:id="@+id/img_home_info_news"
+        android:layout_width="232dp"
+        android:layout_height="140dp"
+        android:src="@drawable/info_news_default"/>
+    <TextView
+        android:id="@+id/txt_home_info_news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+</LinearLayout>
