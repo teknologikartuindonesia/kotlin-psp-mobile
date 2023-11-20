@@ -1,5 +1,6 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +28,14 @@ import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.FragmentHomeBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.account.AccountActivity
+import id.co.pspmobile.ui.attendance.AttendanceActivity
+import id.co.pspmobile.ui.calendar.CalendarActivity
+import id.co.pspmobile.ui.card.DigitalCardActivity
+import id.co.pspmobile.ui.donation.DonationActivity
+import id.co.pspmobile.ui.mutation.MutationActivity
+import id.co.pspmobile.ui.schedule.ScheduleActivity
+import id.co.pspmobile.ui.transaction.TransactionActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -90,7 +100,7 @@ class HomeFragment : Fragment() {
     }
 
     fun getInfoHeadline(){
-        val defaultBool: List<DefaultBool> = listOf(DefaultBool("isHeadline", true))
+        val defaultBool: List<DefaultBool> = listOf(DefaultBool("enable", true), DefaultBool("isHeadline", true))
         val tagInSearch: List<TagInSearch> = listOf(TagInSearch("tags", viewModel.getUserData().tags))
         val body = ModelInfoNews(defaultBool, emptyList(), tagInSearch)
         viewModel.getInfoNews(body,0)
@@ -113,37 +123,61 @@ class HomeFragment : Fragment() {
     fun configureMenu(){
 
         val menuList = ArrayList<AppMenu>()
-        val defaultMenuList = ArrayList<AppMenu>()
 
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238c", "1686195840.svg", true, "Top Up", "/topup", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238d", "invoice.svg", true, "Invoice", "/invoice", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238e", "mutation.svg", true, "Mutation", "/mutation", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c1238f", "transaction.svg", true, "Transaction", "/transaction-history", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12390", "attendance.svg", true, "Attendance", "/attendance", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12391", "card.svg", true, "Digital Card", "/digital-card", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12392", "account.svg", true, "Account", "/account", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12393", "donation.svg", true, "Donation", "/donation", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12394", "schedule.svg", true, "Schedule", "/schedule", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12395", "calendar.svg", true, "Calendar Academic", "/calendar", "PAGE"))
-        defaultMenuList.add(AppMenu("63dfc62c31bd560297c12396", "support.svg", true, "Support", "/etc", "PAGE"))
-        // split 7 menuList to menuArray then the rest to otherMenuArray
-        menuArray = ArrayList(defaultMenuList.subList(0, 7))
-        menuArray!!.add(AppMenu("63dfc62c31bd560297c12397", "more.svg", true, "More", "/more", "PAGE"))
-        otherMenuArray = ArrayList(defaultMenuList.subList(7, defaultMenuList.size))
 
         val rv = binding.rvMenu
         val rvSpanCount = 4
         val layoutManager = GridLayoutManager(requireContext(), rvSpanCount, GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
 
+//        if(viewModel.getUserData().activeCompany.customApps){
+            // pake custom app
+//            var defaultMenuList = ArrayList<DefaultMenuModel>()
+//            var otherDefaultMenuList = ArrayList<DefaultMenuModel>()
+//            defaultMenuList.add(DefaultMenuModel("Topup", R.drawable.ic_home_topup, Intent(requireContext(), MutationActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Invoice", R.drawable.ic_home_invoice, Intent(requireContext(), MutationActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Mutation", R.drawable.ic_home_mutation, Intent(requireContext(), MutationActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Transaction", R.drawable.ic_home_transaction, Intent(requireContext(), TransactionActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Attendance", R.drawable.ic_home_attendance, Intent(requireContext(), AttendanceActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Digital Card", R.drawable.ic_home_digital_card, Intent(requireContext(), DigitalCardActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Account", R.drawable.ic_home_account, Intent(requireContext(), AccountActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Donation", R.drawable.ic_home_donation, Intent(requireContext(), DonationActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Schedule", R.drawable.ic_home_schedule, Intent(requireContext(), ScheduleActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Calendar Academic", R.drawable.ic_home_calendar, Intent(requireContext(), CalendarActivity::class.java)))
+//            defaultMenuList.add(DefaultMenuModel("Support", R.drawable.ic_home_support, Intent(requireContext(), MutationActivity::class.java)))
+//
+//            val menuAdapter = MenuAdapter()
+//            menuAdapter.setMenuList(menuArray!!, viewModel.getBaseUrl(), viewModel.getUserData().activeCompany.id)
+//            menuAdapter.setOnclickListener { view ->
+//                Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+//            }
 
-        val menuAdapter = MenuAdapter()
-        menuAdapter.setMenuList(menuArray!!, viewModel.getBaseUrl(), viewModel.getUserData().activeCompany.id)
-        menuAdapter.setOnclickListener { view ->
-            Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
-        }
+//            rv.adapter = menuAdapter
+//        } else {
+            // ga pake custom app
+            var defaultMenuList = ArrayList<DefaultMenuModel>()
+            var otherDefaultMenuList = ArrayList<DefaultMenuModel>()
+            defaultMenuList.add(DefaultMenuModel("Topup", R.drawable.ic_home_topup, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Invoice", R.drawable.ic_home_invoice, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Mutation", R.drawable.ic_home_mutation, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Transaction", R.drawable.ic_home_transaction, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Attendance", R.drawable.ic_home_attendance, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Digital Card", R.drawable.ic_home_digital_card, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Account", R.drawable.ic_home_account, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Donation", R.drawable.ic_home_donation, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Schedule", R.drawable.ic_home_schedule, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Calendar Academic", R.drawable.ic_home_calendar, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Support", R.drawable.ic_home_support, Intent(requireContext(), MutationActivity::class.java)))
 
-        rv.adapter = menuAdapter
+            otherDefaultMenuList = ArrayList(defaultMenuList.subList(7, defaultMenuList.size))
+            defaultMenuList = ArrayList(defaultMenuList.subList(0, 7))
+            defaultMenuList.add(DefaultMenuModel("More", R.drawable.ic_home_more_menu, Intent(requireContext(), MutationActivity::class.java)))
+            val menuAdapter = DefaultMenuAdapter()
+            menuAdapter.setMenuList(defaultMenuList, requireContext())
+            rv.adapter = menuAdapter
+//        }
+
+
     }
     fun showImage(imageView: ImageView, iconUrl: String){
         Log.d("HomeFragment", "showImage: $imageView $iconUrl")

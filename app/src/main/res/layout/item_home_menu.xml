@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:id="@+id/layout_item_home_menu"
     android:layout_marginVertical="5dp">
 
     <LinearLayout
