@@ -1,6 +1,11 @@
 package id.co.pspmobile.data.network
 
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.BuildConfig
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,12 +13,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class RemoteDataSource @Inject constructor() {
+class RemoteDataSource @Inject constructor(@ApplicationContext context: Context) {
 
     companion object {
         const val BASE_URL = "https://api.katalis.info"
-        const val tempDebug = true
     }
+
+    val ctx = context
 
     val baseURL get() = BASE_URL
 
@@ -23,25 +29,31 @@ class RemoteDataSource @Inject constructor() {
         return Retrofit.Builder()
             .baseUrl(baseURL)
             .client(
-                getRetrofitClient(
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
+                getRetrofitClient(ctx)
             )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)
     }
 
-    private fun getRetrofitClient(logging: HttpLoggingInterceptor): OkHttpClient {
+    private fun getRetrofitClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(logging)
             .also { client ->
-                if (tempDebug) {
+                if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                     client.addInterceptor(logging)
                 }
             }
+            .addInterceptor(AuthInterceptor(context))
+            .addInterceptor(
+                ChuckerInterceptor.Builder(context)
+                    .collector(ChuckerCollector(context))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            )
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()

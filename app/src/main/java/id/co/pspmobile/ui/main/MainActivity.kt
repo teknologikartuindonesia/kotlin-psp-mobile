@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.ActivityMainBinding
 import id.co.pspmobile.ui.HomeActivity
@@ -21,7 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // define user will be login or not
         // if already logged in, go to home activity

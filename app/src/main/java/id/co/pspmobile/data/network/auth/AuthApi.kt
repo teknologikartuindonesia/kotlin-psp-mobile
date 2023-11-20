@@ -1,7 +1,7 @@
 package id.co.pspmobile.data.network.auth
 
 import id.co.pspmobile.data.network.model.ModelLogin
-import id.co.pspmobile.data.network.responses.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
