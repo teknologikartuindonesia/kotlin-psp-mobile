@@ -6,8 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.auth.AuthApi
+import id.co.pspmobile.data.network.invoice.InvoiceApi
+import id.co.pspmobile.data.network.transaction.TransactionApi
 import id.co.pspmobile.data.network.user.UserApi
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -18,6 +21,22 @@ object AppModule {
         remoteDataSource: RemoteDataSource
     ): AuthApi {
         return remoteDataSource.buildApi(AuthApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideInvoiceApi(
+        remoteDataSource: RemoteDataSource
+    ): InvoiceApi {
+        return remoteDataSource.buildApi(InvoiceApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTransactionApi(
+        remoteDataSource: RemoteDataSource
+    ): TransactionApi {
+        return remoteDataSource.buildApi(TransactionApi::class.java)
     }
 
     @Singleton

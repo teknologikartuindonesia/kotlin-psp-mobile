@@ -1,0 +1,29 @@
+package id.co.pspmobile.ui.invoice.fragment
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
+
+private const val NUM_TABS = 3
+
+class ViewPagerAdapter (
+    private val invoiceFragment: InvoiceFragment,
+    private val historyFragment: HistoryFragment,
+    private val summaryFragment: SummaryFragment,
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
+
+    override fun getItemCount(): Int {
+        return NUM_TABS
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        when (position) {
+            0 -> return invoiceFragment
+            1 -> return historyFragment
+        }
+        return summaryFragment
+    }
+}

@@ -1,20 +1,25 @@
 package id.co.pspmobile.ui.topup
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.R
-import id.co.pspmobile.databinding.BankAdapterBinding
+import id.co.pspmobile.databinding.AdapterBankBinding
 
 class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
 
-    private lateinit var list: List<String>
+    private lateinit var list: ArrayList<String>
     private var onItemClickListener : View.OnClickListener? = null
 
-    fun setBanks(list: List<String>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun setBanks(list: ArrayList<String>) {
         this.list = list
+        this.list.remove("IDN")
+        this.list.remove("XENDIT DISBURSEMENT")
+
         notifyDataSetChanged()
     }
 
@@ -22,8 +27,12 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
         this.onItemClickListener = onItemClickListener
     }
 
-    inner class ViewHolder(private val binding: BankAdapterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(bankName: String) {
+    inner class ViewHolder(private val binding: AdapterBankBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(bank: String) {
+            var bankName = bank
+            bankName = bankName.replace("OVERBOOK", "").trim()
+            bankName = bankName.replace("XENDIT", "").trim()
+
             with(binding) {
                 itemView.tag = bankName
                 itemView.setOnClickListener(onItemClickListener)
@@ -38,7 +47,7 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bjb) })
                     }
                     "BANKJATIM" -> {
-                        ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bjb) })
+                        ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bjs) })
                     }
                     "BNI" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bni) })
@@ -48,6 +57,9 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
                     }
                     "BSI" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bsi) })
+                    }
+                    "BTN" -> {
+                        ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_btn) })
                     }
                     "BTPN" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_btpn) })
@@ -82,7 +94,7 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankAdapter.ViewHolder {
-        val binding = BankAdapterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AdapterBankBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

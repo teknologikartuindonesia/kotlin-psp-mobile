@@ -12,11 +12,15 @@ class UserRepository @Inject constructor (
 
     suspend fun getVa() : Resource<VaResDto> = safeApiCall(
         {
-            api.getVa(
-                userPreferences.getAccessToken()
-            )
+            api.getVa()
         },
         userPreferences
     )
 
+    suspend fun createVa(bankName: String) : Resource<Unit> = safeApiCall(
+        {
+            api.createVa(bankName)
+        },
+        userPreferences
+    )
 }

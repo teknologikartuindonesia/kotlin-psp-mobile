@@ -22,9 +22,17 @@ class TopUpViewModel @Inject constructor(
     private var _vaResponse: MutableLiveData<Resource<VaResDto>> = MutableLiveData()
     val vaResponse: LiveData<Resource<VaResDto>> get() = _vaResponse
 
+    private var _createVaResponse: MutableLiveData<Resource<Unit>> = MutableLiveData()
+    val createVaResponse: LiveData<Resource<Unit>> get() = _createVaResponse
+
     fun getVa() = viewModelScope.launch {
         _vaResponse.value = Resource.Loading
         _vaResponse.value = userRepository.getVa()
+    }
+
+    fun createVa(bankName: String) = viewModelScope.launch {
+        _createVaResponse.value = Resource.Loading
+        _createVaResponse.value = userRepository.createVa(bankName)
     }
 
 }
