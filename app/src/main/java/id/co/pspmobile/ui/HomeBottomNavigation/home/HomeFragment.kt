@@ -33,8 +33,10 @@ import id.co.pspmobile.ui.attendance.AttendanceActivity
 import id.co.pspmobile.ui.calendar.CalendarActivity
 import id.co.pspmobile.ui.card.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
+import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
 import id.co.pspmobile.ui.schedule.ScheduleActivity
+import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
 
 @AndroidEntryPoint
@@ -157,8 +159,8 @@ class HomeFragment : Fragment() {
             // ga pake custom app
             var defaultMenuList = ArrayList<DefaultMenuModel>()
             var otherDefaultMenuList = ArrayList<DefaultMenuModel>()
-            defaultMenuList.add(DefaultMenuModel("Topup", R.drawable.ic_home_topup, Intent(requireContext(), MutationActivity::class.java)))
-            defaultMenuList.add(DefaultMenuModel("Invoice", R.drawable.ic_home_invoice, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Topup", R.drawable.ic_home_topup, Intent(requireContext(), TopUpActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Invoice", R.drawable.ic_home_invoice, Intent(requireContext(), InvoiceActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Mutation", R.drawable.ic_home_mutation, Intent(requireContext(), MutationActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Transaction", R.drawable.ic_home_transaction, Intent(requireContext(), MutationActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Attendance", R.drawable.ic_home_attendance, Intent(requireContext(), MutationActivity::class.java)))
