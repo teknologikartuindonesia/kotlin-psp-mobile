@@ -101,8 +101,7 @@ class TopUpActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
-//            finish()
-            startActivity(Intent(this, InvoiceActivity::class.java))
+            finish()
         }
     }
 
