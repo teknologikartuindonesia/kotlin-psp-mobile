@@ -6,19 +6,22 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.data.network.transaction.TransactionResDto
 import id.co.pspmobile.databinding.AdapterHistoryTopupBinding
+import id.co.pspmobile.databinding.AdapterSummaryInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.invoice.fragment.SummaryAdapter
 
-class HistoryTopUpAdapter : PagingDataAdapter<TransactionResDto, HistoryTopUpAdapter.ViewHolder>(DIFF_CALLBACK) {
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TransactionResDto>() {
-            override fun areItemsTheSame(oldItem: TransactionResDto, newItem: TransactionResDto): Boolean =
-                oldItem.id == newItem.id
+class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>() {
 
-            override fun areContentsTheSame(oldItem: TransactionResDto, newItem: TransactionResDto): Boolean =
-                oldItem == newItem
-        }
+    private lateinit var list: List<TransactionResDto>
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setHistoryTopUp(list: List<TransactionResDto>) {
+        this.list = list
+
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(private val binding: AdapterHistoryTopupBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -32,13 +35,15 @@ class HistoryTopUpAdapter : PagingDataAdapter<TransactionResDto, HistoryTopUpAda
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTopUpAdapter.ViewHolder {
         val binding = AdapterHistoryTopupBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+    override fun onBindViewHolder(holder: HistoryTopUpAdapter.ViewHolder, position: Int) {
+        holder.bind(list[position])
     }
+
+    override fun getItemCount(): Int = list.size
 
 }

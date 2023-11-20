@@ -21,9 +21,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.topup.history.HistoryTopUpActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".ui.topup.TopUpActivity" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
+         <activity
+             android:name=".ui.topup.TopUpActivity"
+             android:exported="false" />
         <activity
             android:name=".ui.attendance.AttendanceActivity"
             android:exported="false" />

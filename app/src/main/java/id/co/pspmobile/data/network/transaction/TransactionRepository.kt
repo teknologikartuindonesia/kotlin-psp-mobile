@@ -13,19 +13,11 @@ class TransactionRepository @Inject constructor (
     suspend fun getHistoryTopUp(
         page: Int,
         size: Int
-    ) : List<TransactionResDto> {
-        val response = safeApiCall(
-            {
-                api.getHistoryTopUp(page, size)
-            },
-            userPreferences
-        )
-        return if (response is Resource.Success) {
-            val historyTopUpResDto = response.value
-            historyTopUpResDto.content
-        } else {
-            emptyList()
-        }
-    }
+    ) : Resource<HistoryTopUpResDto> = safeApiCall(
+        {
+            api.getHistoryTopUp(page, size)
+        },
+        userPreferences
+    )
 
 }
