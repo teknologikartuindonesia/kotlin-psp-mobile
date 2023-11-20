@@ -54,11 +54,7 @@ class InvoiceAdapter : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: InvoiceAdapter.ViewHolder, position: Int) {
-        try {
-            holder.bind(list[position])
-        }catch (e: Exception) {
-            Log.e("error", e.message.toString())
-        }
+        holder.bind(list[position])
     }
 
     fun clear() {

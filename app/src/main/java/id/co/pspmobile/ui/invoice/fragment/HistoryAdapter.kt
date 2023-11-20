@@ -10,13 +10,12 @@ import id.co.pspmobile.ui.Utils.formatCurrency
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    private lateinit var list: List<InvoiceDto>
+    private  var list= ArrayList<InvoiceDto>()
     private lateinit var onDetailClickListener : (invoice: InvoiceDto) -> (Unit)
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setInvoices(list: List<InvoiceDto>) {
-        this.list = list
-
+    fun setInvoices(item: ArrayList<InvoiceDto>) {
+        list.addAll(item)
         notifyDataSetChanged()
     }
 
