@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +11,12 @@ import id.co.pspmobile.ui.Utils.formatCurrency
 
 class InvoiceAdapter : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
 
-    private lateinit var list: List<InvoiceDto>
+    private var list=ArrayList<InvoiceDto>()
     private lateinit var onPayClickListener : (invoice: InvoiceDto) -> (Unit)
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setInvoices(list: List<InvoiceDto>) {
-        this.list = list
-
+    fun setInvoices(item: ArrayList<InvoiceDto>) {
+        list.addAll(item)
         notifyDataSetChanged()
     }
 
@@ -54,7 +54,16 @@ class InvoiceAdapter : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: InvoiceAdapter.ViewHolder, position: Int) {
-        holder.bind(list[position])
+        try {
+            holder.bind(list[position])
+        }catch (e: Exception) {
+            Log.e("error", e.message.toString())
+        }
+    }
+
+    fun clear() {
+        list.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = list.size

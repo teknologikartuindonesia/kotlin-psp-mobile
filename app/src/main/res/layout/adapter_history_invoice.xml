@@ -13,13 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
@@ -27,16 +28,17 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="18dp"
-                android:src="@drawable/ic_home_black_24dp"
+                android:src="@drawable/ic_invoice_blue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_invoice_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textSize="20sp"
+                android:textSize="14dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:textColor="@color/black"
                 tools:text="Invoice Name" />
 
@@ -58,16 +60,19 @@
             <TextView
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text="Name" />
 
             <TextView
                 android:layout_width="10dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 tools:text="Account Name" />
         </LinearLayout>
@@ -80,17 +85,20 @@
 
             <TextView
                 android:layout_width="120dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text="NIS" />
 
             <TextView
                 android:layout_width="10dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_nis"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 tools:text="1234567890" />
         </LinearLayout>
@@ -103,17 +111,20 @@
 
             <TextView
                 android:layout_width="120dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text="Invoice Date" />
 
             <TextView
                 android:layout_width="10dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 tools:text="14 Jan 2023" />
         </LinearLayout>
@@ -126,17 +137,20 @@
 
             <TextView
                 android:layout_width="120dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text="Invoice Due Date" />
 
             <TextView
                 android:layout_width="10dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_due_date"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 tools:text="31 Dec 2023" />
         </LinearLayout>
@@ -149,18 +163,21 @@
 
             <TextView
                 android:layout_width="120dp"
+                android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
                 android:text="Invoice Type" />
 
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 tools:text="CASH/CREDIT" />
         </LinearLayout>
 
@@ -173,17 +190,20 @@
             <TextView
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text="Paid" />
 
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text=":" />
 
             <TextView
                 android:id="@+id/tv_paid_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 tools:text="Rp. 300.000,00" />
         </LinearLayout>
 
@@ -198,6 +218,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -209,6 +230,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
                     android:text="Rest of Invoice" />
 
                 <TextView
@@ -217,14 +239,17 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:fontFamily="@font/montserrat"
                     tools:text="Rp. 100.000,00" />
 
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_detail"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_height="35dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_centerInParent="true"
                 android:text="Detail" />
         </LinearLayout>

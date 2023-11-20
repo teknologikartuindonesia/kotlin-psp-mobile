@@ -18,6 +18,7 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
             tools:text="Invoice Name" />
 
         <TextView
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:fontFamily="@font/montserrat"
             tools:text="14 Jun 2023" />
 
     </LinearLayout>
@@ -34,6 +36,8 @@
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical|end"
+        android:textColor="@color/primary"
+        android:fontFamily="@font/montserrat"
         tools:text="100.000.000" />
 
     <TextView
@@ -41,6 +45,8 @@
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical|end"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@color/warning"
         tools:text="100.000.000" />
 
     <TextView
@@ -48,5 +54,7 @@
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical|end"
+        android:textColor="@color/danger"
+        android:fontFamily="@font/montserrat"
         tools:text="100.000.000" />
 </LinearLayout>

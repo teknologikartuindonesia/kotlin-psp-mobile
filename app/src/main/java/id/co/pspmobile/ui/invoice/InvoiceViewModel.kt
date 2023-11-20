@@ -27,7 +27,7 @@ class InvoiceViewModel @Inject constructor(
 
     fun getUnpaidInvoice(page: Int) = viewModelScope.launch {
         _unpaidInvoiceResponse.value = Resource.Loading
-        _unpaidInvoiceResponse.value = invoiceRepository.getUnpaidInvoice(page, 10)
+        _unpaidInvoiceResponse.value = invoiceRepository.getUnpaidInvoice(page, 5)
     }
 
     fun getPaidInvoice(page: Int) = viewModelScope.launch {

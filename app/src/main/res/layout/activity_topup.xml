@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
-                tools:text="Topup"
+                android:text="@string/title_topup"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 

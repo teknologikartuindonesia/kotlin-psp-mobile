@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@color/primary"
+        android:paddingVertical="4dp"
         android:layout_margin="10dp">
 
         <TextView
@@ -17,6 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:text="Invoice" />
 
@@ -25,21 +30,30 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Amount" />
+            android:textSize="8dp"
+            android:text="Amount"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white"/>
 
         <TextView
             android:layout_width="82dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Paid" />
+            android:textSize="8dp"
+            android:text="Paid"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white"/>
 
         <TextView
             android:layout_width="82dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Total Due" />
+            android:text="Total Due"
+            android:textSize="8dp"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

@@ -2,17 +2,22 @@ package id.co.pspmobile.ui.invoice.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.FragmentInvoiceBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import kotlin.math.log
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class InvoiceFragment() : Fragment() {
@@ -22,16 +27,44 @@ class InvoiceFragment() : Fragment() {
     private lateinit var binding: FragmentInvoiceBinding
     private lateinit var invoiceAdapter: InvoiceAdapter
     private var page: Int = 0
+    private var size: Int = 5
+    private var totalPage: Int = 1
+    private var isLoading by Delegates.notNull<Boolean>()
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.progressbar.visible(false)
+        layoutManager = LinearLayoutManager(context)
+
+
+        binding.rvInvoice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val visibleItemCount = layoutManager.childCount
+                val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
+                val total = invoiceAdapter.itemCount
+
+                Log.e("visible", "visible "+visibleItemCount.toString())
+                Log.e("pass", "pass "+pastVisibleItem.toString())
+                Log.e("total","total "+ total.toString())
+
+                if (totalPage == size) {
+                    if (visibleItemCount + pastVisibleItem >= total) {
+                        page++
+                       viewModel.getUnpaidInvoice(page++)
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
 
         viewModel.unpaidInvoiceResponse.observe(viewLifecycleOwner) {
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
                 invoiceAdapter.setInvoices(it.value.content)
+
+                totalPage = it.value.content.size
                 binding.apply {
                     rvInvoice.setHasFixedSize(true)
                     rvInvoice.adapter = invoiceAdapter
