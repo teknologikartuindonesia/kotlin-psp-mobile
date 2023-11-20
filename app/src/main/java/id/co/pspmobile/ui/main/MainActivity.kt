@@ -11,6 +11,7 @@ import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.invoices.InvoicesActivity
 import id.co.pspmobile.ui.login.LoginActivity
 
 @AndroidEntryPoint
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         if (viewModel.getToken() != ""){
             checkCurrentToken()
         } else {
-            startNewActivity(LoginActivity::class.java)
+            startNewActivity(InvoicesActivity::class.java)
         }
 
         viewModel.checkCredentialResponse.observe(this){

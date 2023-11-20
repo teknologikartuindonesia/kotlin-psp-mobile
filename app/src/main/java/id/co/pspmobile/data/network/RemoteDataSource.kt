@@ -1,6 +1,7 @@
 package id.co.pspmobile.data.network
 
 
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,6 +36,7 @@ class RemoteDataSource @Inject constructor() {
     private fun getRetrofitClient(logging: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .addInterceptor(ChuckerInterceptor())
             .also { client ->
                 if (tempDebug) {
                     val logging = HttpLoggingInterceptor()
