@@ -1,5 +1,6 @@
 package id.co.pspmobile.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -47,6 +49,8 @@ class LoginActivity : AppCompatActivity() {
                     // if user is not ROLE_USER, show error message
                 } else {
                     viewModel.saveUserData(it.value)
+                    viewModel.saveUsername(binding.edUsername.text.toString())
+                    viewModel.savePassword(binding.edPassword.text.toString())
                     startNewActivity(HomeActivity::class.java)
                 }
             } else if (it is Resource.Failure) {
@@ -56,6 +60,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             login(binding.edUsername.text.toString(), binding.edPassword.text.toString())
+        }
+
+        binding.btnForgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
@@ -68,5 +76,11 @@ class LoginActivity : AppCompatActivity() {
         val adapter = BankPartnerAdapter()
         adapter.setMenuList(partner)
         binding.rvBank.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.edUsername.setText(viewModel.getUsername())
+        binding.edPassword.setText(viewModel.getPassword())
     }
 }

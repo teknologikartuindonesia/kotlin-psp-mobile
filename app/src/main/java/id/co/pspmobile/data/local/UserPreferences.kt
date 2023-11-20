@@ -54,9 +54,50 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         Gson().fromJson(userData.first().toString(), CheckCredentialResponse::class.java)
     }
 
+    val lastResetPassword: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[LAST_RESET_PASSWORD] ?: ""
+        }
+    suspend fun saveLastResetPassword(lastResetPassword: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[LAST_RESET_PASSWORD] = lastResetPassword
+        }
+    }
+    fun getLastResetPassword() = runBlocking(Dispatchers.IO) {
+        lastResetPassword.first()
+    }
+
+    val username: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[USERNAME] ?: ""
+        }
+    suspend fun saveUsername(username: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[USERNAME] = username
+        }
+    }
+    fun getUsername() = runBlocking(Dispatchers.IO) {
+        username.first()
+    }
+
+    val password: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[PASSWORD] ?: ""
+        }
+    suspend fun savePassword(password: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[PASSWORD] = password
+        }
+    }
+    fun getPassword() = runBlocking(Dispatchers.IO) {
+        password.first()
+    }
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_DATA = stringPreferencesKey("user_data")
+        private val LAST_RESET_PASSWORD = stringPreferencesKey("last_reset_password")
+        private val USERNAME = stringPreferencesKey("username")
+        private val PASSWORD = stringPreferencesKey("password")
     }
 
 }
