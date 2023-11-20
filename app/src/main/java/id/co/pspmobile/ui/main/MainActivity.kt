@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         // define user will be login or not
         // if already logged in, go to home activity
-        // if not, go to login activity
+        // if not, go to login activityo
 
         if (viewModel.getToken() != ""){
             checkCurrentToken()
         } else {
-            startNewActivity(InvoicesActivity::class.java)
+            startNewActivity(LoginActivity::class.java)
         }
 
         viewModel.checkCredentialResponse.observe(this){
