@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 if (!checkCredentialResponse.user.accounts[0].roles.contains("ROLE_USER")){
                     // if user is not ROLE_USER, show error message
                 } else {
+                    viewModel.saveUserData(it.value)
                     startNewActivity(HomeActivity::class.java)
                 }
             } else if (it is Resource.Failure) {

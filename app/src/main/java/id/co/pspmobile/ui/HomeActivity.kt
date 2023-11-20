@@ -1,15 +1,15 @@
 package id.co.pspmobile.ui
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityHomeBinding
+
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -22,17 +22,27 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_home)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        var menu_bottom = binding.bottomNavBar
+        menu_bottom.setItemSelected(R.id.navigation_home, true)
+        menu_bottom.setOnItemSelectedListener {
+            when(it){
+                R.id.navigation_home -> {
+                    navController.navigate(R.id.navigation_home)
+                }
+                R.id.navigation_information -> {
+                    navController.navigate(R.id.navigation_information)
+                }
+                R.id.navigation_message -> {
+                    navController.navigate(R.id.navigation_message)
+                }
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.navigation_profile)
+                }
+            }
+        }
+
     }
 }

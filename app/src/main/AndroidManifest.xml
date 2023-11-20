@@ -25,6 +25,30 @@
         <!-- android:name=".ui.topup.TopUpActivity" -->
         <!-- android:exported="false" /> -->
         <activity
+            android:name=".ui.attendance.AttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.schedule.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.donation.DonationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.card.DigitalCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.calendar.CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.transaction.TransactionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.mutation.MutationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity

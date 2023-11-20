@@ -2,8 +2,9 @@
     <string name="app_name">PSP Mobile</string>
     <string name="title_activity_home" translatable="false">HomeActivity</string>
     <string name="title_home" translatable="false">Home</string>
-    <string name="title_dashboard" translatable="false">Dashboard</string>
-    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="title_information" translatable="false">Information</string>
+    <string name="title_message" translatable="false">Notifications</string>
+    <string name="title_profile" translatable="false">Profile</string>
 
     <string name="tutorial_step_1">1. Pastikan nomor whatsapp/ email anda terdaftar ke sistem, jika belum hubungi <font color='#2189FA'>Customer Service</font></string>
     <string name="tutorial_step_2">2. Masukan kode OTP berupa 5 digit kode yang sudah dikirim melalui whatsapp/ email anda</string>
