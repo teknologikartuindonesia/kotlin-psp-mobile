@@ -1,16 +1,14 @@
 package id.co.pspmobile.ui.topup.history
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.co.pspmobile.data.network.transaction.TransactionPagingSource
+import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.transaction.HistoryTopUpResDto
 import id.co.pspmobile.data.network.transaction.TransactionRepository
-import id.co.pspmobile.data.network.transaction.TransactionResDto
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,15 +18,11 @@ class HistoryTopUpViewModel @Inject constructor(
 
 //    var recyclerViewState: Parcelable? = null
 
-    fun getHistoryTopUp(): Flow<PagingData<TransactionResDto>> {
-        return Pager(
-            PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false,
-                initialLoadSize = 10
-            )
-        ) {
-            TransactionPagingSource(transactionRepository)
-        }.flow.cachedIn(viewModelScope)
+    private var _historyTopUpResponse: MutableLiveData<Resource<HistoryTopUpResDto>> = MutableLiveData()
+    val historyTopUpResponse: LiveData<Resource<HistoryTopUpResDto>> get() = _historyTopUpResponse
+
+    fun getHistoryTopUp(page: Int) = viewModelScope.launch {
+        _historyTopUpResponse.value = Resource.Loading
+        _historyTopUpResponse.value = transactionRepository.getHistoryTopUp(page, 10)
     }
 }
