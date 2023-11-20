@@ -78,4 +78,10 @@
     <string name="announcement">Pemberitahuan</string>
     <string name="your_thanks_message">Terimakasih atas kerjasamanya</string>
     <string name="logo_desc">app_logo</string>
+    <string name="name">Nama</string>
+    <string name="nis">Nis</string>
+    <string name="tgl_tagihan">Tgl Tagihan\t</string>
+    <string name="batas_tagihan">Batas Tagihan</string>
+    <string name="paid">Paid</string>
+    <string name="credit">Credit</string>
 </resources>
