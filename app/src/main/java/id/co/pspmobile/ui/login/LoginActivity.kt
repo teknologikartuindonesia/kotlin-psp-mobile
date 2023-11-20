@@ -8,6 +8,7 @@ import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.ActivityLoginBinding
 import id.co.pspmobile.ui.HomeActivity
+import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        configurePartner()
         binding.progressbar.visible(false)
         viewModel.loginResponse.observe(this){
             binding.progressbar.visible(it is Resource.Loading)
@@ -59,5 +61,12 @@ class LoginActivity : AppCompatActivity() {
 
     fun login(username: String, password: String){
         viewModel.login(username, password)
+    }
+
+    fun configurePartner(){
+        val partner = listOf("TKI")
+        val adapter = BankPartnerAdapter()
+        adapter.setMenuList(partner)
+        binding.rvBank.adapter = adapter
     }
 }

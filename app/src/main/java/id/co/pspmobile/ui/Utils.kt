@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.Gravity
 import android.view.View
@@ -9,6 +10,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.login.LoginActivity
 import kotlinx.coroutines.runBlocking
 
@@ -40,6 +42,13 @@ object Utils {
         val userPreferences = UserPreferences(this)
         runBlocking { userPreferences.saveAccessToken("") }
         startNewActivity(LoginActivity::class.java)
+    }
+    fun Context.logout() {
+        val userPreferences = UserPreferences(this)
+        runBlocking { userPreferences.saveAccessToken("") }
+        val i = Intent(this, LoginActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
     }
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
