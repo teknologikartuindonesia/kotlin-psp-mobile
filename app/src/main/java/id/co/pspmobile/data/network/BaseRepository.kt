@@ -17,7 +17,11 @@ abstract class BaseRepository {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiCall.invoke()
-                userPreferences.saveAccessToken(response.headers())
+                val tokenBearer = response.headers()["Authorization"]
+                if (tokenBearer != null) {
+                    val tmp = tokenBearer.split(" ")
+                    userPreferences.saveAccessToken(tmp[1])
+                }
                 if (response.isSuccessful) {
                     Resource.Success(response.body()!!)
                 } else {
