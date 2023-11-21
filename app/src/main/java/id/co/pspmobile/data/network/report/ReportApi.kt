@@ -36,4 +36,12 @@ interface ReportApi {
         @Query("sort") sort: String
     ) : Response<MutationResDto>
 
+    @GET("/python/transaction/report/detail") //month=11&year=2023&sort=createDate%2CDesc&transactionName=BIAYA%20ADMIN
+    suspend fun getTransactionDetail(
+        @Query("month") month: String,
+        @Query("year") year: Int,
+        @Query("sort") sort: String,
+        @Query("transactionName") transactionName: String
+    ) : Response<TransactionDetailResDto>
+
 }

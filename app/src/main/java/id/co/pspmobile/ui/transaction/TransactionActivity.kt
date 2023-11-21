@@ -22,7 +22,6 @@ class TransactionActivity : AppCompatActivity() {
         binding = ActivityTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val adapter = ViewPagerAdapter(
             TransactionFragment(),
             OldTransactionFragment(),

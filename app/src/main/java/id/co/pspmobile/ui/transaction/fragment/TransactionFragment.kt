@@ -1,5 +1,6 @@
 package id.co.pspmobile.ui.transaction.fragment
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +15,16 @@ import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.report.TransactionDto
 import id.co.pspmobile.databinding.FragmentTransactionBinding
+import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.transaction.TransactionViewModel
+import id.co.pspmobile.ui.transaction.detail.TransactionDetailActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -37,7 +44,11 @@ class TransactionFragment : Fragment() {
         viewModel.transactionResponse.observe(viewLifecycleOwner) {
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
-                transactionAdapter.setTransactions(it.value.content)
+                val transactions = it.value.content
+                GlobalScope.launch {
+                    countIncomeOutcome(transactions)
+                }
+                transactionAdapter.setTransactions(transactions)
                 binding.apply {
                     rvTransaction.setHasFixedSize(true)
                     rvTransaction.adapter = transactionAdapter
@@ -48,6 +59,15 @@ class TransactionFragment : Fragment() {
         }
 
         transactionAdapter = TransactionAdapter()
+        transactionAdapter.setOnItemClickListerner { view ->
+            val arrSelectedMonth = binding.spinnerMonth.selectedItem.toString().split(" ")
+            val transactionDto = view.tag as TransactionDto
+            val intent = Intent(requireActivity(), TransactionDetailActivity::class.java)
+            intent.putExtra("transactionName", transactionDto.transactionName)
+            intent.putExtra("month", getMonth(arrSelectedMonth[0]))
+            intent.putExtra("year", arrSelectedMonth[1].toInt())
+            startActivity(intent)
+        }
 
         val date1 = LocalDate.now()
         val date2 = date1.minusDays(30)
@@ -173,5 +193,21 @@ class TransactionFragment : Fragment() {
     ): View {
         binding = FragmentTransactionBinding.inflate(inflater)
         return binding.root
+    }
+
+    private fun countIncomeOutcome(transactions: List<TransactionDto>) {
+        var income = 0.0
+        var outcome = 0.0
+
+        for (transaction in transactions) {
+            if (transaction.amount < 0) {
+                outcome += transaction.amount
+            } else {
+                income += transaction.amount
+            }
+        }
+
+        binding.tvIncome.text = Utils.formatCurrency(income)
+        binding.tvOutcome.text = Utils.formatCurrency(outcome)
     }
 }

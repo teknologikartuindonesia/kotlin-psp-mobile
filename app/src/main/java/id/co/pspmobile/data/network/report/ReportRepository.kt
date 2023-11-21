@@ -46,4 +46,15 @@ class ReportRepository @Inject constructor (
     },
         userPreferences
     )
+
+    suspend fun getTransactionDetail(
+        month: String,
+        year: Int,
+        transactionName: String
+    ) = safeApiCall({
+        api.getTransactionDetail(month, year, "createDate,Desc", transactionName)
+    },
+        userPreferences
+    )
+
 }

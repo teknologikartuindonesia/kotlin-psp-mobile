@@ -1,0 +1,29 @@
+package id.co.pspmobile.ui.transaction.detail
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.report.ReportRepository
+import id.co.pspmobile.data.network.report.TransactionDetailResDto
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class TransactionDetailViewModel @Inject constructor(
+    private val reportRepository: ReportRepository
+) : ViewModel() {
+
+    private var _transactionDetailResponse: MutableLiveData<Resource<TransactionDetailResDto>> = MutableLiveData()
+    val transactionDetailResponse: LiveData<Resource<TransactionDetailResDto>> get() = _transactionDetailResponse
+    fun getTransactionDetail(month: String, year: Int, transactionName: String) = viewModelScope.launch {
+        var strMonth = month.toString()
+        if (strMonth.length == 1) {
+            strMonth = "0$strMonth"
+        }
+        _transactionDetailResponse.value = Resource.Loading
+        _transactionDetailResponse.value = reportRepository.getTransactionDetail(strMonth, year, transactionName)
+    }
+}
