@@ -38,23 +38,17 @@ class InvoiceFragment() : Fragment() {
         binding.progressbar.visible(false)
         layoutManager = LinearLayoutManager(context)
 
-
         binding.rvInvoice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
 
-                Log.e("visible", "visible " + visibleItemCount.toString())
-                Log.e("pass", "pass " + pastVisibleItem.toString())
-                Log.e("total", "total " + total.toString())
-
                 if (!isLoading && total == totalPage) {
                     if (visibleItemCount + pastVisibleItem >= total) {
                         page++
                         isLoading = true
                         viewModel.getUnpaidInvoice(page++)
-
                     }
                 }
                 super.onScrolled(recyclerView, dx, dy)
@@ -66,13 +60,7 @@ class InvoiceFragment() : Fragment() {
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
                 invoiceAdapter.setInvoices(it.value.content)
-
                 totalPage = it.value.content.size
-                binding.apply {
-                    rvInvoice.setHasFixedSize(true)
-                    rvInvoice.layoutManager = layoutManager
-                    rvInvoice.adapter = invoiceAdapter
-                }
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false
@@ -91,7 +79,15 @@ class InvoiceFragment() : Fragment() {
                 .show()
         }
 
+        setupRecyclerView()
         viewModel.getUnpaidInvoice(page)
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvInvoice.setHasFixedSize(true)
+        binding.rvInvoice.layoutManager= layoutManager
+        invoiceAdapter = InvoiceAdapter()
+        binding.rvInvoice.adapter = invoiceAdapter
     }
 
     override fun onCreateView(

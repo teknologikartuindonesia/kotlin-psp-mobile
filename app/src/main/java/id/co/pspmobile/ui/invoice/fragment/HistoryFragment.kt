@@ -40,16 +40,11 @@ class HistoryFragment : Fragment() {
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = historyAdapter.itemCount
 
-                Log.e("visible", "visible "+visibleItemCount.toString())
-                Log.e("pass", "pass "+pastVisibleItem.toString())
-                Log.e("total","total "+ total.toString())
-
-                if (!isLoading && total == totalPage){
-                    if (visibleItemCount + pastVisibleItem>= total){
+                if (!isLoading && total == totalPage) {
+                    if (visibleItemCount + pastVisibleItem >= total) {
                         page++
-                        isLoading=true
+                        isLoading = true
                         viewModel.getPaidInvoice(page++)
-
                     }
                 }
                 super.onScrolled(recyclerView, dx, dy)
@@ -62,15 +57,9 @@ class HistoryFragment : Fragment() {
             if (it is Resource.Success) {
                 historyAdapter.setInvoices(it.value.content)
                 totalPage = it.value.content.size
-                binding.apply {
-                    rvInvoice.setHasFixedSize(true)
-                    rvInvoice.layoutManager= layoutManager
-                    rvInvoice.adapter = historyAdapter
-                }
-                isLoading=false
-
+                isLoading = false
             } else if (it is Resource.Failure) {
-                isLoading=false
+                isLoading = false
                 requireActivity().handleApiError(binding.rvInvoice, it)
             }
         }
@@ -80,8 +69,15 @@ class HistoryFragment : Fragment() {
             val bottomSheetDetailInvoice = BottomSheetDetailInvoice("User Name", invoice)
             bottomSheetDetailInvoice.show(childFragmentManager, tag)
         }
-
+        setupRecyclerView()
         viewModel.getPaidInvoice(page)
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvInvoice.setHasFixedSize(true)
+        binding.rvInvoice.layoutManager = layoutManager
+        historyAdapter = HistoryAdapter()
+        binding.rvInvoice.adapter = historyAdapter
     }
 
     override fun onCreateView(
