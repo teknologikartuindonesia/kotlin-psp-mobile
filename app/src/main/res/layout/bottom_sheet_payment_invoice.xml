@@ -349,7 +349,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/nominal"
+                android:id="@+id/ed_nominal"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:inputType="number"

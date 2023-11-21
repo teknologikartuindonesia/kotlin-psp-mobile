@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -13,8 +15,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
+import id.co.pspmobile.ui.NumberTextWatcher
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.parseDouble
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import javax.annotation.Nullable
@@ -40,6 +44,11 @@ class BottomSheetPaymentInvoice(
         binding = BottomSheetPaymentInvoiceBinding.inflate(inflater)
 
         binding.apply {
+            edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
+            edNominal.addTextChangedListener {
+//                Toast.makeText(requireContext(), edNominal.text.toString().trim().replace(".", "").replace(",", ""), Toast.LENGTH_SHORT).show()
+            }
+
             tvInvoiceName.text = invoice.title
             tvParentName.text = invoice.callerName
             tvStudentName.text = invoice.callerName
@@ -59,12 +68,14 @@ class BottomSheetPaymentInvoice(
 
 
             btnPay.setOnClickListener {
-                if (invoice.partialMethod){
+                if (invoice.partialMethod) {
                     viewModel.paymentInvoice(
-                        binding.nominal.text.toString().toDouble(),
+                        parseDouble(
+                            edNominal.text.toString().trim().replace(".", "").replace(",", "")
+                        ),
                         invoice.invoiceId!!
                     )
-                }else{
+                } else {
                     viewModel.paymentInvoice(
                         invoice.amount,
                         invoice.invoiceId!!
@@ -78,7 +89,8 @@ class BottomSheetPaymentInvoice(
                 binding.progressbar.visible(it is Resource.Loading)
                 if (it is Resource.Success) {
                     dismiss()
-                    val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetPaymentSuccessInvoice("",it.value,invoice)
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment =
+                        BottomSheetPaymentSuccessInvoice("", it.value, invoice)
                     bottomSheetDialogFragment.show(
                         (requireActivity()).supportFragmentManager,
                         bottomSheetDialogFragment.tag
