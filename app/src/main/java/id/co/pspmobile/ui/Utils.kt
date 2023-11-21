@@ -11,6 +11,8 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.ui.login.LoginActivity
 import kotlinx.coroutines.runBlocking
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 object Utils {
 
@@ -62,4 +64,15 @@ object Utils {
             startActivity(it)
         }
     }
+
+    fun formatCurrency(doubleValue: Double) : String{
+        val unusualSymbols = DecimalFormatSymbols()
+        unusualSymbols.decimalSeparator = ','
+        unusualSymbols.groupingSeparator = '.'
+
+        val formatter = DecimalFormat("#,##0.##", unusualSymbols)
+        formatter.groupingSize = 3
+        return formatter.format(doubleValue)
+    }
+
 }
