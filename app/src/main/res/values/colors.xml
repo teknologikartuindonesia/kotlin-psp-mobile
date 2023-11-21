@@ -19,4 +19,6 @@
     <color name="gray_bg">#F3F4FB</color>
     <color name="psp_blue">#0054E6</color>
     <color name="transparent">#00000000</color>
+
+    <color name="grey_font">#8A8A8A</color>
 </resources>

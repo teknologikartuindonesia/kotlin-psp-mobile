@@ -22,9 +22,30 @@
         <activity
             android:name=".ui.topup.history.HistoryTopUpActivity"
             android:exported="false" />
-         <activity
+        <activity
              android:name=".ui.topup.TopUpActivity"
              android:exported="false" />
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.createpassword.CreatePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.forgotpassword.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.language.LanguageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.faq.FaqActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.changepassword.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.edit.EditProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.attendance.AttendanceActivity"
             android:exported="false" />

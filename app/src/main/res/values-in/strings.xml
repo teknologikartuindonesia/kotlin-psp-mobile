@@ -73,4 +73,14 @@
     <string name="announcement">Pemberitahuan</string>
     <string name="your_thanks_message">Terimakasih atas kerjasamanya</string>
     <string name="logo_desc">app_logo</string>
+    <string name="ignore_choice_text">Demi Kenyamanan dan Keamanan akun anda , Apakah kata sandi akan diperbaharui?</string>
+    <string name="data_user_confirmation">Konfirmasi Data Pengguna</string>
+    <string name="data_user_confirmation_text">Pengguna wajib memasukan email dan nomor whatsapp</string>
+    <string name="complete_below">Silahkan input data berikut</string>
+    <string name="old_password">Kata Sandi Lama</string>
+    <string name="change_password">Ubah Kata Sandi</string>
+    <string name="skip">Lewati</string>
+    <string name="new_password_changed">Kata Sandi baru berhasil diubah</string>
+    <string name="home">Beranda</string>
+    <string name="wrong_old_password">Kata Sandi Lama Tidak Sesuai</string>
 </resources>

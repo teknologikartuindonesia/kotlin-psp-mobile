@@ -73,4 +73,14 @@
     <string name="announcement">Announcement</string>
     <string name="your_thanks_message">Thank You</string>
     <string name="logo_desc">app_logo</string>
+    <string name="ignore_choice_text">For security reason, Do you want to update your password?</string>
+    <string name="data_user_confirmation">Data User Confirmation</string>
+    <string name="data_user_confirmation_text">User should input Email and Whatsapp Number</string>
+    <string name="complete_below">Please complete the form below</string>
+    <string name="old_password">Old Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="skip">Skip</string>
+    <string name="new_password_changed">Password Changed Successfully</string>
+    <string name="home">Home</string>
+    <string name="wrong_old_password">Wrong Old Password</string>
 </resources>

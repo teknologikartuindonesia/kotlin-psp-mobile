@@ -25,16 +25,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp">
 
-                    <ImageView
-                        android:id="@+id/main_logo"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/main_logo"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHeight_min="100dp"
-                        app:layout_constraintHeight_max="130dp"
-                        app:layout_constrainedHeight="true"/>
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/main_logo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxHeight="100dp"
+                            android:src="@drawable/main_logo" />
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
