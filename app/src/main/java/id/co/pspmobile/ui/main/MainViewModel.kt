@@ -38,4 +38,12 @@ class MainViewModel @Inject constructor(
     fun getToken() : String {
         return userPreferences.getAccessToken()
     }
+
+    fun getIntro() : Boolean {
+        return userPreferences.getIntro()
+    }
+
+    fun saveIntro(intro: Boolean) = viewModelScope.launch {
+        userPreferences.saveIntro(intro)
+    }
 }
