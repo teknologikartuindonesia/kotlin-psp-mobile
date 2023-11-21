@@ -64,11 +64,11 @@ class HistoryFragment : Fragment() {
             }
         }
 
-        historyAdapter = HistoryAdapter()
-        historyAdapter.setOnDetailClickListener() { invoice ->
-            val bottomSheetDetailInvoice = BottomSheetDetailInvoice("User Name", invoice)
-            bottomSheetDetailInvoice.show(childFragmentManager, tag)
-        }
+//        historyAdapter = HistoryAdapter(requireActivity())
+//        historyAdapter.setOnDetailClickListener() { invoice ->
+//            val bottomSheetDetailInvoice = BottomSheetDetailInvoice("User Name", invoice)
+//            bottomSheetDetailInvoice.show(childFragmentManager, tag)
+//        }
         setupRecyclerView()
         viewModel.getPaidInvoice(page)
     }
@@ -76,7 +76,7 @@ class HistoryFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
         binding.rvInvoice.layoutManager = layoutManager
-        historyAdapter = HistoryAdapter()
+        historyAdapter = HistoryAdapter(requireActivity())
         binding.rvInvoice.adapter = historyAdapter
     }
 

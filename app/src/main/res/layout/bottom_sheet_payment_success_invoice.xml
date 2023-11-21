@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_bottom_sheet_dialog"
+    android:gravity="center"
     android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="16dp"
-    android:gravity="center"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <View
         android:layout_width="38dp"
         android:layout_height="3dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/bg_bottom_sheet_view"
-        android:alpha=".90"/>
+        android:alpha=".90"
+        android:background="@drawable/bg_bottom_sheet_view" />
+
     <LinearLayout
         android:id="@+id/base_panel"
         android:layout_width="match_parent"
@@ -29,29 +29,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginBottom="24dp"
-                        android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_success_rounded"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Pembayaran Berhasil"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:textAlignment="center"
-                android:fontFamily="@font/montserrat_light"
-                android:text="Tanggal 04 Desember 2022 08.00"/>
-        </LinearLayout>
+                android:src="@drawable/ic_success_rounded" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Pembayaran Berhasil"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/tv_create_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_light"
+                android:text="Tanggal 04 Desember 2022 08.00"
+                android:textAlignment="center"
+                android:textSize="14dp" />
+        </LinearLayout>
 
 
         <TextView
@@ -72,7 +76,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Parent Name" />
+                android:text="Nama Orangtua" />
 
             <TextView
                 android:layout_width="10dp"
@@ -100,7 +104,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Student Name" />
+                android:text="Nama Siswa" />
 
             <TextView
                 android:layout_width="10dp"
@@ -123,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
-            android:text="Detail Invoice"
+            android:text="Detail Tagihan"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -137,7 +141,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Name" />
+                android:text="Nama Invoice" />
 
             <TextView
                 android:layout_width="10dp"
@@ -154,6 +158,7 @@
                 android:gravity="right"
                 tools:text="Partial" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,7 +169,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Pay Date" />
+                android:text="Tgl Pembayaran" />
 
             <TextView
                 android:layout_width="10dp"
@@ -192,7 +197,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Type" />
+                android:text="Jenis Tagihan" />
 
             <TextView
                 android:layout_width="10dp"
@@ -303,6 +308,7 @@
                 android:textColor="@color/primary"
                 tools:text="Rp. 300.000,00" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -348,13 +354,14 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_pay"
+                android:id="@+id/btn_download"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Unduh"
                 android:textColor="@color/white" />
+
             <Button
                 android:id="@+id/btn_close"
                 android:layout_width="match_parent"

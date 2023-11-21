@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.FragmentInvoiceBinding
@@ -67,9 +69,6 @@ class InvoiceFragment() : Fragment() {
                 requireActivity().handleApiError(binding.rvInvoice, it)
             }
         }
-
-        invoiceAdapter = context?.let { InvoiceAdapter(it) }!!
-
 
         setupRecyclerView()
         viewModel.getUnpaidInvoice(page)

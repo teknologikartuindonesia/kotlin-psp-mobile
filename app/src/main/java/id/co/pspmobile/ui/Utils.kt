@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
@@ -16,6 +18,11 @@ import id.co.pspmobile.ui.login.LoginActivity
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import androidx.room.TypeConverter
+import java.text.SimpleDateFormat
 
 object Utils {
 
@@ -83,6 +90,13 @@ object Utils {
         val formatter = DecimalFormat("#,##0.##", unusualSymbols)
         formatter.groupingSize = 3
         return formatter.format(doubleValue)
+    }
+
+    fun formatDateTime(isoDate:String,pattern:String):String{
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatter = SimpleDateFormat(pattern)
+        val output: String = formatter.format(parser.parse(isoDate))
+        return output
     }
 
 }

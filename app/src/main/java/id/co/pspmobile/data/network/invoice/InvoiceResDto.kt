@@ -14,7 +14,22 @@ data class InvoicePaymentDto(
     val amount: Double,
     val channel: String? = null,
     val tags: List<String>,
-    val inquiryResponseDto: InvoiceDto
+    val inquiryResponseDto: inquiryResponseDto
+)
+
+data class inquiryResponseDto(
+    val id: String? = null,
+    val title: String? = null,
+    val companyId: String? = null,
+    val dueDate: String? = null,
+    val showDetail: Boolean,
+    val createDate: String? = null,
+    val invoiceDate: String? = null,
+    val partialMethod: Boolean,
+    val customerId:String?=null,
+    val customerName:String?=null,
+    val amount: Double,
+    val paidAmount: Double,
 )
 
 data class InvoiceDto(

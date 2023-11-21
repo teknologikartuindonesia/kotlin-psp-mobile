@@ -1,17 +1,20 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.AdapterHistoryInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 
-class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(private val context: Context) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    private  var list= ArrayList<InvoiceDto>()
-    private lateinit var onDetailClickListener : (invoice: InvoiceDto) -> (Unit)
+    private var list = ArrayList<InvoiceDto>()
+    private lateinit var onDetailClickListener: (invoice: InvoiceDto) -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
     fun setInvoices(item: ArrayList<InvoiceDto>) {
@@ -23,7 +26,8 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
         this.onDetailClickListener = onDetailClickListener
     }
 
-    inner class ViewHolder(private val binding: AdapterHistoryInvoiceBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: AdapterHistoryInvoiceBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(invoice: InvoiceDto) {
             with(binding) {
                 tvInvoiceName.text = invoice.title
@@ -40,14 +44,20 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
                 tvUnpaidAmount.text = formatCurrency(invoice.amount - invoice.paidAmount)
 
                 btnDetail.setOnClickListener {
-                    onDetailClickListener(invoice)
+//                    onDetailClickListener(invoice)
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetDetailInvoice("",invoice)
+                    bottomSheetDialogFragment.show(
+                        (context as FragmentActivity).supportFragmentManager,
+                        bottomSheetDialogFragment.tag
+                    )
                 }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.ViewHolder {
-        val binding = AdapterHistoryInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            AdapterHistoryInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

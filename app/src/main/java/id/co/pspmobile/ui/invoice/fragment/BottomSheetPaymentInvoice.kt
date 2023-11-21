@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import javax.annotation.Nullable
 
@@ -45,20 +49,42 @@ class BottomSheetPaymentInvoice(
             tvMinus.text = formatCurrency(invoice.amount - invoice.paidAmount)
             if (invoice.partialMethod) {
                 tvType.text = "CREDIT"
+                containerNominal.visibility = View.VISIBLE
             } else {
                 tvType.text = "CASH"
+                containerNominal.visibility = View.GONE
             }
             tvStatus.text = invoice.status
             tvAmount.text = formatCurrency(invoice.amount)
 
 
             btnPay.setOnClickListener {
-                viewModel.paymentInvoice(
-                    binding.nominal.text.toString().toDouble(),
-                    invoice.invoiceId!!
-                )
-                dismiss()
+                if (invoice.partialMethod){
+                    viewModel.paymentInvoice(
+                        binding.nominal.text.toString().toDouble(),
+                        invoice.invoiceId!!
+                    )
+                }else{
+                    viewModel.paymentInvoice(
+                        invoice.amount,
+                        invoice.invoiceId!!
+                    )
+                }
 
+
+            }
+
+            viewModel.paymentInvoiceResponse.observe(viewLifecycleOwner) {
+                binding.progressbar.visible(it is Resource.Loading)
+                if (it is Resource.Success) {
+                    dismiss()
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetPaymentSuccessInvoice("",it.value,invoice)
+                    bottomSheetDialogFragment.show(
+                        (requireActivity()).supportFragmentManager,
+                        bottomSheetDialogFragment.tag
+                    )
+                } else if (it is Resource.Failure) {
+                }
             }
 
 
