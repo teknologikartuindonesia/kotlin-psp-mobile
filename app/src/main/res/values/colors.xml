@@ -13,7 +13,8 @@
 
     <color name="primary_blue">#2189FA</color>
     <color name="dialogBackground">#60000000</color>
-    <color name="warning">#00A29C</color>
+    <color name="warning">#FF9800</color>
+    <color name="secondary">#00A29C</color>
     <color name="danger">#FF0000</color>
     <color name="gray_bg">#F3F4FB</color>
     <color name="psp_blue">#0054E6</color>

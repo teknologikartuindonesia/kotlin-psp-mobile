@@ -1,15 +1,18 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.AdapterInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 
-class InvoiceAdapter : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
+
+class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
 
     private var list=ArrayList<InvoiceDto>()
     private lateinit var onPayClickListener : (invoice: InvoiceDto) -> (Unit)
@@ -42,7 +45,11 @@ class InvoiceAdapter : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
                 tvUnpaidAmount.text = formatCurrency(invoice.amount - invoice.paidAmount)
 
                 btnPay.setOnClickListener {
-                    onPayClickListener(invoice)
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetPaymentInvoice("",invoice)
+                    bottomSheetDialogFragment.show(
+                        (context as FragmentActivity).supportFragmentManager,
+                        bottomSheetDialogFragment.tag
+                    )
                 }
             }
         }

@@ -68,16 +68,8 @@ class InvoiceFragment() : Fragment() {
             }
         }
 
-        invoiceAdapter = InvoiceAdapter()
-        invoiceAdapter.setOnPayClickListener { invoice ->
-            AlertDialog.Builder(requireContext())
-                .setMessage(invoice.title)
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-        }
+        invoiceAdapter = context?.let { InvoiceAdapter(it) }!!
+
 
         setupRecyclerView()
         viewModel.getUnpaidInvoice(page)
@@ -86,7 +78,7 @@ class InvoiceFragment() : Fragment() {
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
         binding.rvInvoice.layoutManager= layoutManager
-        invoiceAdapter = InvoiceAdapter()
+        invoiceAdapter = InvoiceAdapter(requireActivity())
         binding.rvInvoice.adapter = invoiceAdapter
     }
 

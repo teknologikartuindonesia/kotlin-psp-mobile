@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.invoice.InvoicePaymentDto
 import id.co.pspmobile.data.network.invoice.InvoiceRepository
 import id.co.pspmobile.data.network.invoice.InvoiceResDto
 import kotlinx.coroutines.launch
@@ -25,6 +26,10 @@ class InvoiceViewModel @Inject constructor(
     private var _allInvoiceResponse: MutableLiveData<Resource<InvoiceResDto>> = MutableLiveData()
     val allInvoiceResponse: LiveData<Resource<InvoiceResDto>> get() = _allInvoiceResponse
 
+    private var _paymentInvoiceResponse: MutableLiveData<Resource<InvoicePaymentDto>> = MutableLiveData()
+    val paymentInvoiceResponse: LiveData<Resource<InvoicePaymentDto>> get() = _paymentInvoiceResponse
+
+
     fun getUnpaidInvoice(page: Int) = viewModelScope.launch {
         _unpaidInvoiceResponse.value = Resource.Loading
         _unpaidInvoiceResponse.value = invoiceRepository.getUnpaidInvoice(page, 5)
@@ -40,4 +45,8 @@ class InvoiceViewModel @Inject constructor(
         _allInvoiceResponse.value = invoiceRepository.getAllInvoice(page, 10)
     }
 
+    fun paymentInvoice(amount: Double,invoiceId:String) = viewModelScope.launch {
+        _paymentInvoiceResponse.value = Resource.Loading
+        _paymentInvoiceResponse.value = invoiceRepository.paymentInvoice(amount,invoiceId)
+    }
 }

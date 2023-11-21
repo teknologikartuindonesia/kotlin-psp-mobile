@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/bg_bottom_sheet_dialog"
+    android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="16dp"
     android:gravity="center"
@@ -22,51 +22,45 @@
         android:id="@+id/base_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="14dp"
+        android:orientation="vertical"
         android:paddingHorizontal="14dp"
-        android:orientation="vertical">
+        android:paddingVertical="14dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp"
+                        android:gravity="center">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="18dp"
-                android:src="@drawable/ic_invoice_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_invoice_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_success_rounded"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
                 android:fontFamily="@font/montserrat_bold"
+                android:text="Pembayaran Berhasil"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="14dp"
-                android:textColor="@color/black"
-                tools:text="Invoice Name" />
-
+                android:textAlignment="center"
+                android:fontFamily="@font/montserrat_light"
+                android:text="Tanggal 04 Desember 2022 08.00"/>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="?android:attr/listDivider" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:textStyle="bold"
             android:fontFamily="@font/montserrat"
-            android:text="Data Pembayar" />
+            android:text="Data Pembayar"
+            android:textSize="14dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,8 +85,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
+                android:gravity="right"
                 tools:text="Parent Name" />
         </LinearLayout>
 
@@ -119,8 +113,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
+                android:gravity="right"
                 tools:text="Student Name" />
         </LinearLayout>
 
@@ -128,10 +122,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="14dp"
-            android:textStyle="bold"
             android:fontFamily="@font/montserrat"
-            android:text="Data Invoice" />
+            android:text="Detail Invoice"
+            android:textSize="14dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,7 +137,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Date" />
+                android:text="Invoice Name" />
 
             <TextView
                 android:layout_width="10dp"
@@ -152,15 +146,14 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_invoice_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
-                tools:text="14 Jan 2023" />
+                android:gravity="right"
+                tools:text="Partial" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,7 +164,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Due Date" />
+                android:text="Pay Date" />
 
             <TextView
                 android:layout_width="10dp"
@@ -180,13 +173,13 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/tv_due_date"
+                android:id="@+id/tv_pay_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
-                tools:text="31 Dec 2023" />
+                android:gravity="right"
+                tools:text="14 Jan 2023" />
         </LinearLayout>
 
         <LinearLayout
@@ -212,8 +205,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
+                android:gravity="right"
                 tools:text="CASH/CREDIT" />
         </LinearLayout>
 
@@ -240,10 +233,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
+                android:gravity="right"
+                android:textColor="@color/primary"
                 tools:text="PAID" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -255,7 +256,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Total" />
+                android:text="Total Tagihan" />
 
             <TextView
                 android:layout_width="10dp"
@@ -268,20 +269,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
                 android:fontFamily="@font/montserrat"
+                android:gravity="right"
+                android:textColor="@color/primary"
                 tools:text="Rp. 300.000,00" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_detail_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="14dp"
-            android:textStyle="bold"
-            android:fontFamily="@font/montserrat"
-            android:text="Detail Invoice" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -290,12 +282,56 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_detail"
-                android:layout_width="match_parent"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                tools:text="Seragam               : Rp. 300.000,00" />
+                android:fontFamily="@font/montserrat"
+                android:text="Total Pembayaran" />
 
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/tv_paid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:gravity="right"
+                android:textColor="@color/primary"
+                tools:text="Rp. 300.000,00" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="Kekurangan" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/tv_minus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:gravity="right"
+                android:textColor="@color/danger"
+                tools:text="Rp. 300.000,00" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -312,23 +348,21 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_download"
+                android:id="@+id/btn_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
                 android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/white"
-                android:text="Download" />
-
+                android:text="Unduh"
+                android:textColor="@color/white" />
             <Button
-                android:id="@+id/btn_share"
+                android:id="@+id/btn_close"
                 android:layout_width="match_parent"
-                android:fontFamily="@font/montserrat_bold"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
-                android:textColor="@color/white"
-                android:text="Share" />
-
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Tutup"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>

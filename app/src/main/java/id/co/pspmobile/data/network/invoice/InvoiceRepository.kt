@@ -3,6 +3,7 @@ package id.co.pspmobile.data.network.invoice
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.BaseRepository
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.model.ModelInvoice
 import javax.inject.Inject
 
 class InvoiceRepository @Inject constructor (
@@ -39,5 +40,12 @@ class InvoiceRepository @Inject constructor (
         },
         userPreferences
     )
+
+    suspend fun paymentInvoice(
+        amount:Double,
+        invoiceId:String
+    ): Resource<InvoicePaymentDto> = safeApiCall({
+        api.paymentInvoice(ModelInvoice(amount,true,"MOBILE",invoiceId,""))
+    },userPreferences)
 
 }
