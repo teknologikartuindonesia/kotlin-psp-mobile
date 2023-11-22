@@ -18,12 +18,23 @@ class TransactionDetailViewModel @Inject constructor(
 
     private var _transactionDetailResponse: MutableLiveData<Resource<TransactionDetailResDto>> = MutableLiveData()
     val transactionDetailResponse: LiveData<Resource<TransactionDetailResDto>> get() = _transactionDetailResponse
-    fun getTransactionDetail(month: String, year: Int, transactionName: String) = viewModelScope.launch {
+
+    fun getTransactionDetail(
+        isOldTransaction: Boolean,
+        month: String,
+        year: Int,
+        transactionName: String
+    ) = viewModelScope.launch {
         var strMonth = month.toString()
         if (strMonth.length == 1) {
             strMonth = "0$strMonth"
         }
         _transactionDetailResponse.value = Resource.Loading
-        _transactionDetailResponse.value = reportRepository.getTransactionDetail(strMonth, year, transactionName)
+        if (isOldTransaction) {
+            _transactionDetailResponse.value = reportRepository.getOldTransactionDetail(strMonth, year, transactionName)
+        } else {
+            _transactionDetailResponse.value = reportRepository.getTransactionDetail(strMonth, year, transactionName)
+        }
     }
+
 }

@@ -21,8 +21,9 @@ class TransactionDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val transactionName = intent.getStringExtra("transactionName")
-        val month = intent.getStringExtra("month")
+        val month = intent.getIntExtra("month", 1)
         val year = intent.getIntExtra("year", 2023)
+        val isOldTransaction = intent.getBooleanExtra("isOldTransaction", false)
 
         binding.progressbar.visible(false)
 
@@ -45,6 +46,6 @@ class TransactionDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        viewModel.getTransactionDetail(month!!, year, transactionName!!)
+        viewModel.getTransactionDetail(isOldTransaction, month.toString(), year, transactionName!!)
     }
 }

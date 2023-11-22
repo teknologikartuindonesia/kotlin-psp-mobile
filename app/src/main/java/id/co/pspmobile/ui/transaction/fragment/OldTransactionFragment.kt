@@ -62,12 +62,12 @@ class OldTransactionFragment : Fragment() {
         }
 
         transactionAdapter = TransactionAdapter()
-        transactionAdapter.setOnItemClickListerner { view ->
-            val transactionDto = view.tag as TransactionDto
+        transactionAdapter.setOnItemClickListerner { transactionDto ->
             val intent = Intent(requireActivity(), TransactionDetailActivity::class.java)
             intent.putExtra("transactionName", transactionDto.transactionName)
             intent.putExtra("month", getMonth(binding.spinnerMonth.selectedItem.toString()))
             intent.putExtra("year", targetYear)
+            intent.putExtra("isOldTransaction", true)
             startActivity(intent)
         }
 

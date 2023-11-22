@@ -12,7 +12,7 @@ import id.co.pspmobile.ui.Utils.formatCurrency
 class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     private lateinit var list: List<TransactionDto>
-    private var onItemClickListener : View.OnClickListener? = null
+    private lateinit var onItemClickListener: (transaction: TransactionDto) -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
     fun setTransactions(list: List<TransactionDto>) {
@@ -20,7 +20,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
+    fun setOnItemClickListerner(onItemClickListener: (transaction: TransactionDto) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
 
@@ -31,9 +31,9 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
                 tvAmount.text = "Rp " + formatCurrency(transaction.amount)
                 tvCount.text = transaction.count.toString()
 
-                itemView.tag = transaction
-                itemView.setOnClickListener(onItemClickListener)
-                btnDetail.setOnClickListener(onItemClickListener)
+                btnDetail.setOnClickListener {
+                    onItemClickListener(transaction)
+                }
             }
         }
     }
