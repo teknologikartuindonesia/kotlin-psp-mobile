@@ -161,9 +161,19 @@
                         android:text=""
                         android:textStyle="bold"
                         android:textSize="16dp"/>
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_hitory_topup"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:background="@drawable/bg_button_blue_shadow"
+                        android:drawableLeft="@drawable/ic_info_history_white"
+                        android:text="History"
+                        android:gravity="center"
+
+                        android:textColor="@color/white"
+                        android:textSize="8dp"/>
                 </LinearLayout>
                 <ImageView
                     android:layout_width="match_parent"
