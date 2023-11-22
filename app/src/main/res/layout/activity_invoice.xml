@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ui.invoice.InvoiceActivity">
 
     <LinearLayout
@@ -43,8 +44,10 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/primary_blue"
-        app:tabSelectedTextColor="@color/primary_blue" />
+        android:layout_margin="8dp"
+        app:tabTextAppearance="@style/customfontstyle"
+        style="@style/RoundedTabLayoutStyle"
+        />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
