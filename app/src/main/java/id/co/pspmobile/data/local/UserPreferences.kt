@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
+import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -109,6 +110,22 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         intro.first()
     }
 
+    val balanceData: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[BALANCE] ?: ""
+        }
+
+    suspend fun saveBalanceData(balanceData: BalanceResponse) {
+        appContext.dataStore.edit { preferences ->
+            preferences[BALANCE] = Gson().toJson(balanceData)
+        }
+    }
+
+    fun getBalanceData() = runBlocking(Dispatchers.IO) {
+        Log.d("UserPreferences", "getUserData: ${userData.first()}")
+        Gson().fromJson(balanceData.first().toString(), BalanceResponse::class.java)
+    }
+
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_DATA = stringPreferencesKey("user_data")
@@ -116,6 +133,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         private val USERNAME = stringPreferencesKey("username")
         private val PASSWORD = stringPreferencesKey("password")
         private val INTRO = booleanPreferencesKey("intro")
+        private val BALANCE = stringPreferencesKey("balance")
     }
 
 }
