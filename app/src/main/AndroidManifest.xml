@@ -17,14 +17,17 @@
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
         <activity
+            android:name=".ui.attendance.detail.AttendanceDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.invoice.InvoiceActivity"
             android:exported="false" />
         <activity
             android:name=".ui.topup.history.HistoryTopUpActivity"
             android:exported="false" />
         <activity
-             android:name=".ui.topup.TopUpActivity"
-             android:exported="false" />
+            android:name=".ui.topup.TopUpActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.intro.IntroActivity"
             android:exported="false" />
@@ -78,7 +81,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true" android:theme="@style/Base.Theme.PSPMobile">
+            android:exported="true"
+            android:theme="@style/Base.Theme.PSPMobile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
