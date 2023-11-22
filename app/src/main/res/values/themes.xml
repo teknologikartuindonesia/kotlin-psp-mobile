@@ -12,6 +12,5 @@
     <style name="ButtonTheme" parent="android:style/Widget.Button">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/primary</item>
-
     </style>
 </resources>
