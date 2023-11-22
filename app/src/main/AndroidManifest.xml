@@ -47,6 +47,9 @@
             android:name=".ui.HomeBottomNavigation.profile.edit.EditProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.transaction.detail.TransactionDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.attendance.AttendanceActivity"
             android:exported="false" />
         <activity
@@ -86,12 +89,6 @@
             android:name=".ui.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home" />
-        <activity
-            android:name=".ui.topup.TopUpActivity"
-            android:exported="false">
-
-        </activity>
-
     </application>
 
 </manifest>

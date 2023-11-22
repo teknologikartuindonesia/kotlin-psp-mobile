@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
-import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.login.LoginActivity
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
@@ -72,7 +71,6 @@ object Utils {
     fun View.visible(isVisible: Boolean) {
         visibility = if (isVisible) View.VISIBLE else View.GONE
     }
-
 
     fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
         Intent(this, activity).also {

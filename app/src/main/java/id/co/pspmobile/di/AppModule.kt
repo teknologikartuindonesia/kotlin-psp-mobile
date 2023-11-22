@@ -9,6 +9,7 @@ import id.co.pspmobile.data.network.auth.AuthApi
 import id.co.pspmobile.data.network.invoice.InvoiceApi
 import id.co.pspmobile.data.network.transaction.TransactionApi
 import id.co.pspmobile.data.network.user.UserApi
+import id.co.pspmobile.data.network.report.ReportApi
 import javax.inject.Singleton
 
 
@@ -25,6 +26,7 @@ object AppModule {
 
     @Singleton
     @Provides
+
     fun provideInvoiceApi(
         remoteDataSource: RemoteDataSource
     ): InvoiceApi {
@@ -45,5 +47,13 @@ object AppModule {
         remoteDataSource: RemoteDataSource
     ): UserApi {
         return remoteDataSource.buildApi(UserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReportApi(
+        remoteDataSource: RemoteDataSource
+    ): ReportApi {
+        return remoteDataSource.buildApi(ReportApi::class.java)
     }
 }
