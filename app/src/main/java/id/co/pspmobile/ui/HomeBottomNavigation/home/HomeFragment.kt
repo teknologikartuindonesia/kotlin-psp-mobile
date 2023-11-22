@@ -164,7 +164,7 @@ class HomeFragment : Fragment() {
             defaultMenuList.add(DefaultMenuModel("Mutation", R.drawable.ic_home_mutation, Intent(requireContext(), MutationActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Transaction", R.drawable.ic_home_transaction, Intent(requireContext(), TransactionActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Attendance", R.drawable.ic_home_attendance, Intent(requireContext(), MutationActivity::class.java)))
-            defaultMenuList.add(DefaultMenuModel("Digital Card", R.drawable.ic_home_digital_card, Intent(requireContext(), MutationActivity::class.java)))
+            defaultMenuList.add(DefaultMenuModel("Digital Card", R.drawable.ic_home_digital_card, Intent(requireContext(), DigitalCardActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Account", R.drawable.ic_home_account, Intent(requireContext(), AccountActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Donation", R.drawable.ic_home_donation, Intent(requireContext(), MutationActivity::class.java)))
             defaultMenuList.add(DefaultMenuModel("Schedule", R.drawable.ic_home_schedule, Intent(requireContext(), MutationActivity::class.java)))
