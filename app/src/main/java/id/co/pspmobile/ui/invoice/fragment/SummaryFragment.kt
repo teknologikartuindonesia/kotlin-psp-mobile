@@ -23,7 +23,7 @@ class SummaryFragment : Fragment() {
     private lateinit var summaryAdapter: SummaryAdapter
     private var page: Int = 0
     private var currentSize: Int = 0
-    private var size: Int = 5
+    private var size: Int = 10
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
