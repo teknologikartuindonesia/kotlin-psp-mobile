@@ -22,16 +22,15 @@ class TopUpActivity : AppCompatActivity() {
     private val viewModel: TopUpViewModel by viewModels()
     private lateinit var bankAdapter: BankAdapter
     private var vaResponseDto: VaResDto = VaResDto()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTopupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val banks = arrayListOf("BTN", "DANAMON", "BANKJATIM OVERBOOK", "IDN", "BANKJATIM", "XENDIT DISBURSEMENT",
-            "XENDIT BNI", "BSI", "BNI", "BRI", "BSI")
-        val balance = 4000000.0
-//        val balance = intent.getDoubleExtra("balance", 0.0)
-//        val banks: List<String> = intent.getSerializableExtra("banks") as List<String>
+        val userData = viewModel.getUserData()
+        val banks: List<String> = userData.activeCompany.banks
+        val balance = viewModel.getBalanceData().balance
 
         binding.apply {
             progressbar.visible(false)
@@ -88,7 +87,7 @@ class TopUpActivity : AppCompatActivity() {
                     .show()
             }
         }
-        bankAdapter.setBanks(banks)
+        bankAdapter.setBanks(banks as ArrayList<String>)
         binding.apply {
             rvBank.setHasFixedSize(true)
             rvBank.adapter = bankAdapter

@@ -6,7 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.responses.balance.BalanceResponse
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.user.UserRepository
 import id.co.pspmobile.data.network.user.VaResDto
 import kotlinx.coroutines.launch
@@ -14,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopUpViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
     var recyclerViewState: Parcelable? = null
@@ -33,6 +37,14 @@ class TopUpViewModel @Inject constructor(
     fun createVa(bankName: String) = viewModelScope.launch {
         _createVaResponse.value = Resource.Loading
         _createVaResponse.value = userRepository.createVa(bankName)
+    }
+
+    fun getUserData() : CheckCredentialResponse {
+        return userPreferences.getUserData()
+    }
+
+    fun getBalanceData() : BalanceResponse {
+        return userPreferences.getBalanceData()
     }
 
 }
