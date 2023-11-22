@@ -72,6 +72,7 @@ class HomeFragment : Fragment() {
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
                 binding.txtHomeBalance.text = "Rp ${it.value.balance}"
+                viewModel.saveBalanceData(it.value)
                 Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
             }else if (it is Resource.Failure) {
                 requireActivity().handleApiError(binding.progressbar, it)

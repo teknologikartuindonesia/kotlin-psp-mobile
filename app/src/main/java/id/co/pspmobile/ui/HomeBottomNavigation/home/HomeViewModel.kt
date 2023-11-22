@@ -32,6 +32,14 @@ class HomeViewModel @Inject constructor (
         return userPreferences.getUserData()
     }
 
+    fun getBalanceData(): BalanceResponse {
+        return userPreferences.getBalanceData()
+    }
+
+    fun saveBalanceData(balance: BalanceResponse) = viewModelScope.launch {
+        userPreferences.saveBalanceData(balance)
+    }
+
     fun getBaseUrl(): String {
         return remoteDataSource.baseURL
     }
