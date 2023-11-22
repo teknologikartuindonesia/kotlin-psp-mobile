@@ -86,22 +86,18 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
                     "MAYBANK" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_maybank) })
                         tvBankName.text = "Bank Maybank"
-
                     }
                     "MUAMALAT" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_muamalat) })
                         tvBankName.text = "Bank Muamalat"
-
                     }
                     "NTB SYARIAH" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_ntbs) })
                         tvBankName.text = "Bank NTB Syariah"
-
                     }
                     "OCBC" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_ocbc) })
                         tvBankName.text = "Bank OCBC"
-
                     }
                     "PERMATA SYARIAH" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_permata_syariah) })

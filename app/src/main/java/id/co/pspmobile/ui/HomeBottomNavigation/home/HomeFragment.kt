@@ -203,7 +203,7 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 "Attendance",
                 R.drawable.ic_home_attendance,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), AttendanceActivity::class.java)
             )
         )
         defaultMenuList.add(
@@ -217,14 +217,14 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 "Account",
                 R.drawable.ic_home_account,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), AccountActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Donation",
                 R.drawable.ic_home_donation,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), DonationActivity::class.java)
             )
         )
         defaultMenuList.add(

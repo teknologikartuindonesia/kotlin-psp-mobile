@@ -13,7 +13,6 @@ import id.co.pspmobile.databinding.ActivityTopupBinding
 import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
-import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 
 @AndroidEntryPoint
@@ -21,6 +20,7 @@ class TopUpActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTopupBinding
     private val viewModel: TopUpViewModel by viewModels()
     private lateinit var bankAdapter: BankAdapter
+    private lateinit var merchantAdapter: MerchantAdapter
     private var vaResponseDto: VaResDto = VaResDto()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +32,19 @@ class TopUpActivity : AppCompatActivity() {
         val banks: List<String> = userData.activeCompany.banks
         val balance = viewModel.getBalanceData().balance
 
+        if (banks.contains("IDN")) {
+            val merchants: List<String> = listOf("INDOMARET", "ALFAMART", "GOPAY", "TOKOPEDIA", "SHOPEE", "BLIBLI", "AYOPOP")
+            merchantAdapter = MerchantAdapter()
+            merchantAdapter.setMerchants(merchants)
+            binding.apply {
+                rvMerchant.setHasFixedSize(true)
+                rvMerchant.adapter = merchantAdapter
+                rvMerchant.layoutManager?.onRestoreInstanceState(viewModel.recyclerViewState)
+            }
+        } else {
+            binding.tvOtherMethod.visible(false)
+            binding.rvMerchant.visible(false)
+        }
         binding.apply {
             progressbar.visible(false)
             tvBalance.text = Utils.formatCurrency(balance)
