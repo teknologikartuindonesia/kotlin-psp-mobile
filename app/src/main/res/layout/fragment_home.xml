@@ -38,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
                         android:layout_weight="1"
-                        android:text="Home"/>
+                        android:text="Menu"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
@@ -192,25 +192,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
-                        android:text="Balance"/>
+                        android:text="Saldo"/>
                     <TextView
                         android:id="@+id/txt_home_balance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Rp.00000"
+                        android:fontFamily="@font/montserrat_bold"
                         android:textStyle="bold"
-                        android:textSize="16dp"/>
+                        android:textSize="21dp"/>
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_hitory_topup"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:paddingHorizontal="12dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:background="@drawable/bg_button_blue_shadow"
                         android:drawableLeft="@drawable/ic_info_history_white"
-                        android:text="History"
+                        android:text="Riwayat Top Up"
+                        android:drawablePadding="10dp"
                         android:gravity="center"
-
                         android:textColor="@color/white"
                         android:textSize="8dp"/>
                 </LinearLayout>

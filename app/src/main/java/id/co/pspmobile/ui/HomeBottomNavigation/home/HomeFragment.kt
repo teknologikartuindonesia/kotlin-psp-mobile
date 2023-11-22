@@ -26,6 +26,7 @@ import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.model.infonews.TagInSearch
 import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.FragmentHomeBinding
+import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.account.AccountActivity
@@ -76,7 +77,7 @@ class HomeFragment : Fragment() {
         viewModel.balanceResponse.observe(viewLifecycleOwner) {
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
-                binding.txtHomeBalance.text = "Rp ${it.value.balance}"
+                binding.txtHomeBalance.text = "Rp ${formatCurrency(it.value.balance)}"
                 Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
             } else if (it is Resource.Failure) {
                 requireActivity().handleApiError(binding.progressbar, it)
