@@ -32,7 +32,7 @@ class InvoiceViewModel @Inject constructor(
 
     fun getUnpaidInvoice(page: Int) = viewModelScope.launch {
         _unpaidInvoiceResponse.value = Resource.Loading
-        _unpaidInvoiceResponse.value = invoiceRepository.getUnpaidInvoice(page, 5)
+        _unpaidInvoiceResponse.value = invoiceRepository.getUnpaidInvoice(page, 10)
     }
 
     fun getPaidInvoice(page: Int) = viewModelScope.launch {
@@ -42,7 +42,7 @@ class InvoiceViewModel @Inject constructor(
 
     fun getAllInvoice(page: Int) = viewModelScope.launch {
         _allInvoiceResponse.value = Resource.Loading
-        _allInvoiceResponse.value = invoiceRepository.getAllInvoice(page, 10)
+        _allInvoiceResponse.value = invoiceRepository.getAllInvoice(page, 5)
     }
 
     fun paymentInvoice(amount: Double,invoiceId:String) = viewModelScope.launch {
