@@ -1,9 +1,11 @@
 package id.co.pspmobile.ui.mutation.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,6 +14,8 @@ import id.co.pspmobile.databinding.FragmentMutationBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.mutation.MutationViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class MutationFragment : Fragment() {
@@ -22,6 +26,7 @@ class MutationFragment : Fragment() {
     private lateinit var mutationAdapter: MutationAdapter
     private var page: Int = 0
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +47,10 @@ class MutationFragment : Fragment() {
 
         mutationAdapter = MutationAdapter()
 
-        val date = ""
+        val dtf =DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val startDate = LocalDate.now().minusMonths(3)
+        val endDate = LocalDate.now()
+        val date = startDate.format(dtf) + "/" + endDate.format(dtf)
         viewModel.getMutation(date, page)
     }
 
