@@ -11,6 +11,7 @@ import id.co.pspmobile.data.network.transaction.TransactionResDto
 import id.co.pspmobile.databinding.AdapterHistoryTopupBinding
 import id.co.pspmobile.databinding.AdapterSummaryInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.formatDateTime
 import id.co.pspmobile.ui.invoice.fragment.SummaryAdapter
 
 class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>() {
@@ -28,7 +29,7 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
         @SuppressLint("SetTextI18n")
         fun bind(transaction: TransactionResDto) {
             with(binding) {
-                tvDate.text = transaction.dateTime
+                tvDate.text = formatDateTime(transaction.dateTime.toString(),"dd MMMM yyyy")
                 tvTransactionName.text = transaction.name
                 tvBalance.text = "Rp. " + formatCurrency(transaction.amount)
             }
