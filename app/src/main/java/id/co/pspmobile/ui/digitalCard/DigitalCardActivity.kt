@@ -1,20 +1,34 @@
-package id.co.pspmobile.ui.card
+package id.co.pspmobile.ui.digitalCard
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.ActivityDigitalCardBinding
-import id.co.pspmobile.databinding.ActivityInvoiceBinding
+import id.co.pspmobile.ui.Utils.visible
 import java.lang.Math.abs
 
+
+@AndroidEntryPoint
 class DigitalCardActivity : AppCompatActivity() {
+    private val viewModel: DigitalCardViewModel by viewModels()
     private lateinit var binding: ActivityDigitalCardBinding
+    private lateinit var carouselRVAdapter: CarouselRVAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDigitalCardBinding.inflate(layoutInflater)
@@ -37,19 +51,33 @@ class DigitalCardActivity : AppCompatActivity() {
         }
         viewPager.setPageTransformer(compositePageTransformer)
         viewPager.setPageTransformer(compositePageTransformer)
-        val demoData = arrayListOf(
-            "Curabitur sit amet rutrum enim, sit amet commodo urna. Nullam nec nisl eget purus vulputate ultrices nec sit amet est. Sed sodales maximus risus sit amet placerat.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet lectus a mi lobortis iaculis. Mauris odio tortor, accumsan vel gravida sit amet, malesuada a tortor.",
-            "Praesent efficitur eleifend eros quis elementum. Vivamus eget nunc ante. Sed sed sodales libero. Nam ipsum lorem, consequat at ipsum sit amet, tempor vulputate nibh.",
-            "Aliquam sodales imperdiet augue at consectetur. Suspendisse dui mauris, tincidunt non auctor quis, facilisis et tellus.",
-            "Ut non tincidunt neque, et sodales ligula. Quisque interdum in dui sit amet sagittis. Curabitur erat magna, maximus quis libero quis, dapibus eleifend orci."
-        )
 
-        viewPager.adapter = CarouselRVAdapter(demoData)
+        viewModel.digitalCardResponse.observe(this) {
+            binding.progressbar.visible(it is Resource.Loading)
+            if (it is Resource.Success) {
+                viewPager.adapter = CarouselRVAdapter(it.value,this)
 
+            } else if (it is Resource.Failure) {
+//                handleApiError(binding.viewPager, it)
+            }
+        }
+
+        viewModel.getDigitalCard(0)
 
         binding.btnBack.setOnClickListener {
             finish()
+        }
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+             IntentFilter("digitalCard")
+        );
+    }
+    var mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val limitDaily = intent.getStringExtra("limitDaily")
+            val limitMax = intent.getStringExtra("limitMax")
+            binding.tvBatasHarian.text = limitDaily
+            binding.tvBatasMaks.text = limitMax
         }
     }
 }
