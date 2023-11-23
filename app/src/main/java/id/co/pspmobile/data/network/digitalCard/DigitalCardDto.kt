@@ -1,5 +1,7 @@
 package id.co.pspmobile.data.network.digitalCard
 
+import java.io.Serializable
+
 class DigitalCardDto : ArrayList<DigitalCardDtoItem>()
 
 data class DigitalCardDtoItem(
@@ -20,4 +22,4 @@ data class DigitalCardDtoItem(
     val nfcId: String,
     val photoUrl: String,
     val usePin: Boolean
-)
+): Serializable
