@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -52,6 +53,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private var menuArray: ArrayList<AppMenu>? = null
     private var otherMenuArray: ArrayList<AppMenu>? = null
+    private var otherDefaultMenuArray: ArrayList<DefaultMenuModel>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +74,10 @@ class HomeFragment : Fragment() {
 
         binding.btnHitoryTopup.setOnClickListener {
             startActivity(Intent(requireContext(), HistoryTopUpActivity::class.java))
+        }
+
+        binding.layoutHomeMoreMenu.setOnClickListener {
+            openBottomSheet()
         }
 
         viewModel.balanceResponse.observe(viewLifecycleOwner) {
@@ -196,49 +202,49 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 "Transaction",
                 R.drawable.ic_home_transaction,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), TransactionActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Attendance",
                 R.drawable.ic_home_attendance,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), AttendanceActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Digital Card",
                 R.drawable.ic_home_digital_card,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), DigitalCardActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Account",
                 R.drawable.ic_home_account,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), AccountActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Donation",
                 R.drawable.ic_home_donation,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), DonationActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Schedule",
                 R.drawable.ic_home_schedule,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), ScheduleActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
                 "Calendar Academic",
                 R.drawable.ic_home_calendar,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), CalendarActivity::class.java)
             )
         )
         defaultMenuList.add(
@@ -260,10 +266,21 @@ class HomeFragment : Fragment() {
         )
         val menuAdapter = DefaultMenuAdapter()
         menuAdapter.setMenuList(defaultMenuList, requireContext())
+        menuAdapter.setOtherMenuList(otherDefaultMenuList, requireContext(), requireActivity())
+        otherDefaultMenuArray = otherDefaultMenuList
         rv.adapter = menuAdapter
 //        }
 
 
+    }
+
+    fun openBottomSheet(){
+        val bottomSheetOtherMenuFragment =
+            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext()) }
+        bottomSheetOtherMenuFragment?.show(
+            (requireActivity()).supportFragmentManager,
+            bottomSheetOtherMenuFragment.tag
+        )
     }
 
     fun showImage(imageView: ImageView, iconUrl: String) {
