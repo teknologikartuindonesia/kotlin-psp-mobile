@@ -5,18 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
 import id.co.pspmobile.databinding.FragmentBottomSheetSetLimitBinding
 import id.co.pspmobile.ui.HomeBottomNavigation.home.BottomSheetOtherMenuViewModel
+import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
+import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 
 @AndroidEntryPoint
 class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
     BottomSheetDialogFragment() {
     private lateinit var binding: FragmentBottomSheetSetLimitBinding
-    private lateinit var viewModel: DigitalCardViewModel
+    private val viewModel: DigitalCardViewModel by viewModels()
     private val item = item
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +38,20 @@ class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
                 update()
             }
             btnCancel.setOnClickListener { dismiss() }
+            viewModel.updateDigitalCardResponse.observe(viewLifecycleOwner) {
+                binding.progressbar.visible(it is Resource.Loading)
+                if (it is Resource.Success) {
+                    dismiss()
+                    Toast.makeText(context, "Atur Limit Berhasil", Toast.LENGTH_SHORT).show()
+                } else if (it is Resource.Failure) {
+                }
+            }
         }
 
         return binding.root
 
     }
+
     fun update() {
         viewModel.updateDigitalCard(
             item.id,
