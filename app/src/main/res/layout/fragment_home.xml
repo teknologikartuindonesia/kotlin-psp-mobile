@@ -40,6 +40,7 @@
                         android:layout_weight="1"
                         android:text="Menu"/>
                     <LinearLayout
+                        android:id="@+id/layout_home_more_menu"
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="center"

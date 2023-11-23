@@ -1,46 +1,33 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.home
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.ItemHomeMenuBinding
-import id.co.pspmobile.ui.HomeActivity
 
-class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() {
+class BottomSheetOtherAdapter: RecyclerView.Adapter<BottomSheetOtherAdapter.ViewHolder>() {
     private lateinit var menuArray: ArrayList<DefaultMenuModel>
-    private lateinit var otherMenuArray: ArrayList<DefaultMenuModel>
     private lateinit var context: Context
-    private lateinit var act: Context
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DefaultMenuAdapter.ViewHolder {
+    ): BottomSheetOtherAdapter.ViewHolder {
         val binding = ItemHomeMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-
-    override fun onBindViewHolder(holder: DefaultMenuAdapter.ViewHolder, position: Int) {
-        holder.bind(menuArray[position])
-    }
-
     fun setMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context) {
         this.menuArray = menuList
         this.context = context
         notifyDataSetChanged()
     }
 
-    fun setOtherMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context, act: Context) {
-        this.otherMenuArray = menuList
-        this.context = context
-        this.act = act
-    }
     override fun getItemCount(): Int {
         return menuArray.size
+    }
+
+    override fun onBindViewHolder(holder: BottomSheetOtherAdapter.ViewHolder, position: Int) {
+        holder.bind(menuArray[position])
     }
 
     inner class ViewHolder(private val binding: ItemHomeMenuBinding): RecyclerView.ViewHolder(binding.root) {
@@ -48,16 +35,6 @@ class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() 
             with(binding) {
                 txtHomeMenu.text = menuModel.name
                 imgHomeMenu.setImageDrawable(itemView.context.getDrawable(menuModel.icon))
-                if (menuModel.name == "More"){
-                    layoutItemHomeMenu.setOnClickListener {
-                        val bottomSheetOtherMenuFragment = BottomSheetOtherMenuFragment(otherMenuArray, context)
-                        bottomSheetOtherMenuFragment.show(
-                            (act as FragmentActivity).supportFragmentManager,
-                            bottomSheetOtherMenuFragment.tag
-                        )
-                    }
-                    return@with
-                }
                 layoutItemHomeMenu.setOnClickListener {
                     context.startActivity(menuModel.path)
                 }
