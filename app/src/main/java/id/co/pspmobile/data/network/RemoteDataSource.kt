@@ -17,7 +17,7 @@ class RemoteDataSource @Inject constructor(@ApplicationContext context: Context)
 
     companion object {
 //        const val BASE_URL = "https://api.katalis.info"
-        const val BASE_URL = "https://psp.dev.teknologikartu.com"
+        const val BASE_URL = "https://api.dev.katalis.info"
     }
 
     val ctx = context

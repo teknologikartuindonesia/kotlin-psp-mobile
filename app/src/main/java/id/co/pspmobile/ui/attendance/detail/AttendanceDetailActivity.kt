@@ -36,5 +36,9 @@ class AttendanceDetailActivity : AppCompatActivity() {
         }
 
         attendanceDetailAdapter = AttendanceDetailAdapter()
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
     }
 }
