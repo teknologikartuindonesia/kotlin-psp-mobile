@@ -17,6 +17,9 @@
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
         <activity
+            android:name=".ui.donation.detail.DonationDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.attendance.detail.AttendanceDetailActivity"
             android:exported="false" />
         <activity

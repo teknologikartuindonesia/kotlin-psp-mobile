@@ -5,17 +5,28 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.co.pspmobile.data.network.RemoteDataSource
+import id.co.pspmobile.data.network.attendance.AttendanceApi
 import id.co.pspmobile.data.network.auth.AuthApi
+import id.co.pspmobile.data.network.donation.DonationApi
 import id.co.pspmobile.data.network.invoice.InvoiceApi
+import id.co.pspmobile.data.network.report.ReportApi
 import id.co.pspmobile.data.network.transaction.TransactionApi
 import id.co.pspmobile.data.network.user.UserApi
-import id.co.pspmobile.data.network.report.ReportApi
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideAttendanceApi(
+        remoteDataSource: RemoteDataSource
+    ): AttendanceApi {
+        return remoteDataSource.buildApi(AttendanceApi::class.java)
+    }
+
     @Singleton
     @Provides
     fun provideAuthApi(
@@ -26,11 +37,26 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideDonationApi(
+        remoteDataSource: RemoteDataSource
+    ): DonationApi {
+        return remoteDataSource.buildApi(DonationApi::class.java)
+    }
 
+    @Singleton
+    @Provides
     fun provideInvoiceApi(
         remoteDataSource: RemoteDataSource
     ): InvoiceApi {
         return remoteDataSource.buildApi(InvoiceApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReportApi(
+        remoteDataSource: RemoteDataSource
+    ): ReportApi {
+        return remoteDataSource.buildApi(ReportApi::class.java)
     }
 
     @Singleton
@@ -49,11 +75,4 @@ object AppModule {
         return remoteDataSource.buildApi(UserApi::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideReportApi(
-        remoteDataSource: RemoteDataSource
-    ): ReportApi {
-        return remoteDataSource.buildApi(ReportApi::class.java)
-    }
 }

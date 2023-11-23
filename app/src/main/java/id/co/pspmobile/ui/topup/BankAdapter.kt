@@ -37,7 +37,6 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
                 itemView.tag = bankName
                 itemView.setOnClickListener(onItemClickListener)
 
-
                 when (bankName) {
                     "BCA" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_bca) })
@@ -102,7 +101,6 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
                     "PERMATA SYARIAH" -> {
                         ivBank.setImageDrawable(itemView.context?.let { ActivityCompat.getDrawable(it, R.drawable.logo_permata_syariah) })
                         tvBankName.text = "Bank Permata Syariah"
-
                     }
                 }
             }
