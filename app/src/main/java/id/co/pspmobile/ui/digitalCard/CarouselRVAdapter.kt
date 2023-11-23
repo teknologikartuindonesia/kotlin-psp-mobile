@@ -40,9 +40,6 @@ class CarouselRVAdapter(
         balance.text = "Rp " + formatCurrency(carouselDataList[position].cardBalance)
         nfc_id.text = carouselDataList[position].nfcId
 
-        val intent = Intent("digitalCard")
-        intent.putExtra("data", carouselDataList[position])
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     override fun getItemCount(): Int {

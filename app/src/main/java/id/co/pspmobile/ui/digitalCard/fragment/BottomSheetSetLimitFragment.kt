@@ -10,11 +10,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
 import id.co.pspmobile.databinding.FragmentBottomSheetSetLimitBinding
 import id.co.pspmobile.ui.HomeBottomNavigation.home.BottomSheetOtherMenuViewModel
+import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 
 @AndroidEntryPoint
-class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) : BottomSheetDialogFragment() {
+class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
+    BottomSheetDialogFragment() {
     private lateinit var binding: FragmentBottomSheetSetLimitBinding
-    private lateinit var viewModel: BottomSheetOtherMenuViewModel
+    private lateinit var viewModel: DigitalCardViewModel
     private val item = item
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,10 +24,40 @@ class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) : BottomSheetDialogF
     ): View? {
         binding = FragmentBottomSheetSetLimitBinding.inflate(inflater)
 
-        binding.limitDaily.setText(item.limitDaily.toString())
-        binding.limitMax.setText(item.limitMax.toString())
-        return binding.root
-    }
+        binding.apply {
 
+            limitDaily.setText(item.limitDaily.toString())
+            limitMax.setText(item.limitMax.toString())
+            btnSave.setOnClickListener {
+                update()
+            }
+            btnCancel.setOnClickListener { dismiss() }
+        }
+
+        return binding.root
+
+    }
+    fun update() {
+        viewModel.updateDigitalCard(
+            item.id,
+            item.accountId,
+            item.active,
+            item.amount,
+            item.balance,
+            item.callerId,
+            item.callerName,
+            item.cardBalance,
+            item.ceiling,
+            item.companyId,
+            item.deviceBalance,
+            item.id,
+            binding.limitDaily.text.toString().toDouble(),
+            binding.limitMax.text.toString().toDouble(),
+            item.name,
+            item.nfcId,
+            item.photoUrl,
+            item.usePin
+        )
+    }
 
 }
