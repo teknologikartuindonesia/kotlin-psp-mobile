@@ -27,9 +27,13 @@ import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.account.AccountActivity
+import id.co.pspmobile.ui.attendance.AttendanceActivity
+import id.co.pspmobile.ui.calendar.CalendarActivity
 import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
+import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
+import id.co.pspmobile.ui.schedule.ScheduleActivity
 import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
