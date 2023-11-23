@@ -6,16 +6,20 @@ import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialRes
 import id.co.pspmobile.data.network.responses.LoginResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
+import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
 import id.co.pspmobile.ui.forgotpassword.ModelSendOtp
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface AuthApi {
@@ -56,6 +60,13 @@ interface AuthApi {
 
     @GET("python/balance")
     suspend fun getBalance(): Response<BalanceResponse>
+
+    @Multipart
+    @POST("main_a/image/upload_image")
+    suspend fun uploadImage(
+        @Part image: MultipartBody.Part
+    ): Response<UploadImageResponse>
+
 
     @GET("main_a/broadcast/broadcast/all")
     suspend fun getActiveBroadcast(

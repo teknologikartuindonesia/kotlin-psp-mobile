@@ -46,4 +46,6 @@ class MainViewModel @Inject constructor(
     fun saveIntro(intro: Boolean) = viewModelScope.launch {
         userPreferences.saveIntro(intro)
     }
+
+    fun getLanguage() = userPreferences.getLanguage()
 }

@@ -126,6 +126,21 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         Gson().fromJson(balanceData.first().toString(), BalanceResponse::class.java)
     }
 
+    val language: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[LANGUAGE] ?: "id"
+        }
+
+    suspend fun saveLanguage(language: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[LANGUAGE] = language
+        }
+    }
+
+    fun getLanguage() = runBlocking(Dispatchers.IO) {
+        language.first()
+    }
+
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_DATA = stringPreferencesKey("user_data")
@@ -134,6 +149,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         private val PASSWORD = stringPreferencesKey("password")
         private val INTRO = booleanPreferencesKey("intro")
         private val BALANCE = stringPreferencesKey("balance")
+        private val LANGUAGE = stringPreferencesKey("language")
     }
 
 }
