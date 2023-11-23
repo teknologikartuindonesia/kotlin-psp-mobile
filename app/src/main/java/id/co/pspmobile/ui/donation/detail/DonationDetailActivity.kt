@@ -24,9 +24,9 @@ class DonationDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val donationDto = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra("callerIdentity", DonationDto::class.java)
+            intent.getSerializableExtra("donationDto", DonationDto::class.java)
         } else {
-            intent.getSerializableExtra("callerIdentity") as DonationDto
+            intent.getSerializableExtra("donationDto") as DonationDto
         }
         val balance = viewModel.getBalanceData().balance
 
@@ -48,6 +48,8 @@ class DonationDetailActivity : AppCompatActivity() {
                 handleApiError(binding.rvDonationHistory, it)
             }
         }
+
+        donationHistoryAdapter = DonationHistoryAdapter()
 
         viewModel.getDonationById(donationDto!!.id)
 

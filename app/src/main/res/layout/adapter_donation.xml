@@ -25,8 +25,9 @@
             android:src="@drawable/ic_home_donation" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -48,6 +49,14 @@
                 tools:text="14 Jan 2023" />
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_arrow_right_cicle" />
 
     </LinearLayout>
 
