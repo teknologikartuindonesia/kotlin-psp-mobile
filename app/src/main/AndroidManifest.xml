@@ -65,7 +65,7 @@
             android:name=".ui.donation.DonationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.card.DigitalCardActivity"
+            android:name=".ui.digitalCard.DigitalCardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.calendar.CalendarActivity"
