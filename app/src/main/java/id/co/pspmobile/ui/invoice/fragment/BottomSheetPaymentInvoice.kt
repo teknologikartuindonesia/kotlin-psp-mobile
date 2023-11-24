@@ -1,15 +1,21 @@
 package id.co.pspmobile.ui.invoice.fragment
 
+import android.R
 import android.annotation.SuppressLint
-import android.graphics.Color
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
@@ -17,11 +23,10 @@ import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.ui.NumberTextWatcher
 import id.co.pspmobile.ui.Utils.formatCurrency
-import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.parseDouble
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.customDialog.CustomDialogFragment
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
-import javax.annotation.Nullable
 
 
 @AndroidEntryPoint
@@ -69,17 +74,21 @@ class BottomSheetPaymentInvoice(
 
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
-                    viewModel.paymentInvoice(
-                        parseDouble(
-                            edNominal.text.toString().trim().replace(".", "").replace(",", "")
-                        ),
-                        invoice.invoiceId!!
+                    OpenCustomDialog(
+                        "Konfirmasi",
+                        "Apakah anda yakin akan melakukan pembayaran?",
+                        "invoice",
+                        "partial"
                     )
+
                 } else {
-                    viewModel.paymentInvoice(
-                        invoice.amount,
-                        invoice.invoiceId!!
+                    OpenCustomDialog(
+                        "Konfirmasi",
+                        "Apakah anda yakin akan melakukan pembayaran?",
+                        "invoice",
+                        "cash"
                     )
+
                 }
 
 
@@ -102,7 +111,59 @@ class BottomSheetPaymentInvoice(
 
         }
 
+        //Declare LocalBroadcastManager
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(mMessageReceiver, IntentFilter("custom-dialog"))
+
         return binding.root
+    }
+
+    fun paymentPartial() {
+        binding.progressbar.visible(true)
+        viewModel.paymentInvoice(
+            parseDouble(
+                binding.edNominal.text.toString().trim().replace(".", "").replace(",", "")
+            ),
+            invoice.invoiceId!!
+        )
+    }
+
+    fun paymentCash() {
+        binding.progressbar.visible(true)
+        viewModel.paymentInvoice(
+            invoice.amount,
+            invoice.invoiceId!!
+        )
+    }
+
+    //Call Custom Dialog With Custom Text
+    fun OpenCustomDialog(title: String?, subTitle: String?, feature: String?, type: String?) {
+        val dialogFragment = CustomDialogFragment()
+        val bundle = Bundle()
+        bundle.putString("title", title)
+        bundle.putString("subtitle", subTitle)
+        bundle.putString("feature", feature)
+        bundle.putString("type", type)
+        dialogFragment.setArguments(bundle)
+        dialogFragment.getView()?.setElevation(10f);
+
+        dialogFragment.show(parentFragmentManager, "myDialog")
+    }
+
+    //Listen from LocalBroadcastManager custom dialog
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val feature = intent.getStringExtra("feature")
+            val type = intent.getStringExtra("type")
+            if (feature == "invoice" && type == "partial") {
+                paymentPartial()
+
+            } else {
+                paymentCash()
+            }
+
+        }
     }
 
 }
