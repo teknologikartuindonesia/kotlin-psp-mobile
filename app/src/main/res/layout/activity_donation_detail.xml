@@ -136,12 +136,28 @@
             android:textStyle="bold" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/et_amount"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp"
-            android:textStyle="bold"
-            tools:text="Amount Input" />
+            android:layout_marginStart="34dp"
+            android:layout_marginEnd="34dp"
+            android:background="@drawable/input_bg"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:paddingHorizontal="20dp"/>
+
+        <Button
+            android:id="@+id/btn_donation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginEnd="34dp"
+            android:background="@drawable/psp_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Donation"/>
 
         <TextView
             android:layout_width="match_parent"
