@@ -116,4 +116,8 @@ dependencies {
 
     //Picasso image library
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:6.2.0'
+
 }

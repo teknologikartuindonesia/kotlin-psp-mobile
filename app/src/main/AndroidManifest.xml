@@ -17,6 +17,9 @@
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
         <activity
+            android:name=".ui.digitalCard.HistorySyncDigitalCardActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.donation.detail.DonationDetailActivity"
             android:exported="false" />
         <activity
@@ -65,7 +68,7 @@
             android:name=".ui.donation.DonationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.card.DigitalCardActivity"
+            android:name=".ui.digitalCard.DigitalCardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.calendar.CalendarActivity"
