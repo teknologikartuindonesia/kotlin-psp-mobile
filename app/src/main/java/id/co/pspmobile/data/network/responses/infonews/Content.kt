@@ -1,0 +1,31 @@
+package id.co.pspmobile.data.network.responses.infonews
+
+data class Content(
+    val _id: String,
+    val accountId: String,
+    val action: Action,
+    val companyId: String,
+    val createTime: String,
+    val description: String,
+    val enable: Boolean,
+    val image: String,
+    val imageOpt: List<String>,
+    val isAction: Boolean,
+    val isDeleted: Boolean,
+    val isHeadline: Boolean,
+    val isOpen: Boolean,
+    val isVideo: Boolean,
+    val latitude: Any,
+    val longitude: Any,
+    val showTime: Any,
+    val subtitle: String,
+    val tags: List<String>,
+    val title: String,
+    val updateTime: String,
+    val urlDownload: Any,
+    val urlFb: Any,
+    val urlIg: Any,
+    val valueAdd: List<Any>,
+    val videoUrl: String,
+    val viewCount: Int
+)

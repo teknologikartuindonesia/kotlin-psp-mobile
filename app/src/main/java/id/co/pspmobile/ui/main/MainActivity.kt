@@ -10,7 +10,7 @@ import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
-import id.co.pspmobile.ui.invoices.InvoicesActivity
+import id.co.pspmobile.ui.intro.IntroActivity
 import id.co.pspmobile.ui.login.LoginActivity
 
 @AndroidEntryPoint
@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (!viewModel.getIntro()){
+            viewModel.saveIntro(true)
+            startNewActivity(IntroActivity::class.java)
+        }
         // define user will be login or not
         // if already logged in, go to home activity
         // if not, go to login activityo

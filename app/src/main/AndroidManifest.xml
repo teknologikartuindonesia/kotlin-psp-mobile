@@ -11,29 +11,94 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
         <activity
-            android:name=".ui.invoices.InvoicesActivity"
+            android:name=".ui.digitalCard.HistorySyncDigitalCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.donation.detail.DonationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.attendance.detail.AttendanceDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.invoice.InvoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.topup.history.HistoryTopUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.topup.TopUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.createpassword.CreatePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.forgotpassword.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.language.LanguageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.faq.FaqActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.changepassword.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.profile.edit.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.transaction.detail.TransactionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.attendance.AttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.schedule.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.donation.DonationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.digitalCard.DigitalCardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.calendar.CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.transaction.TransactionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.mutation.MutationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.HomeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_home" />
-        <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Base.Theme.PSPMobile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home" />
     </application>
 
 </manifest>

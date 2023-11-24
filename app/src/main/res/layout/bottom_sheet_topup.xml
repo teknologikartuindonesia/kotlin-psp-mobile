@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="16dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <ImageView
+        android:id="@+id/iv_bank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_home_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/iv_bank">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="Bank Name"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_bank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
+                tools:text="Bank Name" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="Account Name"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
+                tools:text="Account Name" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="Bank Admin"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_admin_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
+                tools:text="Bank Admin" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="Account Number"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_account_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_blue"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                tools:text="Account Number" />
+
+            <ImageView
+                android:id="@+id/iv_copy_va"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_copy" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/psp_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Tutorial"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

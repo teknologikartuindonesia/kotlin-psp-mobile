@@ -2,8 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.PSPMobile" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:buttonStyle">@style/ButtonTheme</item>
     </style>
-
     <style name="Theme.PSPMobile" parent="Base.Theme.PSPMobile" />
+
+    <style name="ButtonTheme" parent="android:style/Widget.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>

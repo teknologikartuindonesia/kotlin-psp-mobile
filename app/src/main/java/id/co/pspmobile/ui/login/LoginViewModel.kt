@@ -34,6 +34,15 @@ class LoginViewModel@Inject constructor(
         _checkCredentialResponse.value = authRepository.getCredentialInfo()
     }
 
+    fun getUsername() = userPreferences.getUsername()
+    fun saveUsername(username: String) = viewModelScope.launch {
+        userPreferences.saveUsername(username)
+    }
+    fun getPassword() = userPreferences.getPassword()
+    fun savePassword(password: String) = viewModelScope.launch {
+        userPreferences.savePassword(password)
+    }
+
     fun getToken() : String {
         return userPreferences.getAccessToken()
     }
