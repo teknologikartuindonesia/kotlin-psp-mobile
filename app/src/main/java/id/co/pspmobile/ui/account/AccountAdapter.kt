@@ -27,7 +27,7 @@ class AccountAdapter : RecyclerView.Adapter<AccountAdapter.ViewHolder>() {
         fun bind(callerIdentity: CallerIdentity) {
             with(binding) {
                 if (callerIdentity.photoUrl.isNotEmpty()) {
-                    Picasso.get().load(baseUrl + "/main_base/image/get/" + callerIdentity.photoUrl).noFade().fit()
+                    Picasso.get().load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas").noFade().fit()
                         .into(ivPhoto);
                 }
                 tvAccountName.text = callerIdentity.name

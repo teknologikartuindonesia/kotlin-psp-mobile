@@ -1,8 +1,6 @@
 package id.co.pspmobile.data.network.invoice
 
 import id.co.pspmobile.data.network.model.ModelInvoice
-import id.co.pspmobile.data.network.model.ModelLogin
-import id.co.pspmobile.data.network.responses.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

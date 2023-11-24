@@ -18,15 +18,8 @@ class AccountActivity : AppCompatActivity() {
         binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val accounts = ArrayList<CallerIdentity>()
-        val callerIdentity1 = CallerIdentity("192007019", "1", "AMEL UPDATE",
-            "2022-12-28-ttsavcnf-", emptyList(), "", )
-        accounts.add(callerIdentity1)
-        val callerIdentity2 = CallerIdentity("543520", "1", "NIAFADHILA1",
-            "2022-12-28-nkffsshg-", emptyList(), "", )
-        accounts.add(callerIdentity2)
-
-//        val accounts = intent.getSerializableExtra("accounts") as List<CallerIdentity>
+        val userData = viewModel.getUserData()
+        val accounts = userData.user.accounts.get(0).callerIdentities
 
         accountAdapter = AccountAdapter()
         accountAdapter.setBaseUrl(viewModel.getBaseUrl())

@@ -112,13 +112,11 @@ object Utils {
         return if (s == null || s.isEmpty()) 0.0 else s.toDouble()
     }
 
-    fun formatDateTime(isoDate:String,pattern:String):String{
+    fun formatDateTime(isoDate: String, pattern: String): String {
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formatter = SimpleDateFormat(pattern)
-        val output: String = formatter.format(parser.parse(isoDate))
-        return output
+        return formatter.format(parser.parse(isoDate))
     }
-
 
     enum class SlideDirection {
         UP,
