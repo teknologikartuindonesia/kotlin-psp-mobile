@@ -11,6 +11,7 @@ import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
 import id.co.pspmobile.data.network.digitalCard.DigitalCardRepository
+import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
@@ -23,7 +24,6 @@ class DigitalCardViewModel @Inject constructor(
     private val userPreferences: UserPreferences
 
 ) : ViewModel() {
-    private lateinit var syncDigitalCard: SyncDigitalCard
 
     private var _digitalCardResponse: MutableLiveData<Resource<DigitalCardDto>> = MutableLiveData()
     val digitalCardResponse: LiveData<Resource<DigitalCardDto>> get() = _digitalCardResponse
@@ -82,7 +82,12 @@ class DigitalCardViewModel @Inject constructor(
     }
 
     fun saveSyncDigitalCard(data: SyncDigitalCardItem) = viewModelScope.launch {
-        syncDigitalCard.data.add(data)
-        userPreferences.saveSyncDigitalCard(syncDigitalCard)
+        var getSync = getSyncDigitalCard()
+        getSync.data.add(data)
+        userPreferences.saveSyncDigitalCard(getSync)
+    }
+
+    fun getSyncDigitalCard(): SyncDigitalCard {
+        return userPreferences.getSyncDigitalCard() ?: SyncDigitalCard(mutableListOf())
     }
 }

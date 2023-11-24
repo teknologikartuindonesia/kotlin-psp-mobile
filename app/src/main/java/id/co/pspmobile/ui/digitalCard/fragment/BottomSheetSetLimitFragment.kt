@@ -20,6 +20,7 @@ import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import kotlinx.coroutines.runBlocking
 import java.util.Date
 
@@ -46,11 +47,13 @@ class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
             }
             btnCancel.setOnClickListener { dismiss() }
             viewModel.updateDigitalCardResponse.observe(viewLifecycleOwner) {
-                binding.progressbar.visible(it is Resource.Loading)
+                when(it is Resource.Loading){
+                    true -> showLottieLoader()
+                    else -> hideLottieLoader()
+                }
                 if (it is Resource.Success) {
                     dismiss()
                     val newItem = SyncDigitalCardItem(Date(), "John Doe", "12345", "abc123")
-
                     runBlocking {
                         viewModel.saveSyncDigitalCard(newItem)
                     }
@@ -86,5 +89,14 @@ class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
             item.usePin
         )
     }
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
 }
