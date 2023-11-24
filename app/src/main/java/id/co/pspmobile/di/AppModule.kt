@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.attendance.AttendanceApi
 import id.co.pspmobile.data.network.auth.AuthApi
+import id.co.pspmobile.data.network.calendarschedule.CalendarScheduleApi
 import id.co.pspmobile.data.network.digitalCard.DigitalCardApi
 import id.co.pspmobile.data.network.donation.DonationApi
 import id.co.pspmobile.data.network.invoice.InvoiceApi
@@ -82,5 +83,13 @@ object AppModule {
         remoteDataSource: RemoteDataSource
     ): DigitalCardApi {
         return remoteDataSource.buildApi(DigitalCardApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCalendarScheduleApi(
+        remoteDataSource: RemoteDataSource
+    ): CalendarScheduleApi {
+        return remoteDataSource.buildApi(CalendarScheduleApi::class.java)
     }
 }
