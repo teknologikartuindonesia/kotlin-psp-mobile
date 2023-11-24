@@ -14,6 +14,7 @@ import id.co.pspmobile.databinding.FragmentSummaryInvoiceBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
@@ -28,10 +29,13 @@ class SummaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.progressbar.visible(false)
+
 
         viewModel.allInvoiceResponse.observe(viewLifecycleOwner) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 summaryAdapter.setInvoices(it.value.content)
                 currentSize = currentSizeinvoice(it.value.content.size)
@@ -74,5 +78,16 @@ class SummaryFragment : Fragment() {
     ): View? {
         binding = FragmentSummaryInvoiceBinding.inflate(inflater)
         return binding.root
+    }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
     }
 }

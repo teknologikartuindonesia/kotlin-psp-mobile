@@ -27,6 +27,7 @@ import id.co.pspmobile.ui.Utils.parseDouble
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.customDialog.CustomDialogFragment
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
 
 @AndroidEntryPoint
@@ -95,7 +96,10 @@ class BottomSheetPaymentInvoice(
             }
 
             viewModel.paymentInvoiceResponse.observe(viewLifecycleOwner) {
-                binding.progressbar.visible(it is Resource.Loading)
+                when(it is Resource.Loading){
+                    true -> showLottieLoader()
+                    else -> hideLottieLoader()
+                }
                 if (it is Resource.Success) {
                     dismiss()
                     val bottomSheetDialogFragment: BottomSheetDialogFragment =
@@ -119,7 +123,6 @@ class BottomSheetPaymentInvoice(
     }
 
     fun paymentPartial() {
-        binding.progressbar.visible(true)
         viewModel.paymentInvoice(
             parseDouble(
                 binding.edNominal.text.toString().trim().replace(".", "").replace(",", "")
@@ -129,7 +132,6 @@ class BottomSheetPaymentInvoice(
     }
 
     fun paymentCash() {
-        binding.progressbar.visible(true)
         viewModel.paymentInvoice(
             invoice.amount,
             invoice.invoiceId!!
@@ -166,4 +168,14 @@ class BottomSheetPaymentInvoice(
         }
     }
 
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
 }
