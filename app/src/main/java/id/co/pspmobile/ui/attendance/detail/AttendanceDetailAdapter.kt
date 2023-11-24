@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import id.co.pspmobile.data.network.responses.checkcredential.CallerIdentity
-import id.co.pspmobile.databinding.AdapterAttendanceBinding
+import id.co.pspmobile.data.network.attendance.AttendanceResDto
+import id.co.pspmobile.databinding.AdapterHistoryAttendanceBinding
 
 class AttendanceDetailAdapter : RecyclerView.Adapter<AttendanceDetailAdapter.ViewHolder>() {
 
-    private lateinit var list: List<CallerIdentity>
+    private lateinit var list: List<AttendanceResDto>
     private var baseUrl: String = ""
-    private var onItemClickListener : View.OnClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setAccounts(list: List<CallerIdentity>) {
+    fun setAttendance(list: List<AttendanceResDto>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -25,28 +24,23 @@ class AttendanceDetailAdapter : RecyclerView.Adapter<AttendanceDetailAdapter.Vie
         this.baseUrl = baseUrl
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
-        this.onItemClickListener = onItemClickListener
-    }
-
-    inner class ViewHolder(private val binding: AdapterAttendanceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(callerIdentity: CallerIdentity) {
-            itemView.tag = callerIdentity
-            itemView.setOnClickListener(onItemClickListener)
-
+    inner class ViewHolder(private val binding: AdapterHistoryAttendanceBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(attendance: AttendanceResDto) {
             with(binding) {
-                if (callerIdentity.photoUrl.isNotEmpty()) {
-                    Picasso.get().load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas").noFade().fit()
-                        .into(ivPhoto);
+                if (attendance.photo_url_masuk.isNotEmpty()) {
+                    Picasso.get().load(attendance.photo_url_masuk).noFade().fit()
+                        .into(ivPhotoIn);
                 }
-                tvAccountName.text = callerIdentity.name
-                tvNis.text = callerIdentity.callerId
+                if (attendance.photo_url_pulang.isNotEmpty()) {
+                    Picasso.get().load(attendance.photo_url_pulang).noFade().fit()
+                        .into(ivPhotoOut);
+                }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendanceDetailAdapter.ViewHolder {
-        val binding = AdapterAttendanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AdapterHistoryAttendanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

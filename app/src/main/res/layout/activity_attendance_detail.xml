@@ -125,9 +125,9 @@
             android:id="@+id/rv_attendance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="2dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/adapter_bank" />
+            tools:listitem="@layout/adapter_history_attendance" />
 
     </LinearLayout>
 

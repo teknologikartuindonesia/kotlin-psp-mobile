@@ -18,8 +18,8 @@ class AttendanceDetailViewModel @Inject constructor(
     private val attendanceRepository: AttendanceRepository
 ) : ViewModel() {
 
-    private var _attendanceResponse: MutableLiveData<Resource<AttendanceResDto>> = MutableLiveData()
-    val attendanceResponse: LiveData<Resource<AttendanceResDto>> get() = _attendanceResponse
+    private var _attendanceResponse: MutableLiveData<Resource<List<AttendanceResDto>>> = MutableLiveData()
+    val attendanceResponse: LiveData<Resource<List<AttendanceResDto>>> get() = _attendanceResponse
 
     fun getAttendance(callerId: String, date: String) = viewModelScope.launch {
         _attendanceResponse.value = Resource.Loading

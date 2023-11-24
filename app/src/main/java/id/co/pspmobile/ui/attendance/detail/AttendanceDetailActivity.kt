@@ -3,11 +3,17 @@ package id.co.pspmobile.ui.attendance.detail
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.responses.checkcredential.CallerIdentity
 import id.co.pspmobile.databinding.ActivityAttendanceDetailBinding
+import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.visible
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class AttendanceDetailActivity : AppCompatActivity() {
@@ -15,6 +21,7 @@ class AttendanceDetailActivity : AppCompatActivity() {
     private val viewModel: AttendanceDetailViewModel by viewModels()
     private lateinit var attendanceDetailAdapter: AttendanceDetailAdapter
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAttendanceDetailBinding.inflate(layoutInflater)
@@ -35,7 +42,26 @@ class AttendanceDetailActivity : AppCompatActivity() {
             tvNis.text = callerIdentity.callerId
         }
 
+        viewModel.attendanceResponse.observe(this) {
+            binding.progressbar.visible(it is Resource.Loading)
+            if (it is Resource.Success) {
+                attendanceDetailAdapter.setAttendance(it.value)
+                binding.apply {
+                    rvAttendance.setHasFixedSize(true)
+                    rvAttendance.adapter = attendanceDetailAdapter
+                }
+            } else if (it is Resource.Failure) {
+                handleApiError(binding.rvAttendance, it)
+            }
+        }
+
         attendanceDetailAdapter = AttendanceDetailAdapter()
+        attendanceDetailAdapter.setBaseUrl(viewModel.getBaseUrl())
+
+        val sdf = SimpleDateFormat("dd-MM-yyyy")
+        val now = sdf.format(LocalDate.now()) // string
+
+        viewModel.getAttendance(callerIdentity!!.callerId, now)
 
         binding.btnBack.setOnClickListener {
             finish()
