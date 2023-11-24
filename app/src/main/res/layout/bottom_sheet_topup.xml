@@ -12,7 +12,8 @@
         android:id="@+id/iv_bank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:padding="16dp"
+        android:scaleType="fitStart"
         android:src="@drawable/ic_home_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,21 +35,24 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:text="Bank Name"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_bank_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
                 tools:text="Bank Name" />
         </LinearLayout>
         <LinearLayout
@@ -61,21 +65,24 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:text="Account Name"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
                 tools:text="Account Name" />
         </LinearLayout>
         <LinearLayout
@@ -88,21 +95,24 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:text="Bank Admin"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_admin_bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black"
                 tools:text="Bank Admin" />
         </LinearLayout>
         <LinearLayout
@@ -115,26 +125,44 @@
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:text="Account Number"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_account_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_blue"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:drawablePadding="10dp"
-                app:drawableRightCompat="@drawable/ic_copy"
+                android:fontFamily="@font/montserrat"
+                android:textFontWeight="600"
                 tools:text="Account Number" />
+
+            <ImageView
+                android:id="@+id/iv_copy_va"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_copy" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/psp_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Tutorial"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
