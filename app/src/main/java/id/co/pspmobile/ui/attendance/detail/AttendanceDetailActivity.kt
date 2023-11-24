@@ -12,8 +12,8 @@ import id.co.pspmobile.data.network.responses.checkcredential.CallerIdentity
 import id.co.pspmobile.databinding.ActivityAttendanceDetailBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
-import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class AttendanceDetailActivity : AppCompatActivity() {
@@ -58,10 +58,10 @@ class AttendanceDetailActivity : AppCompatActivity() {
         attendanceDetailAdapter = AttendanceDetailAdapter()
         attendanceDetailAdapter.setBaseUrl(viewModel.getBaseUrl())
 
-        val sdf = SimpleDateFormat("dd-MM-yyyy")
-        val now = sdf.format(LocalDate.now()) // string
-
-        viewModel.getAttendance(callerIdentity!!.callerId, now)
+        viewModel.getAttendance(
+            callerIdentity!!.callerId,
+            LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        )
 
         binding.btnBack.setOnClickListener {
             finish()
