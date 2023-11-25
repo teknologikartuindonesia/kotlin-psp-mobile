@@ -67,6 +67,12 @@ interface AuthApi {
         @Part image: MultipartBody.Part
     ): Response<UploadImageResponse>
 
+    // https://api.katalis.info/katalis/user
+    @PUT("katalis/user")
+    suspend fun updateProfile(
+        @Body body: CheckCredentialResponse
+    ): Response<Unit>
+
 
     @GET("main_a/broadcast/broadcast/all")
     suspend fun getActiveBroadcast(

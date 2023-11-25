@@ -45,12 +45,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/img_profile"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_profile_profile"
-                app:shapeAppearance="@style/Circular"/>
+                android:layout_height="100dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_profile_profile"
+                    app:shapeAppearance="@style/Circular"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+                <Button
+                    android:id="@+id/btn_upload_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_camera"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -123,7 +139,7 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
             <Button
-                android:id="@+id/btn_save_password"
+                android:id="@+id/btn_save_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/psp_btn"
@@ -132,7 +148,7 @@
                 android:visibility="gone"
                 android:text="Save"/>
             <Button
-                android:id="@+id/btn_edit_password"
+                android:id="@+id/btn_edit_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/psp_btn"

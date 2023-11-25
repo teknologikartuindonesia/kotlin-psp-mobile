@@ -4,6 +4,7 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.BaseRepository
 import id.co.pspmobile.data.network.model.ModelLogin
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
@@ -58,6 +59,12 @@ class AuthRepository @Inject constructor (
 
     suspend fun uploadImage(body: MultipartBody.Part) = safeApiCall({
         api.uploadImage(body)
+    },
+        userPreferences
+    )
+
+    suspend fun updateProfile(body: CheckCredentialResponse) = safeApiCall({
+        api.updateProfile(body)
     },
         userPreferences
     )
