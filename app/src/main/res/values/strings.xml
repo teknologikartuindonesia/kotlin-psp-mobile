@@ -103,4 +103,6 @@
     <string name="faq_q_invoice_not_shown">Tagihan belum ada di aplikasi?</string>
     <string name="faq_q_pay_invoice">Bagaimana cara membayar tagihan?</string>
     <string name="faq_q_topup">Cara top up?</string>
+    <string name="keterangan">Keterangan:</string>
+    <string name="calendar_academic">Calendar Academic</string>
 </resources>

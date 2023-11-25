@@ -1,5 +1,6 @@
 package id.co.pspmobile.data.network.calendarschedule
 
+import id.co.pspmobile.data.network.responses.calendarschedule.AllAgendaResponse
 import id.co.pspmobile.data.network.responses.calendarschedule.AllLessonResponse
 import id.co.pspmobile.data.network.responses.calendarschedule.ComboYearResponse
 import id.co.pspmobile.data.network.responses.calendarschedule.SchedulePerDayResponse
@@ -36,5 +37,15 @@ interface CalendarScheduleApi {
         @Query("dir") dir: Int
     ) : Response<SchedulePerDayResponse>
 
-
+    @GET("/academic/calendar/office/calendar/agenda/all")
+    suspend fun getAgenda(
+        @Query("companyId") companyId: String,
+        @Query("isActive") isActive: Boolean,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("sort") sort: String,
+        @Query("dir") dir: Int
+    ) : Response<AllAgendaResponse>
 }

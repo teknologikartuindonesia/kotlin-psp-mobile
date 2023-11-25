@@ -47,4 +47,20 @@ class CalendarScheduleRepository@Inject constructor(
         },
         userPreferences
     )
+
+    suspend fun getAgenda(
+        companyId: String,
+        isActive: Boolean,
+        startDate: String,
+        endDate: String,
+        page: Int,
+        size: Int,
+        sort: String,
+        dir: Int
+    ) = safeApiCall(
+        {
+            api.getAgenda(companyId, isActive, startDate, endDate, page, size, sort, dir)
+        },
+        userPreferences
+    )
 }
