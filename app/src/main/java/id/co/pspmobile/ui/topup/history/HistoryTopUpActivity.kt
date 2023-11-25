@@ -8,6 +8,7 @@ import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.ActivityHistoryTopupBinding
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
 @AndroidEntryPoint
 class HistoryTopUpActivity : AppCompatActivity() {
@@ -24,7 +25,10 @@ class HistoryTopUpActivity : AppCompatActivity() {
         binding.progressbar.visible(false)
 
         viewModel.historyTopUpResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 historyTopUpAdapter.setHistoryTopUp(it.value.content)
                 binding.apply {
@@ -44,5 +48,17 @@ class HistoryTopUpActivity : AppCompatActivity() {
 
         viewModel.getHistoryTopUp(page)
     }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
+
 
 }

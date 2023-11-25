@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "psp_mobile_data_store")
 
-class UserPreferences @Inject constructor(@ApplicationContext context: Context){
+class UserPreferences @Inject constructor(@ApplicationContext context: Context) {
 
     private val appContext = context.applicationContext
 
@@ -45,6 +46,11 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
             preferences[USER_DATA] ?: ""
         }
 
+    val digitalCardData: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[SYNC_DC] ?: ""
+        }
+
     suspend fun saveUserData(userData: CheckCredentialResponse) {
         appContext.dataStore.edit { preferences ->
             preferences[USER_DATA] = Gson().toJson(userData)
@@ -60,11 +66,13 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         get() = appContext.dataStore.data.map { preferences ->
             preferences[LAST_RESET_PASSWORD] ?: ""
         }
+
     suspend fun saveLastResetPassword(lastResetPassword: String) {
         appContext.dataStore.edit { preferences ->
             preferences[LAST_RESET_PASSWORD] = lastResetPassword
         }
     }
+
     fun getLastResetPassword() = runBlocking(Dispatchers.IO) {
         lastResetPassword.first()
     }
@@ -73,11 +81,13 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         get() = appContext.dataStore.data.map { preferences ->
             preferences[USERNAME] ?: ""
         }
+
     suspend fun saveUsername(username: String) {
         appContext.dataStore.edit { preferences ->
             preferences[USERNAME] = username
         }
     }
+
     fun getUsername() = runBlocking(Dispatchers.IO) {
         username.first()
     }
@@ -86,11 +96,13 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         get() = appContext.dataStore.data.map { preferences ->
             preferences[PASSWORD] ?: ""
         }
+
     suspend fun savePassword(password: String) {
         appContext.dataStore.edit { preferences ->
             preferences[PASSWORD] = password
         }
     }
+
     fun getPassword() = runBlocking(Dispatchers.IO) {
         password.first()
     }
@@ -126,19 +138,16 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         Gson().fromJson(balanceData.first().toString(), BalanceResponse::class.java)
     }
 
-    val language: Flow<String>
-        get() = appContext.dataStore.data.map { preferences ->
-            preferences[LANGUAGE] ?: "id"
-        }
-
-    suspend fun saveLanguage(language: String) {
+    suspend fun saveSyncDigitalCard(data: SyncDigitalCard) {
         appContext.dataStore.edit { preferences ->
-            preferences[LANGUAGE] = language
+            preferences[SYNC_DC] = Gson().toJson(data.data)
         }
     }
 
-    fun getLanguage() = runBlocking(Dispatchers.IO) {
-        language.first()
+
+    fun getSyncDigitalCard() = runBlocking(Dispatchers.IO) {
+        Log.d("UserPreferences", "getSyncDigitalCard: ${digitalCardData.first()}")
+        Gson().fromJson(digitalCardData.first().toString(), SyncDigitalCard::class.java)
     }
 
     companion object {
@@ -149,7 +158,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context){
         private val PASSWORD = stringPreferencesKey("password")
         private val INTRO = booleanPreferencesKey("intro")
         private val BALANCE = stringPreferencesKey("balance")
-        private val LANGUAGE = stringPreferencesKey("language")
+        private val SYNC_DC = stringPreferencesKey("sync_digital_card")
     }
 
 }
