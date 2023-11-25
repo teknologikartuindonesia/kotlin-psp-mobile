@@ -1,5 +1,4 @@
 package id.co.pspmobile.ui.digitalCard
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +26,9 @@ import id.co.pspmobile.databinding.ActivityDigitalCardBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetSetLimitFragment
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
+import id.co.pspmobile.ui.preloader.LottieLoaderViewModel
+import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import java.lang.Math.abs
 
 
@@ -62,7 +65,10 @@ class DigitalCardActivity : AppCompatActivity() {
 
         viewModel.getDigitalCard(0)
         viewModel.digitalCardResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 itemCard = it.value
 
@@ -103,6 +109,10 @@ class DigitalCardActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+        binding.syncHistory.setOnClickListener {
+            startActivity(Intent(this, HistorySyncDigitalCardActivity::class.java))
+
+        }
         binding.btnSetLimit.setOnClickListener {
 
             val bottomSheetDialogFragment: BottomSheetDialogFragment =
@@ -112,6 +122,17 @@ class DigitalCardActivity : AppCompatActivity() {
                 bottomSheetDialogFragment.tag
             )
         }
+    }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
     }
 
 }

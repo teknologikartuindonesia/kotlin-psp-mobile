@@ -83,4 +83,15 @@
     <string name="new_password_changed">Password Changed Successfully</string>
     <string name="home">Home</string>
     <string name="wrong_old_password">Wrong Old Password</string>
+    <string name="password_success_changed">Password Successfully Changed</string>
+    <string name="faq_q_forgot_password">Forgot the password?</string>
+    <string name="faq_a_forgot_password">If you forget your password, you can use the forgot password feature on the application\'s home page</string>
+    <string name="faq_a_forgot_username">If you forget your username, you can contact our CS by clicking Customer Service</string>
+    <string name="faq_a_invoice_not_shown">If there is no invoice, you can contact the school or Islamic boarding school</string>
+    <string name="faq_a_pay_invoice">Invoice payments can be made by entering the Invoice menu > Select the Invoice you want to pay > click Pay</string>
+    <string name="faq_a_topup">The top up tutorial is on the Top Up menu > Click the bank logo > Click Tutorial</string>
+    <string name="faq_q_forgot_username">Forgot Username?</string>
+    <string name="faq_q_invoice_not_shown">Invoice not shown?</string>
+    <string name="faq_q_pay_invoice">How do I pay the invoice?</string>
+    <string name="faq_q_topup">The top up tutorial is on the Top Up menu > Click the bank logo > Click Tutorial</string>
 </resources>

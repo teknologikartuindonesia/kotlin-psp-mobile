@@ -45,11 +45,14 @@ class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<Invoic
                 tvUnpaidAmount.text = formatCurrency(invoice.amount - invoice.paidAmount)
 
                 btnPay.setOnClickListener {
+
                     val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetPaymentInvoice("",invoice)
+                    bottomSheetDialogFragment
                     bottomSheetDialogFragment.show(
                         (context as FragmentActivity).supportFragmentManager,
                         bottomSheetDialogFragment.tag
                     )
+
                 }
             }
         }

@@ -1,7 +1,10 @@
 package id.co.pspmobile.ui.main
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
@@ -12,6 +15,7 @@ import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.intro.IntroActivity
 import id.co.pspmobile.ui.login.LoginActivity
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -51,9 +55,30 @@ class MainActivity : AppCompatActivity() {
                 handleApiError(binding.progressbar, it)
             }
         }
+        configLanguage()
     }
 
     private fun checkCurrentToken(){
         viewModel.checkCredential()
+    }
+
+    private fun configLanguage(){
+        // config language
+        val lang = viewModel.getLanguage()
+        setLang(lang)
+    }
+    fun setLang(lang: String){
+        val resources: Resources = resources
+        val configuration: Configuration = resources.configuration
+        if (lang == "id"){
+            val locale = Locale("id", "ID")
+            Locale.setDefault(locale)
+            configuration.setLocale(locale)
+        } else  {
+            val locale: Locale = Locale(lang)
+            Locale.setDefault(locale)
+            configuration.setLocale(locale)
+        }
+        resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 }

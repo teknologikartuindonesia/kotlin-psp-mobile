@@ -13,6 +13,7 @@ import id.co.pspmobile.databinding.ActivityTopupBinding
 import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 
 @AndroidEntryPoint
@@ -50,7 +51,10 @@ class TopUpActivity : AppCompatActivity() {
             tvBalance.text = Utils.formatCurrency(balance)
         }
         viewModel.vaResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 vaResponseDto = it.value
             } else if (it is Resource.Failure) {
@@ -59,7 +63,10 @@ class TopUpActivity : AppCompatActivity() {
         }
 
         viewModel.createVaResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 viewModel.getVa()
             } else if (it is Resource.Failure) {
@@ -116,5 +123,17 @@ class TopUpActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
+
 
 }

@@ -8,6 +8,7 @@ import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
 import id.co.pspmobile.ui.forgotpassword.ModelSendOtp
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor (
@@ -55,6 +56,11 @@ class AuthRepository @Inject constructor (
         userPreferences
     )
 
+    suspend fun uploadImage(body: MultipartBody.Part) = safeApiCall({
+        api.uploadImage(body)
+    },
+        userPreferences
+    )
     suspend fun sendNewPasswordForgot(body: ModelSendOtp) = safeApiCall({
         api.sendNewPasswordForgot(body)
     },
