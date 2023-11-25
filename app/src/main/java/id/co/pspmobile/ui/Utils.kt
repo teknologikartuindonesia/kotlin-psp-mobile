@@ -13,11 +13,14 @@ import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.ui.login.LoginActivity
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -203,5 +206,15 @@ object Utils {
         ).show()
     }
 
+
+    fun Activity.showLottieLoader(supportFragmentManager: FragmentManager) {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+    }
+    fun Activity.hideLottieLoader(supportFragmentManager: FragmentManager) {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
 
 }

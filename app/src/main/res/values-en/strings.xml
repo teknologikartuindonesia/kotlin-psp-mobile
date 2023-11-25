@@ -94,4 +94,6 @@
     <string name="faq_q_invoice_not_shown">Invoice not shown?</string>
     <string name="faq_q_pay_invoice">How do I pay the invoice?</string>
     <string name="faq_q_topup">The top up tutorial is on the Top Up menu > Click the bank logo > Click Tutorial</string>
+    <string name="keterangan">Description:</string>
+    <string name="calendar_academic">Calendar Academic</string>
 </resources>
