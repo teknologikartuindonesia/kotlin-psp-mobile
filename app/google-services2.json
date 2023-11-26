@@ -65,64 +65,6 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1031031439009:android:e802a9364829f90d71fae0",
-        "android_client_info": {
-          "package_name": "id.co.platformsekolahpintar"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1031031439009-u32bhipbqb0nbjspvtqv2vbjkg3b8lio.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBsSVN7GamoO9v4lI8kEYmUR-C0EF26O98"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1031031439009-u32bhipbqb0nbjspvtqv2vbjkg3b8lio.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1031031439009:android:bd9ad721d0b0df0e71fae0",
-        "android_client_info": {
-          "package_name": "id.co.psp.sipsisma"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1031031439009-u32bhipbqb0nbjspvtqv2vbjkg3b8lio.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBsSVN7GamoO9v4lI8kEYmUR-C0EF26O98"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1031031439009-u32bhipbqb0nbjspvtqv2vbjkg3b8lio.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:1031031439009:android:412da1551ceadd9371fae0",
         "android_client_info": {
           "package_name": "id.co.pspmerchant"

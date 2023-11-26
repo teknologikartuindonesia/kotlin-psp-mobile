@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
@@ -37,6 +38,7 @@ import id.co.pspmobile.ui.schedule.ScheduleActivity
 import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
+import kotlin.math.log
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -81,6 +83,7 @@ class HomeFragment : Fragment() {
             if (it is Resource.Success) {
                 viewModel.saveBalanceData(it.value)
                 binding.txtHomeBalance.text = "Rp ${formatCurrency(it.value.balance)}"
+                getNotification()
                 Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
             } else if (it is Resource.Failure) {
                 requireActivity().handleApiError(binding.progressbar, it)
@@ -299,5 +302,15 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("HomeFragment", "showImage: $e")
         }
+    }
+
+    fun getNotification(){
+//        var type: String = activity?.intent?.getStringExtra("type").toString()
+//        Toast.makeText(context, "this, ${type}", Toast.LENGTH_SHORT).show()
+//        when(type){
+//            "invoice" ->
+//                startActivity(Intent(requireContext(), HistoryTopUpActivity::class.java))
+//
+//        }
     }
 }
