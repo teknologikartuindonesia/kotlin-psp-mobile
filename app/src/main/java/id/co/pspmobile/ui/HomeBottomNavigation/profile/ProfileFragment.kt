@@ -71,7 +71,7 @@ class ProfileFragment : Fragment() {
         menuList.add(ProfileMenuModel("FAQ", R.drawable.ic_profile_faq, Intent(requireContext(), FaqActivity::class.java)))
         menuList.add(ProfileMenuModel("Language", R.drawable.ic_profile_language, Intent(requireContext(), LanguageActivity::class.java)))
         menuList.add(ProfileMenuModel("Logout", R.drawable.ic_profile_logout, Intent(requireContext(), LanguageActivity::class.java)))
-        val adapter = ProfileMenuAdapter()
+        val adapter = ProfileMenuAdapter(viewModel)
         Log.d("ProfileFragment", "configureMenu: ${menuList.size}")
         adapter.setMenuList(menuList, requireContext())
         binding.rvProfile.adapter = adapter

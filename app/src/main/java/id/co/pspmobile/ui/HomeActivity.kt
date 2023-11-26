@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -13,7 +14,9 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityHomeBinding
+import id.co.pspmobile.ui.calendar.CalendarActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 
 
@@ -57,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
         if (type != "null") {
             when (type) {
                 "invoice" -> Handler().postDelayed({
+                    showLottieLoader()
                     startActivity(
                         Intent(
                             this,
@@ -64,13 +68,43 @@ class HomeActivity : AppCompatActivity() {
                         )
                     )
                 }, 500)
+                "notification" -> Handler().postDelayed({
 
+                    menu_bottom.setItemSelected(R.id.navigation_message, true)
+                    navController.navigate(R.id.navigation_message)
+                    
+                }, 500)
+                "academic-calendar" -> Handler().postDelayed({
+                    showLottieLoader()
+                    startActivity(
+                        Intent(
+                            this,
+                            CalendarActivity::class.java
+                        )
+                    )
+                }, 500)
+                "calendar-academic" -> Handler().postDelayed({
+                    showLottieLoader()
+                startActivity(
+                    Intent(
+                        this,
+                        CalendarActivity::class.java
+                    )
+                )
+            }, 500)
             }
         }
     }
 
-    private fun handleNotification() {
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
 
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
     }
 
 }
