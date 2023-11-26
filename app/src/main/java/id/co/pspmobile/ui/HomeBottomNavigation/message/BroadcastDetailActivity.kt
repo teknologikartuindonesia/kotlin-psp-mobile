@@ -48,7 +48,7 @@ class BroadcastDetailActivity : AppCompatActivity() {
         viewPager.setPageTransformer(compositePageTransformer)
 
         if(content?.imagesFirebase?.isNotEmpty() == true){
-            viewPager.adapter = CarouselRvAdapter(content.imagesFirebase+content.imagesFirebase)
+            viewPager.adapter = CarouselRvAdapter(content.imagesFirebase)
         } else {
             viewPager.visible(false)
         }
