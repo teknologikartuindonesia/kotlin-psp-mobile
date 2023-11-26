@@ -43,6 +43,11 @@ class ProfileFragment : Fragment() {
         binding.llProfile.setOnClickListener {
             startActivity(Intent(requireContext(), EditProfileActivity::class.java))
         }
+        return root
+    }
+
+    override fun onResume() {
+        super.onResume()
         val data = viewModel.getUserData()
         if (data != null) {
             binding.txtProfileName.text = data.user.name
@@ -56,7 +61,6 @@ class ProfileFragment : Fragment() {
                 .placeholder(R.drawable.ic_profile_profile)
                 .into(binding.imgProfile)
         }
-        return root
     }
 
     override fun onDestroyView() {
@@ -71,7 +75,7 @@ class ProfileFragment : Fragment() {
         menuList.add(ProfileMenuModel("FAQ", R.drawable.ic_profile_faq, Intent(requireContext(), FaqActivity::class.java)))
         menuList.add(ProfileMenuModel("Language", R.drawable.ic_profile_language, Intent(requireContext(), LanguageActivity::class.java)))
         menuList.add(ProfileMenuModel("Logout", R.drawable.ic_profile_logout, Intent(requireContext(), LanguageActivity::class.java)))
-        val adapter = ProfileMenuAdapter()
+        val adapter = ProfileMenuAdapter(viewModel)
         Log.d("ProfileFragment", "configureMenu: ${menuList.size}")
         adapter.setMenuList(menuList, requireActivity())
         binding.rvProfile.adapter = adapter

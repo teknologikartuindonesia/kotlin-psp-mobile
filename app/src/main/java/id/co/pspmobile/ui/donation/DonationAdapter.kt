@@ -20,7 +20,7 @@ class DonationAdapter : RecyclerView.Adapter<DonationAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
+    fun setOnItemClickListener(onItemClickListener: View.OnClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 

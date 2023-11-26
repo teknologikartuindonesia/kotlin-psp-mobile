@@ -1,6 +1,33 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.information
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import id.co.pspmobile.data.network.RemoteDataSource
+import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.information.InformationRepository
+import id.co.pspmobile.data.network.information.InformationResDto
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InformationViewModel : ViewModel() {
+@HiltViewModel
+class InformationViewModel @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val informationRepository: InformationRepository
+) : ViewModel() {
+
+    private var _informationResponse: MutableLiveData<Resource<InformationResDto>> = MutableLiveData()
+    val informationResponse: LiveData<Resource<InformationResDto>> get() = _informationResponse
+
+
+    fun getInformation(page: Int) = viewModelScope.launch {
+        _informationResponse.value = Resource.Loading
+        _informationResponse.value = informationRepository.getInformation(page, 10)
+    }
+
+    fun getBaseUrl(): String {
+        return remoteDataSource.baseURL
+    }
 }

@@ -20,7 +20,7 @@ class MerchantAdapter : RecyclerView.Adapter<MerchantAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
+    fun setOnItemClickListener(onItemClickListener: View.OnClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 

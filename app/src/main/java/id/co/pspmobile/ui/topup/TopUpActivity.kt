@@ -36,6 +36,12 @@ class TopUpActivity : AppCompatActivity() {
         if (banks.contains("IDN")) {
             val merchants: List<String> = listOf("INDOMARET", "ALFAMART", "GOPAY", "TOKOPEDIA", "SHOPEE", "BLIBLI", "AYOPOP")
             merchantAdapter = MerchantAdapter()
+            merchantAdapter.setOnItemClickListener { view ->
+                val merchantName = view!!.tag as String
+                BottomSheetTopUpMerchant(merchantName).apply {
+                    show(supportFragmentManager, tag)
+                }
+            }
             merchantAdapter.setMerchants(merchants)
             binding.apply {
                 rvMerchant.setHasFixedSize(true)
@@ -75,7 +81,7 @@ class TopUpActivity : AppCompatActivity() {
         }
 
         bankAdapter = BankAdapter()
-        bankAdapter.setOnItemClickListerner { view ->
+        bankAdapter.setOnItemClickListener { view ->
             val bankName = view!!.tag as String
 
             var vaNumber: VaNumber = VaNumber()

@@ -1,7 +1,6 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.FragmentHistoryInvoiceBinding
 import id.co.pspmobile.ui.Utils.handleApiError
-import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
@@ -48,15 +46,14 @@ class HistoryFragment : Fragment() {
                     }
                 }
                 super.onScrolled(recyclerView, dx, dy)
-
             }
         })
 
         viewModel.paidInvoiceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
-                true -> showLottieLoader()
-                else -> hideLottieLoader()
-            }
+//            when(it is Resource.Loading){
+//                true -> showLottieLoader()
+//                else -> hideLottieLoader()
+//            }
             if (it is Resource.Success) {
                 historyAdapter.setInvoices(it.value.content)
                 totalPage = it.value.content.size

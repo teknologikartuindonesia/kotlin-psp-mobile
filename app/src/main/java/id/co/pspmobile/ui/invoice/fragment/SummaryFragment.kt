@@ -29,8 +29,6 @@ class SummaryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         viewModel.allInvoiceResponse.observe(viewLifecycleOwner) {
             when(it is Resource.Loading){
                 true -> showLottieLoader()

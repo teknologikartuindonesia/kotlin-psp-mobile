@@ -3,7 +3,6 @@ package id.co.pspmobile.ui.transaction.fragment
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ import id.co.pspmobile.ui.transaction.TransactionViewModel
 import id.co.pspmobile.ui.transaction.detail.TransactionDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.Serializable
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -59,7 +57,7 @@ class TransactionFragment : Fragment() {
         }
 
         transactionAdapter = TransactionAdapter()
-        transactionAdapter.setOnItemClickListerner { transactionDto ->
+        transactionAdapter.setOnItemClickListener { transactionDto ->
             val arrSelectedMonth = binding.spinnerMonth.selectedItem.toString().split(" ")
 
             val intent = Intent(requireActivity(), TransactionDetailActivity::class.java)

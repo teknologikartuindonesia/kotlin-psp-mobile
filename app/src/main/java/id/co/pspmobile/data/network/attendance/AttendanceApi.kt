@@ -10,6 +10,6 @@ interface AttendanceApi {
     suspend fun getAttendance(
         @Path("callerId") callerId: String,
         @Path("date") date: String
-    ): Response<AttendanceResDto>
+    ): Response<List<AttendanceResDto>>
 
 }

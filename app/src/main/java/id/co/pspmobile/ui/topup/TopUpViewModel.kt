@@ -10,6 +10,7 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.user.TopUpIdnResDto
 import id.co.pspmobile.data.network.user.UserRepository
 import id.co.pspmobile.data.network.user.VaResDto
 import kotlinx.coroutines.launch
@@ -29,6 +30,9 @@ class TopUpViewModel @Inject constructor(
     private var _createVaResponse: MutableLiveData<Resource<Unit>> = MutableLiveData()
     val createVaResponse: LiveData<Resource<Unit>> get() = _createVaResponse
 
+    private var _topUpIdnResponse: MutableLiveData<Resource<TopUpIdnResDto>> = MutableLiveData()
+    val topUpIdnResponse: LiveData<Resource<TopUpIdnResDto>> get() = _topUpIdnResponse
+
     fun getVa() = viewModelScope.launch {
         _vaResponse.value = Resource.Loading
         _vaResponse.value = userRepository.getVa()
@@ -37,6 +41,11 @@ class TopUpViewModel @Inject constructor(
     fun createVa(bankName: String) = viewModelScope.launch {
         _createVaResponse.value = Resource.Loading
         _createVaResponse.value = userRepository.createVa(bankName)
+    }
+
+    fun topUpIdn(amount: Double) = viewModelScope.launch {
+        _topUpIdnResponse.value = Resource.Loading
+        _topUpIdnResponse.value = userRepository.topUpIdn(amount)
     }
 
     fun getUserData() : CheckCredentialResponse {
