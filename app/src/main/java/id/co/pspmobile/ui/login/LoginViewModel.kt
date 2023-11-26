@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
+import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel@Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
     private val authRepository: AuthRepository,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
@@ -50,4 +52,8 @@ class LoginViewModel@Inject constructor(
     fun saveUserData(data: CheckCredentialResponse) = viewModelScope.launch {
         userPreferences.saveUserData(data)
     }
+    fun getBaseUrl(): String {
+        return remoteDataSource.baseURL
+    }
+
 }

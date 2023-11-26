@@ -53,10 +53,10 @@ class HistoryFragment : Fragment() {
         })
 
         viewModel.paidInvoiceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
-                true -> showLottieLoader()
-                else -> hideLottieLoader()
-            }
+//            when(it is Resource.Loading){
+//                true -> showLottieLoader()
+//                else -> hideLottieLoader()
+//            }
             if (it is Resource.Success) {
                 historyAdapter.setInvoices(it.value.content)
                 totalPage = it.value.content.size
