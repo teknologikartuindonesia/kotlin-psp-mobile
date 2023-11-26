@@ -272,7 +272,7 @@ class HomeFragment : Fragment() {
 
     fun openBottomSheet(){
         val bottomSheetOtherMenuFragment =
-            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext()) }
+            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext(), requireActivity()) }
         bottomSheetOtherMenuFragment?.show(
             (requireActivity()).supportFragmentManager,
             bottomSheetOtherMenuFragment.tag

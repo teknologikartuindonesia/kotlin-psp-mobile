@@ -15,7 +15,7 @@ class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() 
     private lateinit var menuArray: ArrayList<DefaultMenuModel>
     private lateinit var otherMenuArray: ArrayList<DefaultMenuModel>
     private lateinit var context: Context
-    private lateinit var act: Context
+    private lateinit var act: FragmentActivity
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,7 +34,7 @@ class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() 
         notifyDataSetChanged()
     }
 
-    fun setOtherMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context, act: Context) {
+    fun setOtherMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context, act: FragmentActivity) {
         this.otherMenuArray = menuList
         this.context = context
         this.act = act
@@ -50,7 +50,7 @@ class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() 
                 imgHomeMenu.setImageDrawable(itemView.context.getDrawable(menuModel.icon))
                 if (menuModel.name == "More"){
                     layoutItemHomeMenu.setOnClickListener {
-                        val bottomSheetOtherMenuFragment = BottomSheetOtherMenuFragment(otherMenuArray, context)
+                        val bottomSheetOtherMenuFragment = BottomSheetOtherMenuFragment(otherMenuArray, context, act)
                         bottomSheetOtherMenuFragment.show(
                             (act as FragmentActivity).supportFragmentManager,
                             bottomSheetOtherMenuFragment.tag

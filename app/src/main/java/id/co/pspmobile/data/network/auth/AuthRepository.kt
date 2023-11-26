@@ -90,4 +90,27 @@ class AuthRepository @Inject constructor (
     },
         userPreferences
     )
+
+    suspend fun getNotificationMessage(page: Int) = safeApiCall({
+        api.getNotification(
+            "",
+            "",
+            page,
+            10,
+            "createdTime,desc",
+        )
+    },
+        userPreferences
+    )
+
+    suspend fun getSentBroadcast(page: Int) = safeApiCall({
+        api.getSentBroadcast(
+            10,
+            page,
+            "broadcastSent",
+            -1
+        )
+    },
+        userPreferences
+    )
 }

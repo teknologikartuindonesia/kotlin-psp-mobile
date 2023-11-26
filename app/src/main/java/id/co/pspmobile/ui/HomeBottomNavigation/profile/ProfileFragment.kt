@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
         menuList.add(ProfileMenuModel("Logout", R.drawable.ic_profile_logout, Intent(requireContext(), LanguageActivity::class.java)))
         val adapter = ProfileMenuAdapter()
         Log.d("ProfileFragment", "configureMenu: ${menuList.size}")
-        adapter.setMenuList(menuList, requireContext())
+        adapter.setMenuList(menuList, requireActivity())
         binding.rvProfile.adapter = adapter
     }
 }

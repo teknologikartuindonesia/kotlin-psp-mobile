@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.databinding.ItemProfileMenuBinding
 import id.co.pspmobile.ui.Utils.logout
+import id.co.pspmobile.ui.dialog.DialogYesNo
 
 class ProfileMenuAdapter: RecyclerView.Adapter<ProfileMenuAdapter.ProfileMenuViewHolder>() {
     private lateinit var menuArray: ArrayList<ProfileMenuModel>
@@ -41,7 +43,19 @@ class ProfileMenuAdapter: RecyclerView.Adapter<ProfileMenuAdapter.ProfileMenuVie
                 txtProfileMenu.text = menuModel.name
                 llProfileMenu.setOnClickListener {
                     if (menuModel.name == "Logout") {
-                        context.logout()
+                        val dialog = DialogYesNo(
+                            "Logout",
+                            "Apakah anda yakin ingin logout?",
+                            "Ya",
+                            "Tidak",
+                            {
+                                context.logout()
+                            },
+                            noListener = {
+
+                            }
+                        )
+                        dialog.show((context as FragmentActivity).supportFragmentManager, "Dialog Yes No")
                         return@setOnClickListener
                     }
                     context.startActivity(menuModel.path)

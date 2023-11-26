@@ -4,6 +4,8 @@ import id.co.pspmobile.data.network.model.ModelLogin
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
+import id.co.pspmobile.data.network.responses.activebroadcast.BroadcastMessageResponse
+import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessageResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
@@ -92,4 +94,21 @@ interface AuthApi {
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
     ) : Response<InfoNewsResponse>
+
+    @GET("python/notification")
+    suspend fun getNotification(
+        @Query("email") email: String?,
+        @Query("phone") phone: String?,
+        @Query("page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("sort") sort: String?,
+    ) : Response<NotificationMessageResponse>
+
+    @GET("main_a/broadcast/broadcast/sent")
+    suspend fun getSentBroadcast(
+        @Query("size") size: Int?,
+        @Query("page") page: Int?,
+        @Query("sort") sort: String?,
+        @Query("dir") dir: Int?
+    ) : Response<BroadcastMessageResponse>
 }

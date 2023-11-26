@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -18,7 +19,8 @@ import id.co.pspmobile.databinding.FragmentBottomSheetOtherMenuBinding
 @AndroidEntryPoint
 class BottomSheetOtherMenuFragment(
     menuArray: ArrayList<DefaultMenuModel>,
-    context: Context
+    context: Context,
+    act: FragmentActivity
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomSheetOtherMenuBinding
@@ -26,6 +28,7 @@ class BottomSheetOtherMenuFragment(
 
     private val otherDefaultMenuList = menuArray
     private val ctx = context
+    private val act = act
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,7 @@ class BottomSheetOtherMenuFragment(
         binding = FragmentBottomSheetOtherMenuBinding.inflate(inflater)
         binding.apply {
             val menuAdapter = BottomSheetOtherAdapter()
-            menuAdapter.setMenuList(otherDefaultMenuList, ctx)
+            menuAdapter.setMenuList(otherDefaultMenuList, ctx, act)
             binding.rvOtherMenu.adapter = menuAdapter
         }
         return binding.root

@@ -23,6 +23,8 @@ import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
+import id.co.pspmobile.ui.dialog.DialogCS
+import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
 import java.util.concurrent.Executor
 
@@ -58,6 +60,25 @@ class LoginActivity : AppCompatActivity() {
             }else if (it is Resource.Failure){
 
             }
+        }
+
+        binding.btnCs.setOnClickListener {
+            val dialogYesNot = DialogYesNo(
+                "Perhatian",
+                "Apakah Kendala Anda Lupa Password? Silahkan Gunakan Fitur Lupa Password",
+                "Buka Fitur",
+                "Tidak",
+                yesListener = {
+                    startActivity(Intent(this, ForgotPasswordActivity::class.java))
+                },
+                noListener = {
+                    val args = Bundle()
+                    val dialog = DialogCS()
+                    dialog.arguments = args
+                    dialog.show(supportFragmentManager, dialog.tag)
+                }
+            )
+            dialogYesNot.show(supportFragmentManager, dialogYesNot.tag)
         }
 
         viewModel.checkCredentialResponse.observe(this){
