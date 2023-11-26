@@ -25,7 +25,7 @@ class AttendanceAdapter : RecyclerView.Adapter<AttendanceAdapter.ViewHolder>() {
         this.baseUrl = baseUrl
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
+    fun setOnItemClickListener(onItemClickListener: View.OnClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 

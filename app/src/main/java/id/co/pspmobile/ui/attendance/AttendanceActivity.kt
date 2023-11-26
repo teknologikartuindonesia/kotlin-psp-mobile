@@ -25,7 +25,7 @@ class AttendanceActivity : AppCompatActivity() {
         val accounts = userData.user.accounts.get(0).callerIdentities
 
         attendanceAdapter = AttendanceAdapter()
-        attendanceAdapter.setOnItemClickListerner { view ->
+        attendanceAdapter.setOnItemClickListener { view ->
             val callerIdentity = view!!.tag as CallerIdentity
             val intent = Intent(this, AttendanceDetailActivity::class.java)
             intent.putExtra("callerIdentity", callerIdentity as Serializable)

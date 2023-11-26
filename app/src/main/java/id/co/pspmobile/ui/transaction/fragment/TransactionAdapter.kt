@@ -2,7 +2,6 @@ package id.co.pspmobile.ui.transaction.fragment
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.report.TransactionDto
@@ -20,7 +19,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListerner(onItemClickListener: (transaction: TransactionDto) -> Unit) {
+    fun setOnItemClickListener(onItemClickListener: (transaction: TransactionDto) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
 

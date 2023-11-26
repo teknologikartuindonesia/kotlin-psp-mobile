@@ -41,7 +41,7 @@ class DonationActivity : AppCompatActivity() {
         }
 
         donationAdapter = DonationAdapter()
-        donationAdapter.setOnItemClickListerner { view ->
+        donationAdapter.setOnItemClickListener { view ->
             val donationDto = view!!.tag as DonationDto
             val intent = Intent(this, DonationDetailActivity::class.java)
             intent.putExtra("donationDto", donationDto as Serializable)

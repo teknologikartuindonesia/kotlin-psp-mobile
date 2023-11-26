@@ -1,6 +1,6 @@
-package id.co.pspmobile.data.network.info
+package id.co.pspmobile.data.network.information
 
-data class InfoResDto(
+data class InformationResDto(
     var status: Int,
     var size: Int,
     var page: Int,
@@ -8,10 +8,10 @@ data class InfoResDto(
     var totalPages: Int,
     var sort: String,
     var sortDirection: Int,
-    var content: List<InfoDto>
+    var content: List<InformationDto>
 )
 
-data class InfoDto(
+data class InformationDto(
     var id: String,
     var isVideo: Boolean,
     var videoUrl: String? = null,

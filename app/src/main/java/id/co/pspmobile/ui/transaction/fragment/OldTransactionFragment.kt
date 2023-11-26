@@ -23,7 +23,6 @@ import id.co.pspmobile.ui.transaction.TransactionViewModel
 import id.co.pspmobile.ui.transaction.detail.TransactionDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.Serializable
 import java.time.LocalDate
 import java.time.Year
 
@@ -62,7 +61,7 @@ class OldTransactionFragment : Fragment() {
         }
 
         transactionAdapter = TransactionAdapter()
-        transactionAdapter.setOnItemClickListerner { transactionDto ->
+        transactionAdapter.setOnItemClickListener { transactionDto ->
             val intent = Intent(requireActivity(), TransactionDetailActivity::class.java)
             intent.putExtra("transactionName", transactionDto.transactionName)
             intent.putExtra("month", getMonth(binding.spinnerMonth.selectedItem.toString()))

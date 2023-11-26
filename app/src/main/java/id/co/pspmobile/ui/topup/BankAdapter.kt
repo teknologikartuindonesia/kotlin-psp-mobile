@@ -23,7 +23,7 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListerner(onItemClickListener: View.OnClickListener) {
+    fun setOnItemClickListener(onItemClickListener: View.OnClickListener) {
         this.onItemClickListener = onItemClickListener
     }
 

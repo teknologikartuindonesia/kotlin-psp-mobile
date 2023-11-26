@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.ImageLoader
@@ -34,6 +33,7 @@ import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
 import id.co.pspmobile.ui.schedule.ScheduleActivity
+import id.co.pspmobile.ui.support.SupportActivity
 import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 "Support",
                 R.drawable.ic_home_support,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), SupportActivity::class.java)
             )
         )
 
