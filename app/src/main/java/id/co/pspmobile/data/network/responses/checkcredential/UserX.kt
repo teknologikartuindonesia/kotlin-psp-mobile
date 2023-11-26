@@ -5,7 +5,7 @@ data class UserX(
     val address: String,
     val banks: List<Any>,
     val dateOfBirth: String,
-    val email: String,
+    var email: String,
     val firebase: Firebase,
     val gender: String,
     val id: String,
@@ -13,12 +13,12 @@ data class UserX(
     val name: String,
     val nik: String,
     val openfire: Openfire,
-    val phone: String,
+    var phone: String,
     val photoUrl: String,
     val placeOfBirth: String,
     val regDate: String,
     val religion: String,
     val socmedAccounts: List<SocmedAccount>,
-    val tags: Any,
+    val tags: List<String>?,
     val validationStatus: Boolean
 )

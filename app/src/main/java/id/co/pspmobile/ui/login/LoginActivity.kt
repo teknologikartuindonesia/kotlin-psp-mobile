@@ -14,7 +14,10 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ActivityLoginBinding
 import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
@@ -23,6 +26,8 @@ import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
+import id.co.pspmobile.ui.dialog.DialogCS
+import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
 import java.util.concurrent.Executor
 
@@ -34,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var binding: ActivityLoginBinding
+    private var firebaseService = FirebaseService()
+
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,33 +50,59 @@ class LoginActivity : AppCompatActivity() {
 
         configurePartner()
         binding.progressbar.visible(false)
-        viewModel.loginResponse.observe(this){
+        viewModel.loginResponse.observe(this) {
             binding.progressbar.visible(it is Resource.Loading)
-            if(it is Resource.Success){
-                if (it.value.firstLogin){
+            if (it is Resource.Success) {
+                if (it.value.firstLogin) {
                     // go to create password
                     val i = Intent(this, CreatePasswordActivity::class.java)
                     val t = binding.edPassword.text.toString()
                     i.putExtra("currentPassword", t)
                     startActivity(i)
-                }else{
+                } else {
                     viewModel.checkCredential()
                 }
-            }else if (it is Resource.Failure){
+            } else if (it is Resource.Failure) {
 
             }
         }
 
+        binding.btnCs.setOnClickListener {
+            val dialogYesNot = DialogYesNo(
+                "Perhatian",
+                "Apakah Kendala Anda Lupa Password? Silahkan Gunakan Fitur Lupa Password",
+                "Buka Fitur",
+                "Tidak",
+                yesListener = {
+                    startActivity(Intent(this, ForgotPasswordActivity::class.java))
+                },
+                noListener = {
+                    val args = Bundle()
+                    val dialog = DialogCS()
+                    dialog.arguments = args
+                    dialog.show(supportFragmentManager, dialog.tag)
+                }
+            )
+            dialogYesNot.show(supportFragmentManager, dialogYesNot.tag)
+        }
+
         viewModel.checkCredentialResponse.observe(this){
             binding.progressbar.visible(it is Resource.Loading)
-            if (it is Resource.Success){
+            if (it is Resource.Success) {
                 val checkCredentialResponse = it.value
-                if (!checkCredentialResponse.user.accounts[0].roles.contains("ROLE_USER")){
+                if (!checkCredentialResponse.user.accounts[0].roles.contains("ROLE_USER")) {
                     // if user is not ROLE_USER, show error message
                 } else {
                     viewModel.saveUserData(it.value)
+
+                    subscribeTopics("broadcast-all")
+                    subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
+                    subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
+                    subscribeTopics("academic-${it.value.activeCompany.companyCode}")
+
                     viewModel.saveUsername(binding.edUsername.text.toString())
                     viewModel.savePassword(binding.edPassword.text.toString())
+
                     startNewActivity(HomeActivity::class.java)
                 }
             } else if (it is Resource.Failure) {
@@ -92,12 +125,13 @@ class LoginActivity : AppCompatActivity() {
             } else false
         })
         binding.btnEye.setOnClickListener {
-            if (show){
+            if (show) {
                 binding.edPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
                 binding.edPassword.setSelection(binding.edPassword.text.length)
                 binding.btnEye.setImageDrawable(resources.getDrawable(R.drawable.ic_open_eye))
             } else {
-                binding.edPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.edPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 binding.edPassword.setSelection(binding.edPassword.text.length)
                 binding.btnEye.setImageDrawable(resources.getDrawable(R.drawable.ic_close_eye))
             }
@@ -138,17 +172,17 @@ class LoginActivity : AppCompatActivity() {
             biometricPrompt.authenticate(promptInfo)
         }
 
-        if (deviceHasBiometric() && (viewModel.getUsername() != "" && viewModel.getPassword() != "") ){
+        if (deviceHasBiometric() && (viewModel.getUsername() != "" && viewModel.getPassword() != "")) {
             binding.btnBiometric.visible(true)
             binding.lineBtnBiometric.visible(true)
         }
     }
 
-    fun login(username: String, password: String){
+    fun login(username: String, password: String) {
         viewModel.login(username, password)
     }
 
-    fun configurePartner(){
+    fun configurePartner() {
         val partner = listOf("TKI")
         val adapter = BankPartnerAdapter()
         adapter.setMenuList(partner)
@@ -172,20 +206,32 @@ class LoginActivity : AppCompatActivity() {
                 info = "App can authenticate using biometrics."
                 returnValue = true
             }
+
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                 Log.e("MY_APP_TAG", "No biometric features available on this device.")
                 info = "No biometric features available on this device."
                 returnValue = false
             }
+
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
                 Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
                 info = "Biometric features are currently unavailable."
                 returnValue = false
             }
+
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
 
             }
         }
         return returnValue
+    }
+
+
+    fun subscribeTopics(value: String) {
+        var topic = value
+        if (viewModel.getBaseUrl().contains("dev")) {
+            topic += "-staging"
+        }
+        firebaseService.subscribeTopic(this, topic)
     }
 }

@@ -20,5 +20,24 @@
     <color name="psp_blue">#0054E6</color>
     <color name="transparent">#00000000</color>
 
+    <color name="bg_mon">#0054E6</color>
+    <color name="bg_tue">#FF2B5C</color>
+    <color name="bg_wed">#FF5BB4</color>
+    <color name="bg_thu">#FCC257</color>
+    <color name="bg_fri">#6D73F0</color>
+    <color name="bg_sat">#F57329</color>
+    <color name="bg_sun">#57A05A</color>
+
     <color name="grey_font">#8A8A8A</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="green">#00FF00</color>
+    <color name="darkgreen">#008000</color>
+    <color name="blue">#0000FF</color>
+    <color name="darkblue">#000080</color>
+    <color name="brown">#A52A2A</color>
+    <color name="grey">#808080</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="silver">#C0C0C0</color>
 </resources>

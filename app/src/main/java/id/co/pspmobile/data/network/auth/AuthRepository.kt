@@ -4,10 +4,13 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.BaseRepository
 import id.co.pspmobile.data.network.model.ModelLogin
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
+import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.profile.UserResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
 import id.co.pspmobile.ui.forgotpassword.ModelSendOtp
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor (
@@ -26,6 +29,12 @@ class AuthRepository @Inject constructor (
 
     suspend fun getCredentialInfo() = safeApiCall({
         api.getUserInfo()
+    },
+        userPreferences
+    )
+
+    suspend fun getUserInfo() = safeApiCall({
+        api.getUserInfoEditProfile()
     },
         userPreferences
     )
@@ -55,6 +64,17 @@ class AuthRepository @Inject constructor (
         userPreferences
     )
 
+    suspend fun uploadImage(body: MultipartBody.Part) = safeApiCall({
+        api.uploadImage(body)
+    },
+        userPreferences
+    )
+
+    suspend fun updateProfile(body: UserResponse) = safeApiCall({
+        api.updateProfile(body)
+    },
+        userPreferences
+    )
     suspend fun sendNewPasswordForgot(body: ModelSendOtp) = safeApiCall({
         api.sendNewPasswordForgot(body)
     },
@@ -74,6 +94,29 @@ class AuthRepository @Inject constructor (
 
     suspend fun getInfoNews(body: ModelInfoNews, page: Int) = safeApiCall({
         api.getInfoNews(body, 10, page, "updateTime", -1)
+    },
+        userPreferences
+    )
+
+    suspend fun getNotificationMessage(page: Int) = safeApiCall({
+        api.getNotification(
+            "",
+            "",
+            page,
+            10,
+            "createdTime,desc",
+        )
+    },
+        userPreferences
+    )
+
+    suspend fun getSentBroadcast(page: Int) = safeApiCall({
+        api.getSentBroadcast(
+            10,
+            page,
+            "broadcastSent",
+            -1
+        )
     },
         userPreferences
     )

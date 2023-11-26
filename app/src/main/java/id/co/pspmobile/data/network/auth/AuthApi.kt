@@ -4,18 +4,25 @@ import id.co.pspmobile.data.network.model.ModelLogin
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
+import id.co.pspmobile.data.network.responses.activebroadcast.BroadcastMessageResponse
+import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessageResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
+import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
+import id.co.pspmobile.data.network.responses.profile.UserResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
 import id.co.pspmobile.ui.forgotpassword.ModelSendOtp
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface AuthApi {
@@ -28,6 +35,10 @@ interface AuthApi {
 
     @GET("katalis/user/credential/check")
     suspend fun getUserInfo(): Response<CheckCredentialResponse>
+
+    // https://api.katalis.info/katalis/user
+    @GET("katalis/user")
+    suspend fun getUserInfoEditProfile(): Response<UserResponse>
 
     @PUT("katalis/sso/credential/forget")
     suspend fun sendOtp(
@@ -57,6 +68,19 @@ interface AuthApi {
     @GET("python/balance")
     suspend fun getBalance(): Response<BalanceResponse>
 
+    @Multipart
+    @POST("main_a/image/upload_image")
+    suspend fun uploadImage(
+        @Part image: MultipartBody.Part
+    ): Response<UploadImageResponse>
+
+    // https://api.katalis.info/katalis/user
+    @PUT("katalis/user")
+    suspend fun updateProfile(
+        @Body body: UserResponse
+    ): Response<Unit>
+
+
     @GET("main_a/broadcast/broadcast/all")
     suspend fun getActiveBroadcast(
         @Query("status") status: String?,
@@ -75,4 +99,21 @@ interface AuthApi {
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
     ) : Response<InfoNewsResponse>
+
+    @GET("python/notification")
+    suspend fun getNotification(
+        @Query("email") email: String?,
+        @Query("phone") phone: String?,
+        @Query("page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("sort") sort: String?,
+    ) : Response<NotificationMessageResponse>
+
+    @GET("main_a/broadcast/broadcast/sent")
+    suspend fun getSentBroadcast(
+        @Query("size") size: Int?,
+        @Query("page") page: Int?,
+        @Query("sort") sort: String?,
+        @Query("dir") dir: Int?
+    ) : Response<BroadcastMessageResponse>
 }

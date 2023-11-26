@@ -33,7 +33,6 @@ import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
 import id.co.pspmobile.ui.schedule.ScheduleActivity
-import id.co.pspmobile.ui.support.SupportActivity
 import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
@@ -81,6 +80,7 @@ class HomeFragment : Fragment() {
             if (it is Resource.Success) {
                 viewModel.saveBalanceData(it.value)
                 binding.txtHomeBalance.text = "Rp ${formatCurrency(it.value.balance)}"
+                getNotification()
                 Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
             } else if (it is Resource.Failure) {
                 requireActivity().handleApiError(binding.progressbar, it)
@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 "Support",
                 R.drawable.ic_home_support,
-                Intent(requireContext(), SupportActivity::class.java)
+                Intent(requireContext(), MutationActivity::class.java)
             )
         )
 
@@ -272,7 +272,7 @@ class HomeFragment : Fragment() {
 
     fun openBottomSheet(){
         val bottomSheetOtherMenuFragment =
-            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext()) }
+            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext(), requireActivity()) }
         bottomSheetOtherMenuFragment?.show(
             (requireActivity()).supportFragmentManager,
             bottomSheetOtherMenuFragment.tag
@@ -299,5 +299,15 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("HomeFragment", "showImage: $e")
         }
+    }
+
+    fun getNotification(){
+//        var type: String = activity?.intent?.getStringExtra("type").toString()
+//        Toast.makeText(context, "this, ${type}", Toast.LENGTH_SHORT).show()
+//        when(type){
+//            "invoice" ->
+//                startActivity(Intent(requireContext(), HistoryTopUpActivity::class.java))
+//
+//        }
     }
 }
