@@ -1,6 +1,6 @@
-package id.co.pspmobile.data.network.responses.checkcredential
+package id.co.pspmobile.data.network.responses.profile
 
-data class UserX(
+data class UserResponse(
     val accounts: List<Account>,
     val address: String,
     val banks: List<Any>,
@@ -14,11 +14,11 @@ data class UserX(
     val nik: String,
     val openfire: Openfire,
     var phone: String,
-    val photoUrl: String,
+    var photoUrl: String,
     val placeOfBirth: String,
     val regDate: String,
     val religion: String,
     val socmedAccounts: List<SocmedAccount>,
-    val tags: List<String>?,
+    val tags: Any,
     val validationStatus: Boolean
 )

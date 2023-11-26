@@ -5,6 +5,7 @@ import id.co.pspmobile.data.network.BaseRepository
 import id.co.pspmobile.data.network.model.ModelLogin
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.profile.UserResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
@@ -28,6 +29,12 @@ class AuthRepository @Inject constructor (
 
     suspend fun getCredentialInfo() = safeApiCall({
         api.getUserInfo()
+    },
+        userPreferences
+    )
+
+    suspend fun getUserInfo() = safeApiCall({
+        api.getUserInfoEditProfile()
     },
         userPreferences
     )
@@ -63,7 +70,7 @@ class AuthRepository @Inject constructor (
         userPreferences
     )
 
-    suspend fun updateProfile(body: CheckCredentialResponse) = safeApiCall({
+    suspend fun updateProfile(body: UserResponse) = safeApiCall({
         api.updateProfile(body)
     },
         userPreferences

@@ -9,6 +9,7 @@ import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessag
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
+import id.co.pspmobile.data.network.responses.profile.UserResponse
 import id.co.pspmobile.ui.forgotpassword.ModelChangePassword
 import id.co.pspmobile.ui.forgotpassword.ModelCheckOtp
 import id.co.pspmobile.ui.forgotpassword.ModelCreatePassword
@@ -34,6 +35,10 @@ interface AuthApi {
 
     @GET("katalis/user/credential/check")
     suspend fun getUserInfo(): Response<CheckCredentialResponse>
+
+    // https://api.katalis.info/katalis/user
+    @GET("katalis/user")
+    suspend fun getUserInfoEditProfile(): Response<UserResponse>
 
     @PUT("katalis/sso/credential/forget")
     suspend fun sendOtp(
@@ -72,7 +77,7 @@ interface AuthApi {
     // https://api.katalis.info/katalis/user
     @PUT("katalis/user")
     suspend fun updateProfile(
-        @Body body: CheckCredentialResponse
+        @Body body: UserResponse
     ): Response<Unit>
 
 

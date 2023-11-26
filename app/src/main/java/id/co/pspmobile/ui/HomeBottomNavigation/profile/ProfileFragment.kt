@@ -43,6 +43,11 @@ class ProfileFragment : Fragment() {
         binding.llProfile.setOnClickListener {
             startActivity(Intent(requireContext(), EditProfileActivity::class.java))
         }
+        return root
+    }
+
+    override fun onResume() {
+        super.onResume()
         val data = viewModel.getUserData()
         if (data != null) {
             binding.txtProfileName.text = data.user.name
@@ -56,7 +61,6 @@ class ProfileFragment : Fragment() {
                 .placeholder(R.drawable.ic_profile_profile)
                 .into(binding.imgProfile)
         }
-        return root
     }
 
     override fun onDestroyView() {
