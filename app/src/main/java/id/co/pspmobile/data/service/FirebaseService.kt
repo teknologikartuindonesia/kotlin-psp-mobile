@@ -131,6 +131,12 @@ class FirebaseService : FirebaseMessagingService() {
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
             generateNotification(applicationContext, title.toString(), body.toString(),type.toString())
 
+            if (p0.getNotification() != null) {
+                Log.e("", "Notification Body: " + p0.getNotification()!!.getBody());
+                //Show Notfication
+                generateNotification(applicationContext, title.toString(), body.toString(),type.toString())
+
+            }
         } catch (ex: Exception) {
             Log.wtf("onMessageReceivedEX", ex.message.toString())
         }
@@ -331,7 +337,6 @@ class FirebaseService : FirebaseMessagingService() {
 
             // The id of the channel.
             val channelId = "123"
-
             // The user-visible name of the channel.
             val channelName: CharSequence = "PSP Mobile"
             // The user-visible description of the channel.
