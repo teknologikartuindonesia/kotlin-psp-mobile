@@ -1,16 +1,20 @@
 package id.co.pspmobile.ui.mutation.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.report.MutationDto
 import id.co.pspmobile.databinding.AdapterMutationBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.formatDateTime
 
-class MutationAdapter : RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
+class MutationAdapter (private val context: Context): RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
 
     private lateinit var list: List<MutationDto>
 
@@ -21,17 +25,20 @@ class MutationAdapter : RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(private val binding: AdapterMutationBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ResourceAsColor")
         fun bind(mutation: MutationDto) {
             with(binding) {
-                tvDateTime.text = mutation.dateTime
+                tvDateTime.text = formatDateTime(mutation.dateTime,"dd-MM-YYYY hh:mm")
                 if (mutation.debit == 0.0) {
                     tvDebitCredit.text = "Rp " + formatCurrency(mutation.credit)
+                    tvDebitCredit.setTextColor(context.getColor(R.color.green))
                 } else {
+                    tvDebitCredit.setTextColor(context.getColor(R.color.danger))
                     tvDebitCredit.text = "-Rp " + formatCurrency(mutation.debit)
                 }
                 tvTransactionName.text = mutation.transactionName
-                tvBalance.text = "Rp " + formatCurrency(mutation.balance)
-                tvNote.text = mutation.note
+                tvBalance.text = "Saldo: Rp " + formatCurrency(mutation.balance)
+                tvNote.text = mutation.callerName
 
                 if (mutation.tags.indexOf("invoice") >= 0) {
                     ivIcon.setImageDrawable(itemView.context?.let {

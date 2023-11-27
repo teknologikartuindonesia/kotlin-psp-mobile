@@ -35,7 +35,7 @@
             android:fontFamily="@font/montserrat"
             android:textFontWeight="600"
             android:textColor="@color/black"
-            android:text="Masukkan nominal top up"/>
+            android:text="Masukkan Nominal Top up"/>
 
         <EditText
             android:id="@+id/et_amount"
@@ -47,6 +47,7 @@
             android:inputType="number"
             android:singleLine="true"
             android:maxLines="1"
+            android:layout_marginTop="4dp"
             android:paddingHorizontal="20dp"/>
 
         <TextView
@@ -57,6 +58,7 @@
             android:layout_marginEnd="34dp"
             android:fontFamily="@font/montserrat"
             android:textFontWeight="400"
+            android:layout_marginTop="4dp"
             android:textColor="@color/danger"
             android:visibility="gone"
             tools:visibility="visible"

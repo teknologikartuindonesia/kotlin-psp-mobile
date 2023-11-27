@@ -23,21 +23,25 @@ class AccountAdapter : RecyclerView.Adapter<AccountAdapter.ViewHolder>() {
         this.baseUrl = baseUrl
     }
 
-    inner class ViewHolder(private val binding: AdapterAccountBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: AdapterAccountBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(callerIdentity: CallerIdentity) {
             with(binding) {
                 if (callerIdentity.photoUrl.isNotEmpty()) {
-                    Picasso.get().load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas").noFade().fit()
+                    Picasso.get()
+                        .load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas")
+                        .noFade().fit()
                         .into(ivPhoto);
                 }
-                tvAccountName.text = callerIdentity.name
-                tvNis.text = callerIdentity.callerId
+                tvAccountName.text =callerIdentity.name
+                tvNis.text =  "NIS: " + callerIdentity.callerId
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountAdapter.ViewHolder {
-        val binding = AdapterAccountBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            AdapterAccountBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

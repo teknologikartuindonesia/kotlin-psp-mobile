@@ -44,7 +44,7 @@ class OldMutationFragment : Fragment() {
             }
         }
 
-        mutationAdapter = MutationAdapter()
+        mutationAdapter = MutationAdapter(requireContext())
 
 //        val startDate = LocalDate.now().minusMonths(6)
         val endDate = LocalDate.now().minusMonths(3)

@@ -10,13 +10,12 @@
         android:id="@+id/filter_pane"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="14dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="4dp"
+            android:layout_margin="12dp"
             android:background="@drawable/input_bg">
             <Spinner
                 android:id="@+id/spinner_month"
@@ -28,12 +27,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="14dp">
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Income" />
+                android:fontFamily="@font/montserrat"
+                android:textSize="12dp"
+                android:text="Saldo Masuk" />
 
             <TextView
                 android:id="@+id/tv_income"
@@ -41,7 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textColor="@color/teal_700"
+                android:textSize="12dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/darkgreen"
                 tools:text="Rp. 4.000" />
 
         </LinearLayout>
@@ -50,20 +54,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Outcome" />
+                android:fontFamily="@font/montserrat"
+                android:textSize="12dp"
+                android:text="Saldo keluar" />
 
             <TextView
                 android:id="@+id/tv_outcome"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/montserrat_bold"
                 android:gravity="end"
-                android:textColor="@color/purple_200"
+                android:textColor="@color/danger"
+                android:textSize="12dp"
                 tools:text="Rp. 4.000" />
 
         </LinearLayout>
@@ -74,9 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/filter_pane"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/adapter_transaction" />

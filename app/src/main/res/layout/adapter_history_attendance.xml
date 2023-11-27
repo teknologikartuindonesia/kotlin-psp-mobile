@@ -6,11 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:outlineSpotShadowColor="@color/cardShadow"
+    android:outlineAmbientShadowColor="@color/cardShadow"
     android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,12 +31,13 @@
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_bottom_profile" />
+                android:src="@drawable/ic_account" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -46,7 +51,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:textSize="12dp"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="600"
                         android:textColor="@color/black"
@@ -56,10 +61,10 @@
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
+                        android:textSize="12dp"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
-                        android:textColor="@color/black"
+                        android:textColor="@color/subtitle"
                         tools:text="24 November 2023" />
 
                 </LinearLayout>
@@ -75,6 +80,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
+                        android:textSize="12dp"
                         android:textColor="@color/black"
                         android:text="In" />
 
@@ -83,6 +89,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
+                        android:textSize="12dp"
                         android:textColor="@color/black"
                         android:text="Out" />
 
@@ -100,7 +107,8 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
-                        android:textColor="@color/dialogBackground"
+                        android:textSize="12dp"
+                        android:textColor="@color/title"
                         tools:text="07:04" />
 
                     <TextView
@@ -109,7 +117,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
-                        android:textColor="@color/dialogBackground"
+                        android:textSize="12dp"
+                        android:textColor="@color/title"
                         tools:text="16:44" />
 
                 </LinearLayout>
@@ -117,15 +126,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_in_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
                         android:fontFamily="@font/montserrat"
+                        android:textSize="9dp"
                         android:textFontWeight="400"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
                         android:background="@drawable/attendance_green_bg"
                         android:textColor="@color/white"
                         tools:text="On Time" />
@@ -139,9 +151,11 @@
                         android:id="@+id/tv_out_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
                         android:fontFamily="@font/montserrat"
                         android:textFontWeight="400"
+                        android:textSize="9dp"
                         android:background="@drawable/attendance_green_bg"
                         android:textColor="@color/white"
                         tools:text="On Time" />
@@ -156,7 +170,7 @@
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp"
-                android:src="@drawable/ic_bottom_profile" />
+                android:src="@drawable/ic_account" />
 
         </LinearLayout>
 

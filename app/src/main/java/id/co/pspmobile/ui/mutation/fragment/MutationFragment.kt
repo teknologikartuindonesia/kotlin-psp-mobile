@@ -45,7 +45,7 @@ class MutationFragment : Fragment() {
             }
         }
 
-        mutationAdapter = MutationAdapter()
+        mutationAdapter = MutationAdapter(requireContext())
 
         val dtf =DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val startDate = LocalDate.now().minusMonths(3)

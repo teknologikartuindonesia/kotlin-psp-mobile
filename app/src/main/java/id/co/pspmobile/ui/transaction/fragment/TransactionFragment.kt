@@ -31,7 +31,7 @@ class TransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentTransactionBinding
     private lateinit var transactionAdapter: TransactionAdapter
-    private lateinit var spinnerAdapter : ArrayAdapter<String>
+    private lateinit var spinnerAdapter: ArrayAdapter<String>
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +72,12 @@ class TransactionFragment : Fragment() {
         val date2 = date1.minusDays(30)
         val date3 = date2.minusDays(30)
         val date4 = date3.minusDays(30)
-        val months = listOf<String>(getMonthYear(date1), getMonthYear(date2), getMonthYear(date3), getMonthYear(date4))
+        val months = listOf<String>(
+            getMonthYear(date1),
+            getMonthYear(date2),
+            getMonthYear(date3),
+            getMonthYear(date4)
+        )
 
         spinnerAdapter = SpinnerAdapter(
             requireContext(),
@@ -81,10 +86,16 @@ class TransactionFragment : Fragment() {
         spinnerAdapter.addAll(months)
         binding.spinnerMonth.adapter = spinnerAdapter
 
-        binding.spinnerMonth.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+        binding.spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val month = spinnerAdapter.getItem(position)!!.split(" ")[0]
                 val year = spinnerAdapter.getItem(position)!!.split(" ")[1]
 
@@ -96,7 +107,7 @@ class TransactionFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMonthYear(date: LocalDate) : String {
+    fun getMonthYear(date: LocalDate): String {
         val monthValue = date.monthValue
         val year = date.year
         var month = ""
@@ -104,36 +115,47 @@ class TransactionFragment : Fragment() {
             1 -> {
                 month = "Januari"
             }
+
             2 -> {
                 month = "Februari"
             }
+
             3 -> {
                 month = "Maret"
             }
+
             4 -> {
                 month = "April"
             }
+
             5 -> {
                 month = "Mei"
             }
+
             6 -> {
                 month = "Juni"
             }
+
             7 -> {
                 month = "Juli"
             }
+
             8 -> {
                 month = "Agustus"
             }
+
             9 -> {
                 month = "September"
             }
+
             10 -> {
                 month = "Oktober"
             }
+
             11 -> {
                 month = "November"
             }
+
             12 -> {
                 month = "Desember"
             }
@@ -142,42 +164,53 @@ class TransactionFragment : Fragment() {
         return "$month $year"
     }
 
-    fun getMonth(monthValue: String) : Int {
+    fun getMonth(monthValue: String): Int {
         var month = 1
         when (monthValue) {
             "Januari" -> {
                 month = 1
             }
+
             "Februari" -> {
                 month = 2
             }
+
             "Maret" -> {
                 month = 3
             }
+
             "April" -> {
                 month = 4
             }
+
             "Mei" -> {
                 month = 5
             }
+
             "Juni" -> {
                 month = 6
             }
+
             "Juli" -> {
                 month = 7
             }
+
             "Agustus" -> {
                 month = 8
             }
+
             "September" -> {
                 month = 9
             }
+
             "Oktober" -> {
                 month = 10
             }
+
             "November" -> {
                 month = 11
             }
+
             "Desember" -> {
                 month = 12
             }
@@ -206,7 +239,7 @@ class TransactionFragment : Fragment() {
             }
         }
 
-        binding.tvIncome.text = Utils.formatCurrency(income)
-        binding.tvOutcome.text = Utils.formatCurrency(outcome)
+        binding.tvIncome.text = "Rp. " + Utils.formatCurrency(income)
+        binding.tvOutcome.text = "Rp. " + Utils.formatCurrency(outcome)
     }
 }

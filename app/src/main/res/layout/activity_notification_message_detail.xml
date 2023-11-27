@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     tools:context=".ui.HomeBottomNavigation.message.NotificationMessageDetailActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,24 +38,32 @@
             android:layout_height="match_parent"
             android:layout_weight="3" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/txt_notification_message_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="17dp"
-        android:layout_marginVertical="5dp"
-        tools:text="Title"/>
+
     <TextView
         android:id="@+id/txt_notification_message_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        tools:text="20/09/2023"/>
+        android:fontFamily="@font/montserrat"
+        android:textColor="@color/subtitle"
+        android:textSize="9dp"
+        tools:text="20/09/2023" />
+
+    <TextView
+        android:id="@+id/txt_notification_message_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        tools:text="Title" />
+
     <TextView
         android:id="@+id/txt_notification_message_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
-        tools:text="Description"/>
+        android:fontFamily="@font/montserrat"
+        android:textSize="9dp"
+        tools:text="Description" />
 </LinearLayout>

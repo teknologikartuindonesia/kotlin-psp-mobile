@@ -39,7 +39,7 @@ class AttendanceDetailActivity : AppCompatActivity() {
                     .into(ivPhoto);
             }
             tvAccountName.text = callerIdentity.name
-            tvNis.text = callerIdentity.callerId
+            tvNis.text = "NIS "+callerIdentity.callerId
         }
 
         viewModel.attendanceResponse.observe(this) {

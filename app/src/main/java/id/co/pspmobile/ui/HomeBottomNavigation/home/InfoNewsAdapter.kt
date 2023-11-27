@@ -12,12 +12,14 @@ import com.bumptech.glide.Glide
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.responses.infonews.Content
 import id.co.pspmobile.databinding.ItemHomeInfoNewsBinding
+import id.co.pspmobile.ui.Utils.formatDateTime
 
-class InfoNewsAdapter: RecyclerView.Adapter<InfoNewsAdapter.ViewHolder>() {
+class InfoNewsAdapter : RecyclerView.Adapter<InfoNewsAdapter.ViewHolder>() {
     private lateinit var infoArray: ArrayList<Content>
     private lateinit var baseURL: String
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoNewsAdapter.ViewHolder {
-        val binding = ItemHomeInfoNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemHomeInfoNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -34,10 +36,15 @@ class InfoNewsAdapter: RecyclerView.Adapter<InfoNewsAdapter.ViewHolder>() {
         this.baseURL = baseURL
         notifyDataSetChanged()
     }
-    inner class ViewHolder(private val binding: ItemHomeInfoNewsBinding): RecyclerView.ViewHolder(binding.root) {
+
+    inner class ViewHolder(private val binding: ItemHomeInfoNewsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(infoModel: Content) {
             with(binding) {
-                Log.d("InfoNewsAdapter", "${baseURL}/main_a/main_a/image/get/${infoModel.image}/pas")
+                Log.d(
+                    "InfoNewsAdapter",
+                    "${baseURL}/main_a/main_a/image/get/${infoModel.image}/pas"
+                )
                 Glide.with(itemView.context)
                     .load("${baseURL}/main_a/main_a/image/get/${infoModel.image}/pas")
                     .placeholder(R.drawable.info_news_default)
@@ -54,7 +61,14 @@ class InfoNewsAdapter: RecyclerView.Adapter<InfoNewsAdapter.ViewHolder>() {
 //                    .transformations(RoundedCornersTransformation())
 //                    .build()
 //                val disposable = imageLoader.enqueue(imageRequest)
-                txtHomeInfoNewsTitle.text = infoModel.title
+                var title = ""
+                if (infoModel.title.length > 96) {
+                    title = infoModel.title + "...."
+                } else {
+                    title = infoModel.title
+                }
+                txtHomeInfoNewsTitle.text = title
+                txtHomeInfoNewsDate.text = formatDateTime(infoModel.createTime, "dd-MM-yyyy")
             }
         }
     }

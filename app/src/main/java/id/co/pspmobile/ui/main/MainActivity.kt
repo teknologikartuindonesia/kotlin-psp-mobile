@@ -18,6 +18,7 @@ import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.intro.IntroActivity
 import id.co.pspmobile.ui.login.LoginActivity
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import java.util.Locale
 
 
@@ -48,7 +49,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.checkCredentialResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 val checkCredentialResponse = it.value
 
@@ -107,5 +111,16 @@ class MainActivity : AppCompatActivity() {
             topic += "-staging"
         }
         firebaseService.subscribeTopic(this, topic)
+    }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
     }
 }

@@ -65,7 +65,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Name" />
+                android:text="Nama" />
 
             <TextView
                 android:layout_width="10dp"
@@ -117,7 +117,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Invoice Date" />
+                android:text="Tanggal Tagihan" />
 
             <TextView
                 android:layout_width="10dp"
@@ -143,7 +143,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Invoice Due Date" />
+                android:text="Tanggal Jatuh Tempo" />
 
             <TextView
                 android:layout_width="10dp"
@@ -169,7 +169,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Invoice Type" />
+                android:text="Tipe Tagihan" />
 
             <TextView
                 android:layout_width="10dp"
@@ -195,7 +195,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Paid" />
+                android:text="Terbayar" />
 
             <TextView
                 android:layout_width="10dp"
@@ -235,7 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="Rest of Invoice" />
+                    android:text="Sisa Tagihan" />
 
                 <TextView
                     android:id="@+id/tv_unpaid_amount"

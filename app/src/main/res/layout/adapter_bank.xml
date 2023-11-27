@@ -6,8 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="12dp"
-    app:cardElevation="5dp"
-    android:layout_margin="8dp">
+    app:cardElevation="6dp"
+    android:outlineSpotShadowColor="@color/cardShadow"
+    android:outlineAmbientShadowColor="@color/cardShadow"
+    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="8dp">
 
     <LinearLayout
         android:id="@+id/base_panel"
@@ -34,9 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:fontFamily="@font/montserrat"
-            android:textFontWeight="400"
+            android:textFontWeight="500"
             android:textColor="@color/black"
             tools:text="Bank Name" />
 

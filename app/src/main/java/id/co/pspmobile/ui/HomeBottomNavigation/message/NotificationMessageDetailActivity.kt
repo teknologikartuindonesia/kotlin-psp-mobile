@@ -51,7 +51,7 @@ class NotificationMessageDetailActivity : AppCompatActivity() {
             val replace = content.message.replace("*****", content.content)
             binding.txtNotificationMessageDescription.text = Html.fromHtml(replace)
         } else {
-            binding.txtNotificationMessageDescription.text = content?.message
+            binding.txtNotificationMessageDescription.text = Html.fromHtml(content?.message)
         }
 
         binding.btnBack.setOnClickListener {

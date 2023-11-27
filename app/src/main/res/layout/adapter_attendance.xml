@@ -6,7 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="16dp"
-    android:layout_margin="8dp">
+    android:layout_marginVertical="4dp"
+    app:cardElevation="6dp"
+    android:outlineSpotShadowColor="@color/cardShadow"
+    android:outlineAmbientShadowColor="@color/cardShadow"
+    android:layout_marginHorizontal="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,11 +22,11 @@
 
         <ImageView
             android:id="@+id/iv_photo"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="18dp"
-            android:src="@drawable/ic_bottom_profile" />
+            android:src="@drawable/ic_account" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,10 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textSize="14sp"
+                android:textSize="12dp"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
-                android:textColor="@color/black"
+                android:textColor="@color/title"
                 tools:text="Account Name" />
 
             <TextView
@@ -47,10 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textSize="12sp"
+                android:layout_marginTop="4dp"
+                android:textSize="9dp"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="400"
-                android:textColor="@color/black"
+                android:textColor="@color/subtitle"
                 tools:text="1234567890" />
 
         </LinearLayout>
@@ -61,7 +66,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="14dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_arrow_right_cicle" />
+            android:src="@drawable/ic_up_circle" />
 
     </LinearLayout>
 

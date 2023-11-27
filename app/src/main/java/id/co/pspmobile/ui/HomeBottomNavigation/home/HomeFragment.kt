@@ -85,7 +85,6 @@ class HomeFragment : Fragment() {
             if (it is Resource.Success) {
                 viewModel.saveBalanceData(it.value)
                 binding.txtHomeBalance.text = "Rp ${formatCurrency(it.value.balance)}"
-                getNotification()
                 Log.d("HomeFragment", "balanceResponse: ${it.value.balance}")
             } else if (it is Resource.Failure) {
                 requireActivity().handleApiError(binding.progressbar, it)
@@ -326,13 +325,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun getNotification(){
-//        var type: String = activity?.intent?.getStringExtra("type").toString()
-//        Toast.makeText(context, "this, ${type}", Toast.LENGTH_SHORT).show()
-//        when(type){
-//            "invoice" ->
-//                startActivity(Intent(requireContext(), HistoryTopUpActivity::class.java))
-//
-//        }
-    }
+
 }

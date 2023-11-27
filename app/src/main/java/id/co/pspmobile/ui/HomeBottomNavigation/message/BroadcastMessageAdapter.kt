@@ -2,6 +2,7 @@ package id.co.pspmobile.ui.HomeBottomNavigation.message
 
 import android.content.Context
 import android.content.Intent
+import android.text.Html
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,7 +57,7 @@ class BroadcastMessageAdapter(private val context: Context): RecyclerView.Adapte
                     imgBroadcast.visible(false)
                 }
                 if (broadcastMessage.message.isNotEmpty()) {
-                    txtBroadcastDescription.text = broadcastMessage.message
+                    txtBroadcastDescription.text =  Html.fromHtml(Html.fromHtml(broadcastMessage.message).toString())
                 } else {
                     txtBroadcastDescription.visible(false)
                 }

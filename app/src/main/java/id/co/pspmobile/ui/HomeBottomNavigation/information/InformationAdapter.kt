@@ -34,7 +34,7 @@ class InformationAdapter() : RecyclerView.Adapter<InformationAdapter.ViewHolder>
         fun bind(info: InformationDto) {
             with(binding) {
                 tvTitle.text = info.title
-                tvDate.text = Utils.formatDateTime(info.createTime, "dd-MMMM-yyyy")
+                tvDate.text = Utils.formatDateTime(info.createTime, "dd-MM-yyyy")
                 tvDescription.text = info.description
 
                 if (info.image.isNotEmpty()) {

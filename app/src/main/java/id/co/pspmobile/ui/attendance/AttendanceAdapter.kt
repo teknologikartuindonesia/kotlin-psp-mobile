@@ -40,7 +40,7 @@ class AttendanceAdapter : RecyclerView.Adapter<AttendanceAdapter.ViewHolder>() {
                         .into(ivPhoto);
                 }
                 tvAccountName.text = callerIdentity.name
-                tvNis.text = callerIdentity.callerId
+                tvNis.text = "NIS: "+ callerIdentity.callerId
             }
         }
     }

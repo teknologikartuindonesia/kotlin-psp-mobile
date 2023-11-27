@@ -62,7 +62,7 @@
                 android:outlineSpotShadowColor="@color/primary"
                 android:padding="15dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="15dp">
+                app:cardElevation="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp">
+                android:paddingHorizontal="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"

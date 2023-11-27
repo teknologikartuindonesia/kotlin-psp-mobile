@@ -2,6 +2,7 @@ package id.co.pspmobile.ui.HomeBottomNavigation.message
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -55,7 +56,7 @@ class BroadcastDetailActivity : AppCompatActivity() {
 
         binding.txtBroadcastMessageTitle.text = content?.title
         binding.txtBroadcastMessageSubtitle.text = content?.subtitle
-        binding.txtBroadcastMessageDescription.text = content?.message
+        binding.txtBroadcastMessageDescription.text = Html.fromHtml(content?.message)
         binding.btnBack.setOnClickListener {
             finish()
         }
