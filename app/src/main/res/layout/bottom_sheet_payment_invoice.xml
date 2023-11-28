@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="Data Pembayar"
+            android:text="@string/payment_data"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -72,7 +72,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Parent Name" />
+                android:text="@string/parent_name" />
 
             <TextView
                 android:layout_width="10dp"
@@ -100,7 +100,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Student Name" />
+                android:text="@string/student_name" />
 
             <TextView
                 android:layout_width="10dp"
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
-            android:text="Detail Invoice"
+            android:text="@string/detail_invoice"
             android:textSize="14dp"
             android:textStyle="bold" />
         <LinearLayout
@@ -136,7 +136,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Name" />
+                android:text="@string/invoice_name" />
 
             <TextView
                 android:layout_width="10dp"
@@ -163,7 +163,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Date" />
+                android:text="@string/invoice_date" />
 
             <TextView
                 android:layout_width="10dp"
@@ -191,7 +191,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Due Date" />
+                android:text="@string/invoice_due_date" />
 
             <TextView
                 android:layout_width="10dp"
@@ -219,7 +219,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Invoice Type" />
+                android:text="@string/invoice_type" />
 
             <TextView
                 android:layout_width="10dp"
@@ -247,7 +247,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Status" />
+                android:text="@string/invoice_status" />
 
             <TextView
                 android:layout_width="10dp"
@@ -294,7 +294,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Nominal" />
+                android:text="@string/amount" />
 
             <TextView
                 android:layout_width="10dp"
@@ -323,7 +323,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Terbayar" />
+                android:text="@string/paid" />
 
             <TextView
                 android:layout_width="10dp"
@@ -351,7 +351,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Kekurangan" />
+                android:text="@string/minus" />
 
             <TextView
                 android:layout_width="10dp"
@@ -381,7 +381,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Masukkan Nominal"
+                android:text="@string/input_amount"
                 android:layout_marginVertical="12dp"
                 android:textSize="14dp"
                 android:textStyle="bold" />
@@ -391,7 +391,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:inputType="number"
-                android:hint="Minimal Pembayaran Rp 10.000"
+                android:hint="@string/minimum_payment"
                 android:paddingHorizontal="12dp"
                 android:background="@drawable/input_bg" />
             <TextView
@@ -402,7 +402,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp"
                 android:layout_marginLeft="4dp"
-                android:text="Minimal Pembayaran Rp 10.000"/>
+                android:text="@string/minimum_payment"/>
         </LinearLayout>
 
 
@@ -426,7 +426,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Bayar"
+                android:text="@string/pay_now"
                 android:textColor="@color/white" />
 
         </LinearLayout>

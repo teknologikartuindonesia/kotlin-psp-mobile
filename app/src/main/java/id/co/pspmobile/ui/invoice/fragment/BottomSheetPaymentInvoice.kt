@@ -58,6 +58,11 @@ class BottomSheetPaymentInvoice(
 
             tvInvoiceName.text = invoice.title
             tvInvoiceNameDetail.text = invoice.title
+            if (invoice.showDetail) {
+                rvDetailInvoice.visibility = View.VISIBLE
+            } else {
+                rvDetailInvoice.visibility = View.GONE
+            }
             if (invoice.callerName == viewModel.getUserData().user.name) {
                 parentNameContainer.visibility = View.GONE
             } else {
@@ -71,9 +76,16 @@ class BottomSheetPaymentInvoice(
             tvPaid.text = formatCurrency(invoice.paidAmount)
             tvMinus.text = formatCurrency(invoice.amount - invoice.paidAmount)
             if (invoice.partialMethod) {
-                tvType.text = "CREDIT"
+                when(viewModel.getLanguage().toString()){
+                    "en" -> tvType.text = "CREDIT"
+                    else -> tvType.text = "KREDIT"
+                }
                 containerNominal.visibility = View.VISIBLE
             } else {
+                when(viewModel.getLanguage().toString()){
+                    "en" -> tvType.text = "CASH"
+                    else -> tvType.text = "TUNAI"
+                }
                 tvType.text = "CASH"
                 containerNominal.visibility = View.GONE
             }

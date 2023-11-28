@@ -53,4 +53,5 @@ class InvoiceViewModel @Inject constructor(
     }
 
     fun getUserData() = userPreferences.getUserData()
+    fun getLanguage() = userPreferences.getLanguage()
 }
