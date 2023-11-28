@@ -122,4 +122,8 @@
     <string name="mutation">Mutation</string>
     <string name="invoice">Invoice\n</string>
     <string name="more">More</string>
+    <string name="unanswered">Kendala anda belum terjawab silahkan hubungi kami</string>
+    <string name="help_center">Pusat Bantuan</string>
+    <string name="explore_help_topics">Jelajahi topik bantuan</string>
+    <string name="contact_us">Hubungi Kami</string>
 </resources>
