@@ -17,6 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/title_profile"
+        android:fontFamily="@font/montserrat"
         android:textStyle="bold"
         android:textSize="20sp" />
     <LinearLayout
@@ -35,7 +36,7 @@
                 android:id="@+id/img_profile"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/ic_profile_profile"
+                android:src="@drawable/ic_account"
                 app:shapeAppearance="@style/Circular"/>
         </LinearLayout>
         <LinearLayout
@@ -49,15 +50,18 @@
                 android:id="@+id/txt_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/montserrat_bold"
                 android:maxLines="2"
                 tools:text="BOB NAMA ANAK PANJANG BANGET"/>
             <TextView
                 android:id="@+id/txt_profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Email/Phone"/>
+                android:fontFamily="@font/montserrat"
+                android:textSize="12dp"
+                tools:text="jhondoe@mail.com"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

@@ -144,9 +144,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_blue"
-                android:fontFamily="@font/montserrat"
+                android:letterSpacing="0.1"
+                android:fontFamily="@font/montserrat_bold"
                 android:textFontWeight="600"
-                tools:text="Account Number" />
+                android:textSize="10dp"
+                tools:text="123232323dfdfdfddfdffdf" />
 
             <ImageView
                 android:id="@+id/iv_copy_va"
@@ -156,13 +158,13 @@
                 android:src="@drawable/ic_copy" />
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_tutorial"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/primary"
+            android:background="@drawable/bg_button_blue_shadow"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/white"
             android:text="Tutorial"/>

@@ -8,7 +8,7 @@ data class MutationResDto(
     var totalPages: Int,
     var sort: String,
     var sortDirection: Int,
-    var content: List<MutationDto>
+    var content: ArrayList<MutationDto>
 )
 
 data class MutationDto(

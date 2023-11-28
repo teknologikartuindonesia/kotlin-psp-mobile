@@ -14,21 +14,23 @@ import id.co.pspmobile.databinding.AdapterMutationBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
 
-class MutationAdapter (private val context: Context): RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
+class MutationAdapter(private val context: Context) :
+    RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
 
-    private lateinit var list: List<MutationDto>
+    private var list = ArrayList<MutationDto>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setMutations(list: List<MutationDto>) {
-        this.list = list
+    fun setMutations(item: List<MutationDto>) {
+        list.addAll(item)
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(private val binding: AdapterMutationBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: AdapterMutationBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("ResourceAsColor")
         fun bind(mutation: MutationDto) {
             with(binding) {
-                tvDateTime.text = formatDateTime(mutation.dateTime,"dd-MM-YYYY hh:mm")
+                tvDateTime.text = formatDateTime(mutation.dateTime, "dd-MM-YYYY hh:mm")
                 if (mutation.debit == 0.0) {
                     tvDebitCredit.text = "Rp " + formatCurrency(mutation.credit)
                     tvDebitCredit.setTextColor(context.getColor(R.color.green))
@@ -74,7 +76,8 @@ class MutationAdapter (private val context: Context): RecyclerView.Adapter<Mutat
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MutationAdapter.ViewHolder {
-        val binding = AdapterMutationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            AdapterMutationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

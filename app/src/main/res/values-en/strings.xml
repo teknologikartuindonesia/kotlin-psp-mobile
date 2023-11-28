@@ -9,7 +9,7 @@
     <string name="syarat_2">2. Password reset repetition period is 5 minutes</string>
     <string name="terms_conditions">Terms and Conditions</string>
     <string name="password">Password</string>
-    <string name="forgot_password">Forgot Password</string>
+    <string name="forgot_password">Forgot Password?</string>
     <string name="butuh_bantuan_masuk_silahkan_hubungi">Need Help to Login? please call</string>
     <string name="customer_service">Customer Service</string>
     <string name="didukung_oleh">Supported by:</string>
@@ -96,4 +96,24 @@
     <string name="faq_q_topup">The top up tutorial is on the Top Up menu > Click the bank logo > Click Tutorial</string>
     <string name="keterangan">Description:</string>
     <string name="calendar_academic">Calendar Academic</string>
+    <string name="login_with_fingerprint">Login With Fingerprint</string>
+    <string name="or">Or</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="menu">Menu</string>
+    <string name="balance">Balance</string>
+    <string name="history_topup">History Topup</string>
+    <string name="welcome">Welcome To</string>
+    <string name="view_all">View All</string>
+    <string name="info_news">News &amp; Information</string>
+    <string name="topup">Topup</string>
+    <string name="mutation">Mutation</string><string name="support">Support</string>
+    <string name="calendar">Academic Calendar</string>
+    <string name="schedule">Schedule</string>
+    <string name="donation">Donation</string>
+    <string name="account">Account</string>
+    <string name="attendance">Attendance</string>
+    <string name="transaction">Transaction</string>
+    <string name="invoice">Invoice</string>
+    <string name="more">See More</string>
 </resources>

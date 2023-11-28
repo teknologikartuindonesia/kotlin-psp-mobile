@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_white"
     android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
 
@@ -15,23 +16,26 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_img"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp">
+                    android:layout_marginTop="100dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
+
                         <ImageView
                             android:id="@+id/main_logo"
-                            android:layout_width="wrap_content"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:maxHeight="100dp"
                             android:src="@drawable/main_logo" />
@@ -42,34 +46,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="60dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Login"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="@string/login"
                         android:textColor="@color/psp_blue"
                         android:textSize="18dp"
                         android:textStyle="bold" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Username" />
+                            android:fontFamily="@font/montserrat_bold"
+                            android:letterSpacing="0.04"
+                            android:text="@string/username"
+                            android:textColor="@color/subtitle"
+                            android:textSize="14dp" />
+
                         <EditText
                             android:id="@+id/ed_username"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:background="@drawable/input_bg"
+                            android:fontFamily="@font/montserrat"
                             android:imeOptions="actionNext"
-                            android:singleLine="true"
                             android:maxLines="1"
-                            android:paddingHorizontal="20dp"/>
+                            android:paddingHorizontal="20dp"
+                            android:singleLine="true"
+                            android:text="login"
+                            android:textSize="14dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -77,34 +93,43 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="10dp"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/password" />
+                            android:fontFamily="@font/montserrat_bold"
+                            android:letterSpacing="0.04"
+                            android:text="@string/password"
+                            android:textColor="@color/subtitle"
+                            android:textSize="14dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/input_bg">
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/input_bg"
+                            android:orientation="horizontal">
+
                             <EditText
                                 android:id="@+id/ed_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:ems="10"
-                                android:layout_marginLeft="20dp"
                                 android:layout_marginVertical="5dp"
+                                android:layout_marginLeft="20dp"
                                 android:layout_weight="1"
-                                android:inputType="textPassword"
+                                android:background="@color/white"
+                                android:ems="10"
                                 android:imeOptions="actionSend"
-                                android:background="@color/white"/>
+                                android:inputType="textPassword"
+                                android:textSize="14dp" />
+
                             <ImageView
                                 android:id="@+id/btn_eye"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="10dp"
                                 android:src="@drawable/ic_close_eye"
-                                app:tint="@color/black" />
+                                app:tint="@color/title" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -113,11 +138,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end">
-                        <TextView
+
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_forgot_password"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:backgroundTint="@color/transparent"
+                            android:fontFamily="@font/montserrat_bold"
                             android:text="@string/forgot_password"
+                            android:textColor="@color/subtitle"
+                            android:textSize="11dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -126,86 +156,103 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
-                        <Button
+
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_login"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/psp_btn"
+                            android:layout_height="45dp"
+                            android:background="@drawable/bg_button_blue"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:outlineAmbientShadowColor="@color/danger"
+                            android:outlineSpotShadowColor="@color/danger"
+                            android:text="@string/login"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:text="Login"/>
+                            android:textSize="14dp" />
+
                         <LinearLayout
                             android:id="@+id/line_btn_biometric"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginVertical="10dp"
+                            android:orientation="horizontal"
                             android:visibility="gone">
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:src="@drawable/line"/>
+                                android:src="@drawable/line" />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:text="@string/or"
+                                android:textColor="@color/subtitle"
                                 android:textAlignment="center"
-                                android:textSize="15dp"
-                                android:text="Atau"/>
+                                android:textSize="15dp" />
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:src="@drawable/line"/>
+                                android:src="@drawable/line" />
                         </LinearLayout>
+
                         <Button
                             android:id="@+id/btn_biometric"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/psp_btn_outline"
+                            android:text="@string/login_with_fingerprint"
                             android:textAllCaps="false"
                             android:textColor="@color/psp_blue"
-                            android:text="Login Sidik Jari"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginVertical="25dp">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:text="@string/butuh_bantuan_masuk_silahkan_hubungi"/>
-                        <TextView
-                            android:id="@+id/btn_cs"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textColor="@color/primary_blue"
-                            android:textStyle="italic"
-                            android:fontFamily="@font/montserrat"
-                            android:text="@string/customer_service"/>
+                        android:layout_marginVertical="25dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="@string/butuh_bantuan_masuk_silahkan_hubungi"
                             android:textAlignment="center"
+                            android:textSize="10dp" />
+
+                        <TextView
+                            android:id="@+id/btn_cs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="@string/customer_service"
+                            android:textAlignment="center"
+                            android:textColor="@color/primary_blue"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
-                            android:text="@string/didukung_oleh"/>
+                            android:fontFamily="@font/montserrat"
+                            android:text="@string/didukung_oleh"
+                            android:textAlignment="center"
+                            android:textSize="10dp" />
 
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_bank"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:listitem="@layout/item_bank_logo"
-                            tools:itemCount="2"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:spanCount="2"/>
+                            app:spanCount="2"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_bank_logo" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -220,6 +267,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

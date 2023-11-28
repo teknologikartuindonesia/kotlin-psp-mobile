@@ -37,6 +37,7 @@ import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import id.co.pspmobile.ui.schedule.ScheduleActivity
 import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
@@ -81,7 +82,10 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.balanceResponse.observe(viewLifecycleOwner) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 viewModel.saveBalanceData(it.value)
                 binding.txtHomeBalance.text = "Rp ${formatCurrency(it.value.balance)}"
@@ -199,77 +203,77 @@ class HomeFragment : Fragment() {
         var otherDefaultMenuList = ArrayList<DefaultMenuModel>()
         defaultMenuList.add(
             DefaultMenuModel(
-                "Topup",
+                resources.getString(R.string.topup),
                 R.drawable.ic_home_topup,
                 Intent(requireContext(), TopUpActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Invoice",
+                resources.getString(R.string.invoice),
                 R.drawable.ic_home_invoice,
                 Intent(requireContext(), InvoiceActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Mutation",
+                resources.getString(R.string.mutation),
                 R.drawable.ic_home_mutation,
                 Intent(requireContext(), MutationActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Transaction",
+                resources.getString(R.string.transaction),
                 R.drawable.ic_home_transaction,
                 Intent(requireContext(), TransactionActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Attendance",
+                resources.getString(R.string.attendance),
                 R.drawable.ic_home_attendance,
                 Intent(requireContext(), AttendanceActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Digital Card",
+                resources.getString(R.string.digital_card),
                 R.drawable.ic_home_digital_card,
                 Intent(requireContext(), DigitalCardActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Account",
+                resources.getString(R.string.account),
                 R.drawable.ic_home_account,
                 Intent(requireContext(), AccountActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Donation",
+                resources.getString(R.string.donation),
                 R.drawable.ic_home_donation,
                 Intent(requireContext(), DonationActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Schedule",
+                resources.getString(R.string.schedule),
                 R.drawable.ic_home_schedule,
                 Intent(requireContext(), ScheduleActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Calendar Academic",
+                resources.getString(R.string.calendar),
                 R.drawable.ic_home_calendar,
                 Intent(requireContext(), CalendarActivity::class.java)
             )
         )
         defaultMenuList.add(
             DefaultMenuModel(
-                "Support",
+                resources.getString(R.string.support),
                 R.drawable.ic_home_support,
                 Intent(requireContext(), MutationActivity::class.java)
             )
@@ -279,7 +283,7 @@ class HomeFragment : Fragment() {
         defaultMenuList = ArrayList(defaultMenuList.subList(0, 7))
         defaultMenuList.add(
             DefaultMenuModel(
-                "More",
+                resources.getString(R.string.more),
                 R.drawable.ic_home_more_menu,
                 Intent(requireContext(), MutationActivity::class.java)
             )
@@ -325,5 +329,15 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
+
+    }
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
+    }
 
 }

@@ -101,4 +101,25 @@
     <string name="faq_q_topup">Cara top up?</string>
     <string name="keterangan">Keterangan:</string>
     <string name="calendar_academic">Calendar Academic</string>
+    <string name="login_with_fingerprint">Masuk dengan Sidik Jari</string>
+    <string name="or">Atau</string>
+    <string name="login">Masuk</string>
+    <string name="username">Username</string>
+    <string name="menu">Menu</string>
+    <string name="balance">Saldo</string>
+    <string name="history_topup">Riwayat Top Up</string>
+    <string name="view_all">Lihat Semua</string>
+    <string name="info_news">Info dan Berita</string>
+    <string name="welcome">Welcome To</string>
+    <string name="topup">Topup</string>
+    <string name="support">Support</string>
+    <string name="calendar">Academic Calendar</string>
+    <string name="schedule">Schedule</string>
+    <string name="donation">Donation</string>
+    <string name="account">Account</string>
+    <string name="attendance">Attendance</string>
+    <string name="transaction">Transaction</string>
+    <string name="mutation">Mutation</string>
+    <string name="invoice">Invoice\n</string>
+    <string name="more">More</string>
 </resources>

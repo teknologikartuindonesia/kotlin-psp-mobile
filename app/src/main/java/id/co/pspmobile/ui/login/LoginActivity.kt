@@ -29,6 +29,7 @@ import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
 import id.co.pspmobile.ui.dialog.DialogCS
 import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
+import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import java.util.concurrent.Executor
 
 @AndroidEntryPoint
@@ -49,9 +50,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         configurePartner()
-        binding.progressbar.visible(false)
         viewModel.loginResponse.observe(this) {
-            binding.progressbar.visible(it is Resource.Loading)
+            when (it is Resource.Loading) {
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 if (it.value.firstLogin) {
                     // go to create password
@@ -86,8 +89,11 @@ class LoginActivity : AppCompatActivity() {
             dialogYesNot.show(supportFragmentManager, dialogYesNot.tag)
         }
 
-        viewModel.checkCredentialResponse.observe(this){
-            binding.progressbar.visible(it is Resource.Loading)
+        viewModel.checkCredentialResponse.observe(this) {
+            when (it is Resource.Loading) {
+                true -> showLottieLoader()
+                else -> hideLottieLoader()
+            }
             if (it is Resource.Success) {
                 val checkCredentialResponse = it.value
                 if (!checkCredentialResponse.user.accounts[0].roles.contains("ROLE_USER")) {
@@ -233,5 +239,17 @@ class LoginActivity : AppCompatActivity() {
             topic += "-staging"
         }
         firebaseService.subscribeTopic(this, topic)
+    }
+
+    private fun showLottieLoader() {
+        val loaderDialogFragment = LottieLoaderDialogFragment()
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
+
+    }
+
+    private fun hideLottieLoader() {
+        val loaderDialogFragment =
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+        loaderDialogFragment?.dismiss()
     }
 }

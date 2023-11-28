@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_with_fingerprint">Masuk dengan Sidik Jari</string>
+    <string name="or">Atau</string>
+    <string name="login">Masuk</string>
+    <string name="menu">Menu</string>
+    <string name="balance">Saldo</string>
+    <string name="history_topup">Riwayat Top Up</string>
+    <string name="welcome">Welcome To</string>
+    <string name="topup">Topup</string>
+    <string name="mutation">Mutation</string>
+    <string name="invoice">Invoice\n</string>
+    <string name="more">More</string>
+</resources>
