@@ -38,7 +38,7 @@ class BottomSheetPaymentInvoice(
 
     private lateinit var binding: BottomSheetPaymentInvoiceBinding
     private val viewModel: InvoiceViewModel by viewModels()
-
+    private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -48,6 +48,7 @@ class BottomSheetPaymentInvoice(
     ): View {
 
         binding = BottomSheetPaymentInvoiceBinding.inflate(inflater)
+        detailInvoiceAdapter = DetailInvoiceAdapter()
 
         binding.apply {
             edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
@@ -56,7 +57,14 @@ class BottomSheetPaymentInvoice(
             }
 
             tvInvoiceName.text = invoice.title
-            tvParentName.text = invoice.callerName
+            tvInvoiceNameDetail.text = invoice.title
+            if (invoice.callerName == viewModel.getUserData().user.name) {
+                parentNameContainer.visibility = View.GONE
+            } else {
+                parentNameContainer.visibility = View.VISIBLE
+
+            }
+            tvParentName.text = viewModel.getUserData().user.name
             tvStudentName.text = invoice.callerName
             tvDate.text = invoice.invoiceDate
             tvDueDate.text = invoice.dueDate
@@ -72,31 +80,42 @@ class BottomSheetPaymentInvoice(
             tvStatus.text = invoice.status
             tvAmount.text = formatCurrency(invoice.amount)
 
+            detailInvoiceAdapter.setDetail(invoice.detail)
+            rvDetailInvoice.setHasFixedSize(true)
+            rvDetailInvoice.adapter = detailInvoiceAdapter
+
 
             btnPay.setOnClickListener {
-                if (invoice.partialMethod) {
-                    OpenCustomDialog(
-                        "Konfirmasi",
-                        "Apakah anda yakin akan melakukan pembayaran?",
-                        "invoice",
-                        "partial"
-                    )
-
+                if (edNominal.text.toString().trim().replace(".", "")
+                        .replace(",", "").toInt() < 10000
+                ) {
+                    alertNominal.visibility = View.VISIBLE
                 } else {
-                    OpenCustomDialog(
-                        "Konfirmasi",
-                        "Apakah anda yakin akan melakukan pembayaran?",
-                        "invoice",
-                        "cash"
-                    )
+                    alertNominal.visibility = View.GONE
 
+                    if (invoice.partialMethod) {
+                        OpenCustomDialog(
+                            "Konfirmasi",
+                            "Apakah anda yakin akan melakukan pembayaran?",
+                            "invoice",
+                            "partial"
+                        )
+                    } else {
+                        OpenCustomDialog(
+                            "Konfirmasi",
+                            "Apakah anda yakin akan melakukan pembayaran?",
+                            "invoice",
+                            "cash"
+                        )
+
+                    }
                 }
 
 
             }
 
             viewModel.paymentInvoiceResponse.observe(viewLifecycleOwner) {
-                when(it is Resource.Loading){
+                when (it is Resource.Loading) {
                     true -> showLottieLoader()
                     else -> hideLottieLoader()
                 }
@@ -111,7 +130,6 @@ class BottomSheetPaymentInvoice(
                 } else if (it is Resource.Failure) {
                 }
             }
-
 
         }
 
@@ -173,6 +191,7 @@ class BottomSheetPaymentInvoice(
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

@@ -120,4 +120,13 @@
     <string name="transaction">Transaction</string>
     <string name="invoice">Invoice</string>
     <string name="more">See More</string>
+    <string name="name">Name</string>
+    <string name="NIS">NIS</string>
+    <string name="due_date">Due Date</string>
+    <string name="invoice_type">Invoice Type</string>
+    <string name="invoice_total">Invoice Total</string>
+    <string name="invoice_paid">Invoice Paid</string>
+    <string name="rest_of_invoice">Rest of Invoice</string>
+    <string name="pay">Pay</string>
+    <string name="previous">Previous</string>
 </resources>

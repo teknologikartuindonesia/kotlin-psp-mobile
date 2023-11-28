@@ -121,4 +121,13 @@
     <string name="transaction">Transaksi</string>
     <string name="invoice">Tagihan</string>
     <string name="more">Lihat Semua</string>
+    <string name="name">Nama</string>
+    <string name="NIS">NIS</string>
+    <string name="due_date">Tgl Jatuh Tempo</string>
+    <string name="invoice_type">Tipe Invoice</string>
+    <string name="invoice_total">Total Invoice</string>
+    <string name="invoice_paid">Terbayar</string>
+    <string name="rest_of_invoice">Sisa Invoice</string>
+    <string name="pay">Pay</string>
+    <string name="previous">Previous</string>
 </resources>
