@@ -46,9 +46,8 @@ class InvoiceFragment() : Fragment() {
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
 
-                if (!isLoading && total == totalPage) {
+                if (!isLoading && page < totalPage) {
                     if (visibleItemCount + pastVisibleItem >= total) {
-                        page++
                         isLoading = true
                         viewModel.getUnpaidInvoice(page++)
                     }
@@ -65,7 +64,7 @@ class InvoiceFragment() : Fragment() {
             }
             if (it is Resource.Success) {
                 invoiceAdapter.setInvoices(it.value.content)
-                totalPage = it.value.content.size
+                totalPage = it.value.totalElements!!
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false

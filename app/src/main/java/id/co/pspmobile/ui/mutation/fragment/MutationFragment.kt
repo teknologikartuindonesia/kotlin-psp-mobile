@@ -51,11 +51,8 @@ class MutationFragment : Fragment() {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = mutationAdapter.itemCount
-                Log.e("test", "${total}")
-                Log.w("test", "${totalPage*page}")
-                if (!isLoading && total == totalPage) {
+                if (!isLoading && page < totalPage) {
                     if (visibleItemCount + pastVisibleItem >= total) {
-                        page++
                         isLoading = true
                         viewModel.getMutation(date, page++)
                     }
@@ -71,7 +68,7 @@ class MutationFragment : Fragment() {
             }
             if (it is Resource.Success) {
                 mutationAdapter.setMutations(it.value.content)
-                totalPage = it.value.size
+                totalPage = it.value.totalPages
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false

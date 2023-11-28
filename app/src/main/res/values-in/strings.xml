@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PSP Mobile</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_information">Informasi</string>
+    <string name="title_message">Notifikasi</string>
+    <string name="title_profile" >Profil</string>
     <string name="tutorial_step_1">1. Pastikan nomor whatsapp/ email anda terdaftar ke sistem, jika belum hubungi <font color="#2189FA">Customer Service</font></string>
     <string name="tutorial_step_2">2. Masukan kode OTP berupa 5 digit kode yang sudah dikirim melalui whatsapp/ email anda</string>
     <string name="tutorial_step_3">3. Buat password baru dan konfirmasi password tersebut</string>

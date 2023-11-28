@@ -2,7 +2,8 @@ package id.co.pspmobile.data.network.invoice
 
 data class InvoiceResDto(
     val content: ArrayList<InvoiceDto>,
-    val totalPages: Int? = null
+    val totalPages: Int? = null,
+    val totalElements:Int?=null
 )
 
 data class InvoicePaymentDto(
