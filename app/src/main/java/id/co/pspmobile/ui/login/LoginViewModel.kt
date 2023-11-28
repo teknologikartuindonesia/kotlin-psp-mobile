@@ -9,6 +9,7 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.auth.AuthRepository
+import id.co.pspmobile.data.network.customapp.CustomAppRepository
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class LoginViewModel@Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val authRepository: AuthRepository,
+    private val customAppRepository: CustomAppRepository,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
     private var _loginResponse: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
@@ -56,4 +58,11 @@ class LoginViewModel@Inject constructor(
         return remoteDataSource.baseURL
     }
 
+    private var _iconResponse: MutableLiveData<Resource<String>> = MutableLiveData()
+    val iconResponse: LiveData<Resource<String>> get() = _iconResponse
+
+    fun getIcon(compId: String, icon: String) = viewModelScope.launch {
+        _iconResponse.value = Resource.Loading
+        _iconResponse.value = customAppRepository.getIcon(compId, icon)
+    }
 }

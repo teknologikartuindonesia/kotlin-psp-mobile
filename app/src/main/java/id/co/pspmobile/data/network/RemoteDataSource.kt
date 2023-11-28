@@ -38,6 +38,18 @@ class RemoteDataSource @Inject constructor(@ApplicationContext context: Context)
             .build()
             .create(api)
     }
+    fun <Api> buildApiImage(
+        api: Class<Api>,
+    ): Api {
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .client(
+                getRetrofitClient(ctx)
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(api)
+    }
 
     private fun getRetrofitClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()

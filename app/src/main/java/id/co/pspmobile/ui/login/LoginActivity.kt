@@ -109,10 +109,20 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.saveUsername(binding.edUsername.text.toString())
                     viewModel.savePassword(binding.edPassword.text.toString())
 
+//                    viewModel.getIcon(it.value.activeCompany.id, "donation.svg")
+
                     startNewActivity(HomeActivity::class.java)
                 }
             } else if (it is Resource.Failure) {
                 handleApiError(binding.progressbar, it)
+            }
+        }
+
+        viewModel.iconResponse.observe(this){
+            if(it is Resource.Success){
+                Log.d("icon", "icon: $it")
+            } else if (it is Resource.Failure) {
+
             }
         }
 
