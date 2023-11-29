@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.mutation
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,10 +14,15 @@ val tabTitleArray = arrayOf(
     "Last 3 Month",
     "Over 3 Month"
 )
+val tabTitleArrayIndo = arrayOf(
+    "3 Bulan Terakhir",
+    "Diatas 3 Bulan"
+)
 
 @AndroidEntryPoint
 class MutationActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMutationBinding
+    private val viewModel: MutationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,9 @@ class MutationActivity : AppCompatActivity() {
             viewPager.adapter = adapter
 
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = tabTitleArray[position]
+                tab.text =
+                    if (viewModel.getLanguage() == "en") tabTitleArray[position]
+                    else tabTitleArrayIndo[position]
             }.attach()
         }
 
