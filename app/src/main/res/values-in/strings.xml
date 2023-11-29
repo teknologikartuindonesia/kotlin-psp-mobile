@@ -150,4 +150,6 @@
     <string name="description">Description</string>
     <string name="please_input_valid_email_or_phone">Mohon masukkan email dan nomor yang valid</string>
     <string name="wrong_username_password">Username atau Password salah</string>
+    <string name="time">Waktu</string>
+    <string name="lesson">Pelajaran</string>
 </resources>

@@ -150,4 +150,6 @@
     <string name="description">Description</string>
     <string name="please_input_valid_email_or_phone">Please input a valid email and whatsapp number</string>
     <string name="wrong_username_password">Incorrect Username or Password</string>
+    <string name="time">Time</string>
+    <string name="lesson">Lesson</string>
 </resources>
