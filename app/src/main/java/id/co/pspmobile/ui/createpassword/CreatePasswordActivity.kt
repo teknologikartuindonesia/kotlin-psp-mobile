@@ -203,9 +203,11 @@ class CreatePasswordActivity : AppCompatActivity() {
                         viewModel.saveAccessToken("")
                     }
                 } else {
-                    binding.edEmailCreatePassword.setText(it.value.user.email)
+                    if(!it.value.user.email.isNullOrEmpty()){
+                        binding.edEmailCreatePassword.setText(it.value.user.email)
+                    }
 
-                    if (it.value.user.phone.isNotEmpty()){
+                    if (!it.value.user.phone.isNullOrEmpty()){
                         binding.edWaCreatePassword.setText(it.value.user.phone)
                     }
 
@@ -247,13 +249,14 @@ class CreatePasswordActivity : AppCompatActivity() {
         pass = oldPass
         val confirmPass = oldPass
 
-        if (!isValidEmail(email)){
-            binding.root.snackbar(resources.getString(R.string.must_a_valid_email))
+
+        if (email.isNullOrEmpty() || wa.isNullOrEmpty()){
+            binding.root.snackbar(resources.getString(R.string.please_input_valid_email_or_phone))
             return
         }
 
-        if (email.isNullOrEmpty() || wa.isNullOrEmpty()){
-            binding.root.snackbar(resources.getString(R.string.please_input_email_or_whatsapp))
+        if (!isValidEmail(email)){
+            binding.root.snackbar(resources.getString(R.string.must_a_valid_email))
             return
         }
 

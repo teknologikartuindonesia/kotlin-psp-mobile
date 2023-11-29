@@ -191,6 +191,7 @@
                                 android:text="@string/or"
                                 android:textColor="@color/subtitle"
                                 android:textAlignment="center"
+                                android:fontFamily="@font/montserrat"
                                 android:textSize="15dp" />
 
                             <ImageView
@@ -204,10 +205,11 @@
                             android:id="@+id/btn_biometric"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/psp_btn_outline"
+                            android:background="@drawable/psp_btn_outline_finger"
                             android:text="@string/login_with_fingerprint"
                             android:textAllCaps="false"
                             android:textColor="@color/psp_blue"
+                            android:fontFamily="@font/montserrat"
                             android:visibility="gone" />
                     </LinearLayout>
 

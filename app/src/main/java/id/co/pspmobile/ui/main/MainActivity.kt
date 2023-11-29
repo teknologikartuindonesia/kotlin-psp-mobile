@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,19 +36,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!viewModel.getIntro()) {
-            viewModel.saveIntro(true)
-            startNewActivity(IntroActivity::class.java)
-        }
+        configLanguage()
+        Handler().postDelayed({
+            if (!viewModel.getIntro()) {
+                viewModel.saveIntro(true)
+                startNewActivity(IntroActivity::class.java)
+            } else {
+                if (viewModel.getToken() != "") {
+                    checkCurrentToken()
+                } else {
+                    startNewActivity(LoginActivity::class.java)
+                }
+
+            }
+        }, 2000)
         // define user will be login or not
         // if already logged in, go to home activity
         // if not, go to login activity
 
-        if (viewModel.getToken() != "") {
-            checkCurrentToken()
-        } else {
-            startNewActivity(LoginActivity::class.java)
-        }
 
         viewModel.checkCredentialResponse.observe(this) {
             when(it is Resource.Loading){
@@ -77,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                 handleApiError(binding.progressbar, it)
             }
         }
-        configLanguage()
     }
 
     private fun checkCurrentToken() {

@@ -147,4 +147,6 @@
     <string name="download">Download</string>
     <string name="share">Share</string>
     <string name="payment_success">Payment Success</string>
+    <string name="please_input_valid_email_or_phone">Please input a valid email and whatsapp number</string>
+    <string name="wrong_username_password">Incorrect Username or Password</string>
 </resources>

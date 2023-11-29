@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.view.marginLeft
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -66,10 +67,11 @@ object Utils {
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         val layoutParams = FrameLayout.LayoutParams(snackbar.view.layoutParams)
+        layoutParams.setMargins(10, 10, 10, 10)
         layoutParams.gravity = Gravity.BOTTOM
-        snackbar.view.setPadding(0, 0, 0, 20)
+        snackbar.view.setPadding(10, 10, 10, 10)
         snackbar.view.layoutParams = layoutParams
-        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snackbar.show()
     }
 

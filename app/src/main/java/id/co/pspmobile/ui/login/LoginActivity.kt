@@ -23,6 +23,7 @@ import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.showToast
+import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
@@ -66,7 +67,9 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.checkCredential()
                 }
             } else if (it is Resource.Failure) {
-
+                if (it.errorCode == 401){
+                    binding.root.snackbar(resources.getString(R.string.wrong_username_password))
+                }
             }
         }
 
