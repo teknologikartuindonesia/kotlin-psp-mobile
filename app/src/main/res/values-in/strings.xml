@@ -152,4 +152,7 @@
     <string name="wrong_username_password">Username atau Password salah</string>
     <string name="time">Waktu</string>
     <string name="lesson">Pelajaran</string>
+    <string name="notification">Notifikasi</string>
+    <string name="inbox">Kotak Masuk</string>
+    <string name="broadcast">Siaran</string>
 </resources>

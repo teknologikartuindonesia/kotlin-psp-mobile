@@ -37,6 +37,10 @@ class MainViewModel @Inject constructor(
         _checkCredentialResponse.value = authRepository.getCredentialInfo()
     }
 
+    fun saveUserData(data: CheckCredentialResponse) = viewModelScope.launch {
+        userPreferences.saveUserData(data)
+    }
+
     fun getToken() : String {
         return userPreferences.getAccessToken()
     }

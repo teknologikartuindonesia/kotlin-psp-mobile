@@ -20,7 +20,9 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.BuildConfig
 import id.co.pspmobile.R
+import id.co.pspmobile.data.local.SharePreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.model.infonews.DefaultBool
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
@@ -147,6 +149,7 @@ class HomeFragment : Fragment() {
         }
         getActiveBroadcast()
 
+        configureFirebase()
         return root
 
 
@@ -167,6 +170,18 @@ class HomeFragment : Fragment() {
             listOf(TagInSearch("tags", viewModel.getUserData().tags))
         val body = ModelInfoNews(defaultBool, emptyList(), tagInSearch)
         viewModel.getInfoNews(body, 0)
+    }
+
+    fun configureFirebase(){
+        val current = SharePreferences.getFbToken(requireContext())
+        val serverKeyId = BuildConfig.SERVER_KEY_ID
+        Log.d("HomeFragment", "configureFirebase: \n $current \n ${viewModel.getUserData().user.firebase.token}")
+        if (!current.isNullOrEmpty() && current != viewModel.getUserData().user.firebase.token){
+            viewModel.saveFirebaseToken(
+                current,
+                serverKeyId
+            )
+        }
     }
 
     fun getCustomAppData() {

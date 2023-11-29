@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                     var id: String = intent?.getStringExtra("type").toString()
                     var type: String = intent?.getStringExtra("id").toString()
 
+                    viewModel.saveUserData(it.value)
                     val i = Intent(this, HomeActivity::class.java)
                     i.putExtra("type", intent?.getStringExtra("type").toString())
                     i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

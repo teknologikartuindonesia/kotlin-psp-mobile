@@ -152,4 +152,7 @@
     <string name="wrong_username_password">Incorrect Username or Password</string>
     <string name="time">Time</string>
     <string name="lesson">Lesson</string>
+    <string name="notification">Notification</string>
+    <string name="inbox">Inbox</string>
+    <string name="broadcast">Broadcast</string>
 </resources>
