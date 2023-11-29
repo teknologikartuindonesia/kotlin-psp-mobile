@@ -1,6 +1,7 @@
 package id.co.pspmobile.data.network.auth
 
 import id.co.pspmobile.data.network.model.ModelLogin
+import id.co.pspmobile.data.network.model.firebase.ModelFirebaseToken
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
@@ -116,4 +117,9 @@ interface AuthApi {
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
     ) : Response<BroadcastMessageResponse>
+
+    @PUT("katalis/user/firebase/token")
+    suspend fun saveFirebaseToken(
+        @Body data: ModelFirebaseToken
+    ): Response<Unit>
 }

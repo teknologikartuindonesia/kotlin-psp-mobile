@@ -59,4 +59,12 @@ class HomeViewModel @Inject constructor (
     }
 
 
+    private val _fbToken: MutableLiveData<Resource<Unit>> = MutableLiveData()
+    fun saveFirebaseToken(
+        token: String,
+        serverKeyId:String,
+    ) = viewModelScope.launch {
+        _fbToken.value = Resource.Loading
+        _fbToken.value = authRepository.saveFirebaseToken(token,serverKeyId)
+    }
 }
