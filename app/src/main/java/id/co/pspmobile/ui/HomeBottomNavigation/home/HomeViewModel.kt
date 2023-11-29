@@ -12,6 +12,7 @@ import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,5 +59,11 @@ class HomeViewModel @Inject constructor (
         _infoNewsResponse.value = authRepository.getInfoNews(body, page)
     }
 
+    private var _broadcastResponse: MutableLiveData<Resource<BroadcastResponse>> = MutableLiveData()
+    val broadcastResponse: LiveData<Resource<BroadcastResponse>> get() = _broadcastResponse
+    fun getBroadcastMessage() = viewModelScope.launch {
+        _broadcastResponse.value = Resource.Loading
+        _broadcastResponse.value = authRepository.getActiveBroadcast()
+    }
 
 }

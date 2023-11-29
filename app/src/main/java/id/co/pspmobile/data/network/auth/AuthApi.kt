@@ -7,6 +7,7 @@ import id.co.pspmobile.data.network.responses.LoginResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.BroadcastMessageResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessageResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
+import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
 import id.co.pspmobile.data.network.responses.profile.UserResponse
@@ -89,7 +90,7 @@ interface AuthApi {
         @Query("page") page: Int?,
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
-    ) : Response<InfoNewsResponse>
+    ) : Response<BroadcastResponse>
 
     @POST("main_a/info/get_info")
     suspend fun getInfoNews(

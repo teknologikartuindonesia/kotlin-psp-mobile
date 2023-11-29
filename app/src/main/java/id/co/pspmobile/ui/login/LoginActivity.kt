@@ -27,6 +27,7 @@ import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
+import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.dialog.DialogCS
 import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
@@ -185,6 +186,25 @@ class LoginActivity : AppCompatActivity() {
             binding.btnBiometric.visible(true)
             binding.lineBtnBiometric.visible(true)
         }
+
+        viewModel.broadcastResponse.observe(this){
+            if (it is Resource.Success){
+                val broadcastResponse = it.value
+                if (broadcastResponse.content.isNotEmpty()){
+                    val x = supportFragmentManager
+                    val dialogBroadcast = DialogBroadcast(
+                        broadcastResponse.content[0],
+                        x
+                    )
+                    dialogBroadcast.show(supportFragmentManager, dialogBroadcast.tag)
+                }
+            }
+        }
+        getActiveBroadcast()
+    }
+
+    fun getActiveBroadcast(){
+        viewModel.getBroadcastMessage()
     }
 
     fun login(username: String, password: String) {
