@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class DonationResDto(
     val content: ArrayList<DonationDto>,
-    val totalPages: Int? = null,
+    val totalPages: Int,
     val totalElement: Int? = null
 )
 
@@ -29,4 +29,15 @@ data class Participant(
     val callerName: String? = null,
     val amount: Double,
     val transactionId: String
+)
+data class DonationPayDto(
+    val accountId: String,
+    val callerId: String? = "",
+    val amount: Int,
+    val cash: Boolean,
+    val channel: String,
+    val donationId: String
+)
+data class DonationPayResDto(
+    val id: String
 )
