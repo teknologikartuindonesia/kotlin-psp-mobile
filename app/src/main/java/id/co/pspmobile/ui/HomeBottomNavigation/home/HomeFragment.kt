@@ -33,6 +33,7 @@ import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.account.AccountActivity
 import id.co.pspmobile.ui.attendance.AttendanceActivity
 import id.co.pspmobile.ui.calendar.CalendarActivity
+import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
@@ -130,9 +131,29 @@ class HomeFragment : Fragment() {
                 requireActivity().handleApiError(binding.progressbar, it)
             }
         }
+
+        viewModel.broadcastResponse.observe(viewLifecycleOwner){
+            if (it is Resource.Success){
+                val broadcastResponse = it.value
+                if (broadcastResponse.content.isNotEmpty()){
+                    val x = requireActivity().supportFragmentManager
+                    val dialogBroadcast = DialogBroadcast(
+                        broadcastResponse.content[0],
+                        x
+                    )
+                    dialogBroadcast.show(x, dialogBroadcast.tag)
+                }
+            }
+        }
+        getActiveBroadcast()
+
         return root
 
 
+    }
+
+    fun getActiveBroadcast() {
+        viewModel.getBroadcastMessage()
     }
 
     fun getBalance() {
