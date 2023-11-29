@@ -24,6 +24,10 @@ class MutationAdapter(private val context: Context) :
         list.addAll(item)
         notifyDataSetChanged()
     }
+    fun clear(){
+        list.clear()
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(private val binding: AdapterMutationBinding) :
         RecyclerView.ViewHolder(binding.root) {
