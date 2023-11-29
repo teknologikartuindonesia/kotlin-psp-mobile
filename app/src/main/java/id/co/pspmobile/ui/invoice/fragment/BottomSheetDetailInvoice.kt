@@ -21,6 +21,7 @@ import id.co.pspmobile.R
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetDetailInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.subString
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -48,70 +49,99 @@ class BottomSheetDetailInvoice(
         detailInvoiceAdapter = DetailInvoiceAdapter()
 
         binding.apply {
-            tvInvoiceName.text = invoice.title
-            tvParentName.text = userName
-            tvStudentName.text = invoice.callerName
-            tvDate.text = invoice.invoiceDate
-            tvDueDate.text = invoice.dueDate
 
-            tvReceiptAmount.text = "Rp " + formatCurrency(invoice.amount)
-            tvReceiptCreateDate.text = invoice.createDate.toString()
-            tvReceiptInvoiceName.text = invoice.title
-            tvReceiptPaid.text = "Rp " + formatCurrency(invoice.paidAmount)
-            if (invoice.callerName == viewModel.getUserData().user.name) {
-                receiptParentNameContainer.visibility = View.GONE
-            } else {
-                receiptParentNameContainer.visibility = View.VISIBLE
+            try {
+                tvInvoiceName.text = invoice.title
+                tvParentName.text = userName
+                tvStudentName.text = invoice.callerName
+                tvDate.text = invoice.invoiceDate
+                tvDueDate.text = invoice.dueDate
 
-            }
-            tvReceiptParentName.text = viewModel.getUserData().user.name
-            tvReceiptPayDate.text = invoice.dueDate.toString()
-            tvReceiptStatus.text = invoice.status
-            tvReceiptStudentName.text = invoice.callerName
-            tvReceiptType.text = invoice.status
+                tvReceiptAmount.text = "Rp " + formatCurrency(invoice.amount)
+                tvReceiptCreateDate.text = invoice.createDate.toString()
+                tvReceiptInvoiceName.text = invoice.title
+                tvReceiptPaid.text = "Rp " + formatCurrency(invoice.paidAmount)
+                if (invoice.callerName == viewModel.getUserData().user.name) {
+                    receiptParentNameContainer.visibility = View.GONE
+                } else {
+                    receiptParentNameContainer.visibility = View.VISIBLE
 
-            if (invoice.showDetail) {
-                rvDetailInvoice.visibility = View.VISIBLE
-            } else {
-                rvDetailInvoice.visibility = View.GONE
-            }
-
-            if (invoice.callerName == viewModel.getUserData().user.name) {
-                parentNameContainer.visibility = View.GONE
-            } else {
-                parentNameContainer.visibility = View.VISIBLE
-
-            }
-            if (invoice.partialMethod) {
-                when (viewModel.getLanguage().toString()) {
-                    "en" -> tvType.text = "CREDIT"
-                    else -> tvType.text = "KREDIT"
                 }
-            } else {
-                when (viewModel.getLanguage().toString()) {
-                    "en" -> tvType.text = "CASH"
-                    else -> tvType.text = "TUNAI"
-                }
-                tvType.text = "CASH"
-            }
-            tvParentName.text = viewModel.getUserData().user.name
-            tvStatus.text = invoice.status
-            tvAmount.text = formatCurrency(invoice.amount)
+                tvReceiptParentName.text = viewModel.getUserData().user.name
+                tvReceiptPayDate.text = invoice.dueDate.toString()
+                tvReceiptStatus.text = invoice.status
+                tvReceiptStudentName.text = invoice.callerName
+                tvReceiptType.text = invoice.status
 
-            detailInvoiceAdapter.setDetail(invoice.detail)
-            rvDetailInvoice.setHasFixedSize(true)
-            rvDetailInvoice.adapter = detailInvoiceAdapter
-            btnDownload.setOnClickListener {
+                if (invoice.showDetail) {
+                    rvDetailInvoice.visibility = View.VISIBLE
+                } else {
+                    rvDetailInvoice.visibility = View.GONE
+                }
+
+                if (invoice.callerName == viewModel.getUserData().user.name) {
+                    parentNameContainer.visibility = View.GONE
+                } else {
+                    parentNameContainer.visibility = View.VISIBLE
+
+                }
+                if (invoice.partialMethod) {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvType.text = "CREDIT"
+                        else -> tvType.text = "KREDIT"
+                    }
+                } else {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvType.text = "CASH"
+                        else -> tvType.text = "TUNAI"
+                    }
+                    tvType.text = "CASH"
+                }
+                tvParentName.text = viewModel.getUserData().user.name
+                tvStatus.text = invoice.status
+                tvAmount.text = formatCurrency(invoice.amount)
+
+                if (invoice.description == "") {
+                    tvInvoiceDescription.visibility = View.GONE
+                    tvShowAll.visibility = View.GONE
+                }
+                if (invoice.description?.length!! <= 100) tvShowAll.visibility = View.GONE
+
+                tvShowAll.text = "Tampilkan Semua"
+                tvInvoiceDescription.text = subString(invoice.description, 0, 100) + "..."
+                tvShowAll.setOnClickListener {
+                    when (tvShowAll.text) {
+                        "Tampilkan Semua" -> {
+                            tvShowAll.text = "Tampilkan lebih sedikit"
+                            tvInvoiceDescription.text = invoice.description
+                        }
+
+                        else -> {
+                            tvShowAll.text = "Tampilkan Semua"
+                            tvInvoiceDescription.text =subString(invoice.description, 0, 100) + " ..."
+                        }
+                    }
+
+                }
+
+                detailInvoiceAdapter.setDetail(invoice.detail)
+                rvDetailInvoice.setHasFixedSize(true)
+                rvDetailInvoice.adapter = detailInvoiceAdapter
+                btnDownload.setOnClickListener {
 //                baseReceiptPanel.visibility=View.VISIBLE
-                btnDownload.visibility=View.GONE
-                btnShare.visibility=View.GONE
-                val image = getBitmapFromUiView(basePanel)
-                saveBitmapImage(image!!)
+                    btnDownload.visibility = View.GONE
+                    btnShare.visibility = View.GONE
+                    val image = getBitmapFromUiView(basePanel)
+                    saveBitmapImage(image!!)
 //                baseReceiptPanel.visibility=View.GONE
 
-                btnDownload.visibility=View.VISIBLE
-                btnShare.visibility=View.VISIBLE
+                    btnDownload.visibility = View.VISIBLE
+                    btnShare.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                Log.e("TAG", "onCreateView: ", e)
             }
+
         }
 
 
@@ -131,6 +161,7 @@ class BottomSheetDetailInvoice(
         v.draw(c)
         return b
     }
+
     /**Get Bitmap from any UI View
      * @param view any UI view to get Bitmap of
      * @return returnedBitmap the bitmap of the required UI View */

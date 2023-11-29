@@ -29,8 +29,8 @@ class InvoiceFragment() : Fragment() {
     private lateinit var binding: FragmentInvoiceBinding
     private lateinit var invoiceAdapter: InvoiceAdapter
     private var page: Int = 0
-    private var size: Int = 5
-    private var totalPage: Int = 1
+    private var size: Int = 10
+    private var totalContent: Int = 1
     private var isLoading = false
 
     private lateinit var layoutManager: LinearLayoutManager
@@ -45,12 +45,16 @@ class InvoiceFragment() : Fragment() {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
-
-                if (!isLoading && page < totalPage) {
+                Log.e("total", size.toString())
+                Log.w("totalPage", totalContent.toString())
+                if (!isLoading && totalContent >= size) {
                     if (visibleItemCount + pastVisibleItem >= total) {
+                        page++
                         isLoading = true
                         viewModel.getUnpaidInvoice(page++)
                     }
+                }else{
+
                 }
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -58,13 +62,13 @@ class InvoiceFragment() : Fragment() {
         })
 
         viewModel.unpaidInvoiceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
+            when (it is Resource.Loading) {
                 true -> showLottieLoader()
                 else -> hideLottieLoader()
             }
             if (it is Resource.Success) {
                 invoiceAdapter.setInvoices(it.value.content)
-                totalPage = it.value.totalElements!!
+                totalContent = it.value.content.size
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false
@@ -78,7 +82,7 @@ class InvoiceFragment() : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
-        binding.rvInvoice.layoutManager= layoutManager
+        binding.rvInvoice.layoutManager = layoutManager
         invoiceAdapter = InvoiceAdapter(requireActivity())
         binding.rvInvoice.adapter = invoiceAdapter
     }
@@ -96,6 +100,7 @@ class InvoiceFragment() : Fragment() {
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

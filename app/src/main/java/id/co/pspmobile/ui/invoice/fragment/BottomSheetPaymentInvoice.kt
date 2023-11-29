@@ -22,6 +22,7 @@ import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.ui.NumberTextWatcher
+import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.parseDouble
 import id.co.pspmobile.ui.Utils.visible
@@ -69,6 +70,31 @@ class BottomSheetPaymentInvoice(
                 parentNameContainer.visibility = View.VISIBLE
 
             }
+
+            if (invoice.description == "") {
+                tvInvoiceDescription.visibility = View.GONE
+                tvShowAll.visibility = View.GONE
+            }
+            if (invoice.description?.length!! <= 100) tvShowAll.visibility = View.GONE
+
+            tvShowAll.text = "Tampilkan Semua"
+            tvInvoiceDescription.text = Utils.subString(invoice.description, 0, 100) + "..."
+            tvShowAll.setOnClickListener {
+                when (tvShowAll.text) {
+                    "Tampilkan Semua" -> {
+                        tvShowAll.text = "Tampilkan lebih sedikit"
+                        tvInvoiceDescription.text = invoice.description
+                    }
+
+                    else -> {
+                        tvShowAll.text = "Tampilkan Semua"
+                        tvInvoiceDescription.text =
+                            invoice.description.length.toString().subSequence(0, 100)
+                    }
+                }
+
+            }
+
             tvParentName.text = viewModel.getUserData().user.name
             tvStudentName.text = invoice.callerName
             tvDate.text = invoice.invoiceDate
@@ -76,13 +102,13 @@ class BottomSheetPaymentInvoice(
             tvPaid.text = formatCurrency(invoice.paidAmount)
             tvMinus.text = formatCurrency(invoice.amount - invoice.paidAmount)
             if (invoice.partialMethod) {
-                when(viewModel.getLanguage().toString()){
+                when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CREDIT"
                     else -> tvType.text = "KREDIT"
                 }
                 containerNominal.visibility = View.VISIBLE
             } else {
-                when(viewModel.getLanguage().toString()){
+                when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CASH"
                     else -> tvType.text = "TUNAI"
                 }

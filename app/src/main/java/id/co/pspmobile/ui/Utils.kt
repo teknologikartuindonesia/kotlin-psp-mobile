@@ -217,4 +217,16 @@ object Utils {
         loaderDialogFragment?.dismiss()
     }
 
+    fun subString(input: String, startIndex: Int, endIndex: Int): String {
+        // Ensure startIndex and endIndex are within valid bounds
+        val start = startIndex.coerceIn(0, input.length)
+        val end = endIndex.coerceIn(0, input.length)
+
+        // Return the substring
+        return if (start <= end) {
+            input.substring(start, end)
+        } else {
+            ""
+        }
+    }
 }
