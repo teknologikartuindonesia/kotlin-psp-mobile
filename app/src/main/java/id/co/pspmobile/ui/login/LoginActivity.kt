@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.login
 
 import android.content.Intent
+import android.graphics.drawable.PictureDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -12,11 +13,14 @@ import androidx.activity.viewModels
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.caverock.androidsvg.SVG
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.model.customapp.ModelMenu
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ActivityLoginBinding
 import id.co.pspmobile.ui.HomeActivity
@@ -41,6 +45,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var binding: ActivityLoginBinding
     private var firebaseService = FirebaseService()
+    private var allMenu = ArrayList<ModelMenu>()
+    private var indexMenu = 0
+    private var currentCompanyId = ""
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -109,9 +116,9 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.saveUsername(binding.edUsername.text.toString())
                     viewModel.savePassword(binding.edPassword.text.toString())
 
-//                    viewModel.getIcon(it.value.activeCompany.id, "donation.svg")
-
-                    startNewActivity(HomeActivity::class.java)
+                    currentCompanyId = it.value.activeCompany.id
+                    getCustomApp()
+//                    startNewActivity(HomeActivity::class.java)
                 }
             } else if (it is Resource.Failure) {
                 handleApiError(binding.progressbar, it)
@@ -120,7 +127,18 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.iconResponse.observe(this){
             if(it is Resource.Success){
-                Log.d("icon", "icon: $it")
+                try{
+                    //SVG string content
+                    val svgString = it.value.string()
+                    Log.d("icon", "icon2: $svgString")
+                    val svg = SVG.getFromString(svgString)
+                    Log.d("icon", "icon3: $svg")
+                    val drawable = PictureDrawable(svg.renderToPicture())
+                    Log.d("icon", "icon5: $drawable")
+
+                } catch (e: Exception){
+                    Log.e("icon", "icon6: ${e.message}")
+                }
             } else if (it is Resource.Failure) {
 
             }
@@ -191,6 +209,42 @@ class LoginActivity : AppCompatActivity() {
         if (deviceHasBiometric() && (viewModel.getUsername() != "" && viewModel.getPassword() != "")) {
             binding.btnBiometric.visible(true)
             binding.lineBtnBiometric.visible(true)
+        }
+    }
+
+    fun getCustomApp(){
+        viewModel.getCustomApp(currentCompanyId)
+    }
+
+    fun getIcon(){
+        if (indexMenu < 0){
+            viewModel.getIcon(currentCompanyId, allMenu[indexMenu].menu_icon_url)
+        }
+    }
+
+    fun observeIcon(){
+        viewModel.iconResponse.observe(this){
+            if (it is Resource.Success){
+
+            }else if(it is Resource.Failure){
+
+            }
+        }
+    }
+
+    fun observeCustomApp(){
+        viewModel.customAppResponse.observe(this){
+            if(it is Resource.Success){
+                indexMenu = it.value.app_menu.size
+                var tempMenu = ArrayList<ModelMenu>()
+                for (i in it.value.app_menu){
+                    val x = ModelMenu(i.menu_icon_url, "",
+                        i.menu_name, "", i.menu_path, i.menu_type)
+                    tempMenu.add(x)
+                }
+                allMenu = tempMenu
+                getIcon()
+            }
         }
     }
 

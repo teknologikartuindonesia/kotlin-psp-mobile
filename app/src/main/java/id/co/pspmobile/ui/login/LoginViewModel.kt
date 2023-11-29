@@ -12,7 +12,10 @@ import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.customapp.CustomAppRepository
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
+import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
+import id.co.pspmobile.data.network.responses.customapp.SvgResponse
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,11 +61,19 @@ class LoginViewModel@Inject constructor(
         return remoteDataSource.baseURL
     }
 
-    private var _iconResponse: MutableLiveData<Resource<String>> = MutableLiveData()
-    val iconResponse: LiveData<Resource<String>> get() = _iconResponse
+    private var _iconResponse: MutableLiveData<Resource<ResponseBody>> = MutableLiveData()
+    val iconResponse: LiveData<Resource<ResponseBody>> get() = _iconResponse
 
     fun getIcon(compId: String, icon: String) = viewModelScope.launch {
         _iconResponse.value = Resource.Loading
         _iconResponse.value = customAppRepository.getIcon(compId, icon)
+    }
+
+    private val _customAppResponse: MutableLiveData<Resource<CustomAppResponse>> = MutableLiveData()
+    val customAppResponse: LiveData<Resource<CustomAppResponse>> get() = _customAppResponse
+    fun getCustomApp(compId: String) = viewModelScope.launch {
+        val lang = userPreferences.getLanguage()
+        _customAppResponse.value = Resource.Loading
+        _customAppResponse.value = customAppRepository.getCustomApp(compId, lang)
     }
 }

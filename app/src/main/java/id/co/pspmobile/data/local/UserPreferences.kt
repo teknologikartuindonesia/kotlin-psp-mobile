@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
+import id.co.pspmobile.data.network.model.customapp.ModelColor
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
@@ -164,6 +165,19 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         }
     }
 
+    val color: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[COLOR] ?: ""
+        }
+    suspend fun saveColor(color: ModelColor) {
+        appContext.dataStore.edit { preferences ->
+            preferences[COLOR] = Gson().toJson(color)
+        }
+    }
+    fun getColor() = runBlocking(Dispatchers.IO) {
+        Log.d("UserPreferences", "getUserData: ${userData.first()}")
+        Gson().fromJson(color.first().toString(), ModelColor::class.java)
+    }
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_DATA = stringPreferencesKey("user_data")
@@ -174,6 +188,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         private val LANGUAGE = stringPreferencesKey("language")
         private val BALANCE = stringPreferencesKey("balance")
         private val SYNC_DC = stringPreferencesKey("sync_digital_card")
+        private val COLOR = stringPreferencesKey("color")
     }
 
 }

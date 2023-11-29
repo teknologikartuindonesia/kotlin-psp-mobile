@@ -108,6 +108,6 @@ object AppModule {
     fun provideCustomApi(
         remoteDataSource: RemoteDataSource
     ): CustomAppApi{
-        return remoteDataSource.buildApi(CustomAppApi::class.java)
+        return remoteDataSource.buildApiImage(CustomAppApi::class.java)
     }
 }

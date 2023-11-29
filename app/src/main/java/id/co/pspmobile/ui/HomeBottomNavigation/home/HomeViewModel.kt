@@ -9,9 +9,12 @@ import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.auth.AuthRepository
+import id.co.pspmobile.data.network.customapp.CustomAppRepository
+import id.co.pspmobile.data.network.model.customapp.ModelColor
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor (
     private val authRepository: AuthRepository,
+    private val customAppRepository: CustomAppRepository,
     private val remoteDataSource: RemoteDataSource,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
@@ -34,6 +38,18 @@ class HomeViewModel @Inject constructor (
 
     fun getBalanceData(): BalanceResponse {
         return userPreferences.getBalanceData()
+    }
+
+    fun getCurrentLanguage(): String {
+        return userPreferences.getLanguage()
+    }
+
+    fun saveColor(primary: String, secondary: String) = viewModelScope.launch {
+        userPreferences.saveColor(ModelColor(primary, secondary))
+    }
+
+    fun getColor(): ModelColor {
+        return userPreferences.getColor()
     }
 
     fun saveBalanceData(balance: BalanceResponse) = viewModelScope.launch {

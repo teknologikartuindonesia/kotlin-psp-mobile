@@ -243,6 +243,11 @@
                             android:text="@string/didukung_oleh"
                             android:textAlignment="center"
                             android:textSize="10dp" />
+                        <TextView
+                            android:id="@+id/txt_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"/>
 
 
                         <androidx.recyclerview.widget.RecyclerView
