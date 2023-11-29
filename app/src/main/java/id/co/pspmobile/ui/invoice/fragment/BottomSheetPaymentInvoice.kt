@@ -124,30 +124,31 @@ class BottomSheetPaymentInvoice(
 
 
             btnPay.setOnClickListener {
-                if (edNominal.text.toString().trim().replace(".", "")
-                        .replace(",", "").toInt() < 10000
-                ) {
-                    alertNominal.visibility = View.VISIBLE
-                } else {
-                    alertNominal.visibility = View.GONE
-
-                    if (invoice.partialMethod) {
+                if (invoice.partialMethod) {
+                    if (edNominal.text.toString().trim().replace(".", "")
+                            .replace(",", "").toInt() < 10000
+                    ) {
+                        alertNominal.visibility = View.VISIBLE
+                    } else {
+                        alertNominal.visibility = View.GONE
                         OpenCustomDialog(
                             "Konfirmasi",
                             "Apakah anda yakin akan melakukan pembayaran?",
                             "invoice",
                             "partial"
                         )
-                    } else {
-                        OpenCustomDialog(
-                            "Konfirmasi",
-                            "Apakah anda yakin akan melakukan pembayaran?",
-                            "invoice",
-                            "cash"
-                        )
-
                     }
+
+                } else {
+                    OpenCustomDialog(
+                        "Konfirmasi",
+                        "Apakah anda yakin akan melakukan pembayaran?",
+                        "invoice",
+                        "cash"
+                    )
+
                 }
+
 
 
             }

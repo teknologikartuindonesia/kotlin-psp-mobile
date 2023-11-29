@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import id.co.pspmobile.data.network.invoice.InvoicePaymentDto
 import id.co.pspmobile.data.network.invoice.InvoiceResDto
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.databinding.BottomSheetPaymentSuccessInvoiceBinding
+import id.co.pspmobile.databinding.FragmentBottomSheetReceiptBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
@@ -33,15 +35,12 @@ import java.io.OutputStream
 
 
 @AndroidEntryPoint
-class BottomSheetPaymentSuccessInvoice(
-    private val userName: String,
-    private val invoicePayment: InvoicePaymentDto,
+class BottomSheetReceiptFragment(
     private val invoice: InvoiceDto,
 ) : BottomSheetDialogFragment() {
 
-    private lateinit var binding: BottomSheetPaymentSuccessInvoiceBinding
+    private lateinit var binding: FragmentBottomSheetReceiptBinding
     private val viewModel: InvoiceViewModel by viewModels()
-
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -50,22 +49,43 @@ class BottomSheetPaymentSuccessInvoice(
         savedInstanceState: Bundle?
     ): View {
 
-        binding = BottomSheetPaymentSuccessInvoiceBinding.inflate(inflater)
+        binding = FragmentBottomSheetReceiptBinding.inflate(inflater)
 
+
+        Log.e("TAG", invoice.toString())
         binding.apply {
-            tvInvoiceName.text = invoicePayment.inquiryResponseDto.title
-            tvParentName.text =  viewModel.getUserData().user.name
+            tvInvoiceName.text = invoice.title
+            tvParentName.text = invoice.callerName
             tvStudentName.text = invoice.callerName
-            tvPaid.text = formatCurrency(invoicePayment.amount)
+            tvDescription.text = invoice.description
+            tvPaid.text = "Rp "+formatCurrency(invoice.paidAmount)
             tvPayDate.text =
-                formatDateTime(invoicePayment.inquiryResponseDto.createDate!!, "dd-MM-yyyy HH:mm")
+                formatDateTime(invoice.createDate!!, "dd-MM-yyyy HH:mm")
             tvCreateDate.text = "Tanggal " + formatDateTime(
-                invoicePayment.inquiryResponseDto.createDate!!,
+                invoice.createDate!!,
                 "dd MMMM yyyy HH:mm"
             )
-            var kekurangan = invoicePayment.inquiryResponseDto.amount -
-                    (invoicePayment.amount + invoicePayment.inquiryResponseDto.paidAmount)
-            tvMinus.text = formatCurrency(kekurangan)
+            var kekurangan = (invoice.amount - invoice.paidAmount)
+            tvMinus.text = "Rp "+formatCurrency(kekurangan)
+
+            if (invoice.partialMethod) {
+                tvType.text = "CREDIT"
+            } else {
+                tvType.text = "CASH"
+            }
+
+            if ((invoice.amount - invoice.amount).toInt() == 0) {
+                tvStatus.text = "Terbayar"
+            } else {
+                tvStatus.text = "Terbayar Sebagian"
+
+            }
+            tvAmount.text = "Rp "+ formatCurrency(invoice.amount)
+
+            if (invoice.description == "") {
+                tvDescription.visibility = View.GONE
+                descriptionContainer.visibility = View.GONE
+            }
 
             if (invoice.callerName == viewModel.getUserData().user.name) {
                 parentNameContainer.visibility = View.GONE
@@ -73,37 +93,12 @@ class BottomSheetPaymentSuccessInvoice(
                 parentNameContainer.visibility = View.VISIBLE
 
             }
-
-
-            if (invoicePayment.inquiryResponseDto.partialMethod) {
-                tvType.text = "CREDIT"
-            } else {
-                tvType.text = "CASH"
-            }
-
-            if ((invoicePayment.inquiryResponseDto.amount - invoicePayment.amount).toInt() == 0) {
-                tvStatus.text = "Terbayar"
-            } else {
-                tvStatus.text = "Terbayar Sebagian"
-
-            }
-            tvAmount.text =
-                formatCurrency(invoicePayment.inquiryResponseDto.amount - invoicePayment.inquiryResponseDto.paidAmount)
-
-            btnDownload.setOnClickListener {
-                btnDownload.visibility = View.GONE
-                btnClose.visibility = View.GONE
+            tvParentName.text = viewModel.getUserData().user.name
+            Handler().postDelayed({
                 val image = getBitmapFromUiView(basePanel)
                 saveBitmapImage(image!!)
-                btnDownload.visibility = View.VISIBLE
-                btnClose.visibility = View.VISIBLE
-            }
-
-            btnClose.setOnClickListener {
                 dismiss()
-
-            }
-
+            }, 600)
         }
 
         return binding.root
@@ -208,5 +203,4 @@ class BottomSheetPaymentSuccessInvoice(
             }
         }
     }
-
 }

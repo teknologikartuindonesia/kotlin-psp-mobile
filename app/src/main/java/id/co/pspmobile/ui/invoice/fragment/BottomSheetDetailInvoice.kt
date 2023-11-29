@@ -1,25 +1,32 @@
 package id.co.pspmobile.ui.invoice.fragment
 
+import android.R.attr.data
+import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.BottomSheetDetailInvoiceBinding
+import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.subString
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
@@ -61,6 +68,7 @@ class BottomSheetDetailInvoice(
                 tvReceiptCreateDate.text = invoice.createDate.toString()
                 tvReceiptInvoiceName.text = invoice.title
                 tvReceiptPaid.text = "Rp " + formatCurrency(invoice.paidAmount)
+
                 if (invoice.callerName == viewModel.getUserData().user.name) {
                     receiptParentNameContainer.visibility = View.GONE
                 } else {
@@ -118,7 +126,8 @@ class BottomSheetDetailInvoice(
 
                         else -> {
                             tvShowAll.text = "Tampilkan Semua"
-                            tvInvoiceDescription.text =subString(invoice.description, 0, 100) + " ..."
+                            tvInvoiceDescription.text =
+                                subString(invoice.description, 0, 100) + " ..."
                         }
                     }
 
@@ -128,15 +137,20 @@ class BottomSheetDetailInvoice(
                 rvDetailInvoice.setHasFixedSize(true)
                 rvDetailInvoice.adapter = detailInvoiceAdapter
                 btnDownload.setOnClickListener {
-//                baseReceiptPanel.visibility=View.VISIBLE
-                    btnDownload.visibility = View.GONE
-                    btnShare.visibility = View.GONE
-                    val image = getBitmapFromUiView(basePanel)
-                    saveBitmapImage(image!!)
-//                baseReceiptPanel.visibility=View.GONE
-
-                    btnDownload.visibility = View.VISIBLE
-                    btnShare.visibility = View.VISIBLE
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment =
+                        BottomSheetReceiptFragment(invoice)
+                    bottomSheetDialogFragment.show(
+                        (requireActivity()).supportFragmentManager,
+                        bottomSheetDialogFragment.tag
+                    )
+                }
+                btnShare.setOnClickListener {
+                    btnShare.visibility=View.GONE
+                    btnDownload.visibility=View.GONE
+                    val image = getBitmapFromView(binding.basePanel)
+                    shareApp(image)
+                    btnShare.visibility=View.VISIBLE
+                    btnDownload.visibility=View.VISIBLE
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "onCreateView: ", e)
@@ -144,11 +158,50 @@ class BottomSheetDetailInvoice(
 
         }
 
-
-
         return binding.root
     }
 
+    private fun getBitmapFromView(view: View): Uri {
+        val builder = StrictMode.VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
+
+        //Define a bitmap with the same size as the view
+        val returnedBitmap =
+            Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        //Bind a canvas to it
+        val canvas = Canvas(returnedBitmap)
+        //Get the view's background
+        val bgDrawable = view.background
+        if (bgDrawable != null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas)
+        } else {
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE)
+        }
+        // draw the view on the canvas
+        view.draw(canvas)
+        //return the bitmap
+
+        var context = requireContext()
+        val dir = File(context.getExternalFilesDir(null).toString(), "tmpScreenshoot")
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val uri = null;
+        try {
+            val gpxfile = File(dir, "transactionId" + ".jpg")
+            val fos = FileOutputStream(gpxfile)
+            returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.flush()
+            fos.close()
+            Log.d("url", gpxfile.absolutePath)
+            return Uri.parse("file://" + gpxfile.absolutePath)
+        } catch (e: Exception) {
+            e.printStackTrace();
+        }
+        throw java.lang.Exception("Error:")
+    }
 
     private fun loadBitmapFromView(v: View): Bitmap? {
         val specWidth = View.MeasureSpec.makeMeasureSpec(2000 /* any */, View.MeasureSpec.EXACTLY)
@@ -196,14 +249,6 @@ class BottomSheetDetailInvoice(
         return returnedBitmap!!
     }
 
-    fun getBitmapFromView(view: View): Bitmap? {
-        val returnedBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(returnedBitmap)
-        val bgDrawable = view.background
-        if (bgDrawable != null) bgDrawable.draw(canvas) else canvas.drawColor(Color.WHITE)
-        view.draw(canvas)
-        return returnedBitmap
-    }
 
     /**Save Bitmap To Gallery
      * @param bitmap The bitmap to be saved in Storage/Gallery*/
@@ -276,4 +321,12 @@ class BottomSheetDetailInvoice(
         }
     }
 
+    private fun shareApp(bitmapUri: Uri) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+        intent.type = "image/jpeg"
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        requireContext().startActivity(Intent.createChooser(intent, "Bagikan bukti pembayaran"))
+    }
 }

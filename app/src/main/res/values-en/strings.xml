@@ -147,4 +147,5 @@
     <string name="download">Download</string>
     <string name="share">Share</string>
     <string name="payment_success">Payment Success</string>
+    <string name="description">Description</string>
 </resources>
