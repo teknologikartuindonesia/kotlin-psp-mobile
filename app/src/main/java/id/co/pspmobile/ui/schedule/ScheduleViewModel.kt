@@ -22,6 +22,8 @@ class ScheduleViewModel @Inject constructor(
 
     fun getUser() = userPreferences.getUserData()
 
+    fun getLanguage() = userPreferences.getLanguage()
+
     private val _allLessonResponse: MutableLiveData<Resource<AllLessonResponse>> = MutableLiveData()
     val allLessonResponse: MutableLiveData<Resource<AllLessonResponse>> get() = _allLessonResponse
     fun getAllLesson(

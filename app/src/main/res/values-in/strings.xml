@@ -148,4 +148,6 @@
     <string name="share">Bagikan</string>
     <string name="payment_success">Payment Success</string>
     <string name="description">Description</string>
+    <string name="time">Waktu</string>
+    <string name="lesson">Pelajaran</string>
 </resources>
