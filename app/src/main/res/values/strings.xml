@@ -122,6 +122,12 @@
     <string name="mutation">Mutation</string>
     <string name="invoice">Invoice</string>
     <string name="more">More</string>
+    <string name="unanswered">Kendala anda belum terjawab silahkan hubungi kami</string>
+    <string name="help_center">Pusat Bantuan</string>
+    <string name="explore_help_topics">Jelajahi topik bantuan</string>
+    <string name="contact_us">Hubungi Kami</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all_menu">All Menu</string>
     <string name="name">Name</string>
     <string name="NIS">NIS</string>
     <string name="invoice_date">Invoice Date</string>
@@ -148,7 +154,6 @@
     <string name="download">Download</string>
     <string name="share">Share</string>
     <string name="payment_success">Payment Success</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description">Description</string>
     <string name="please_input_valid_email_or_phone">Mohon masukkan email atau nomor yang valid</string>
     <string name="wrong_username_password">Username atau Password salah</string>
@@ -158,8 +163,10 @@
     <string name="inbox">Kotak Masuk</string>
     <string name="broadcast">Broadcast</string>
     <string name="seeMore">See More</string>
-    <string name="unanswered">Kendala anda belum terjawab silahkan hubungi kami</string>
-    <string name="help_center">Pusat Bantuan</string>
-    <string name="explore_help_topics">Jelajahi topik bantuan</string>
-    <string name="contact_us">Hubungi Kami</string>
+    <string name="transaction_in">Transaction In</string>
+    <string name="transaction_out">Transaction Out</string>
+    <string name="number_of_transaction">Number Of Transactions</string>
+    <string name="detail">Detail</string>
+    <string name="income">Income</string>
+    <string name="outcome">Outcome</string>
 </resources>

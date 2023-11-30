@@ -233,9 +233,9 @@ class TransactionFragment : Fragment() {
 
         for (transaction in transactions) {
             if (transaction.amount < 0) {
-                outcome += transaction.amount
-            } else {
                 income += transaction.amount
+            } else {
+                outcome += transaction.amount
             }
         }
 

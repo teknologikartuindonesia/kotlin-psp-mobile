@@ -131,7 +131,7 @@ class OldMutationFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun setupRecyclerView() {
         binding.rvOldMutation.setHasFixedSize(true)
         binding.rvOldMutation.layoutManager = layoutManager
-        mutationAdapter = MutationAdapter(requireActivity())
+        mutationAdapter = MutationAdapter(requireActivity(),viewModel)
         binding.rvOldMutation.adapter = mutationAdapter
     }
 

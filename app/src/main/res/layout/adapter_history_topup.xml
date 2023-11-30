@@ -79,7 +79,7 @@
                 android:textColor="@color/teal_700"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                tools:text="Rp.10.0000" />
+                tools:text="Rp.1.000.000" />
         </LinearLayout>
 
     </LinearLayout>

@@ -160,4 +160,11 @@
     <string name="help_center">Help Center</string>
     <string name="explore_help_topics">Explore Help Topics</string>
     <string name="contact_us">Contact Us</string>
+    <string name="all_menu">All Menu</string>
+    <string name="transaction_in">Transaction In</string>
+    <string name="transaction_out">Transaction Out</string>
+    <string name="number_of_transaction">Number Of Transactions</string>
+    <string name="detail">Detail</string>
+    <string name="income">Income</string>
+    <string name="outcome">Outcome</string>
 </resources>

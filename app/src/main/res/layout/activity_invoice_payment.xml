@@ -315,10 +315,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_detail_invoice"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
+            tools:itemCount="10"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/adapter_detail_invoice" />
 

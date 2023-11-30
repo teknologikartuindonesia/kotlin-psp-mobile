@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.invoice
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,7 @@ val tabTitleArray = arrayOf(
 @AndroidEntryPoint
 class InvoiceActivity : AppCompatActivity() {
     private lateinit var binding : ActivityInvoiceBinding
+    private val viewModel: InvoiceViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,26 @@ class InvoiceActivity : AppCompatActivity() {
             viewPager.adapter = adapter
 
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = tabTitleArray[position]
+                when(tabTitleArray[position]){
+                    "Invoice" -> {
+                        when(viewModel.getLanguage()){
+                            "en" -> tab.text= "Invoice"
+                            "id" -> tab.text= "Tagihan"
+                        }
+                    }
+                    "History" -> {
+                        when(viewModel.getLanguage()){
+                            "en" -> tab.text= "History"
+                            "id" -> tab.text= "Riwayat"
+                        }
+                    }
+                    "Summary" -> {
+                        when(viewModel.getLanguage()){
+                            "en" -> tab.text= "Summary"
+                            "id" -> tab.text= "Ringkasan"
+                        }
+                    }
+                }
             }.attach()
         }
 

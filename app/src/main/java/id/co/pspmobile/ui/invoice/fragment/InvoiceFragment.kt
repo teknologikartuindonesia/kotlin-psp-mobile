@@ -98,7 +98,7 @@ class InvoiceFragment() : Fragment() {
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
         binding.rvInvoice.layoutManager = layoutManager
-        invoiceAdapter = InvoiceAdapter(requireActivity())
+        invoiceAdapter = InvoiceAdapter(requireActivity(),viewModel)
         binding.rvInvoice.adapter = invoiceAdapter
     }
 

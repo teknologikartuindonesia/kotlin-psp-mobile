@@ -14,6 +14,7 @@ import id.co.pspmobile.ui.HomeActivity
 class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() {
     private lateinit var menuArray: ArrayList<DefaultMenuModel>
     private lateinit var otherMenuArray: ArrayList<DefaultMenuModel>
+    private lateinit var allMenuArray: ArrayList<DefaultMenuModel>
     private lateinit var context: Context
     private lateinit var act: FragmentActivity
     override fun onCreateViewHolder(
@@ -36,6 +37,11 @@ class DefaultMenuAdapter: RecyclerView.Adapter<DefaultMenuAdapter.ViewHolder>() 
 
     fun setOtherMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context, act: FragmentActivity) {
         this.otherMenuArray = menuList
+        this.context = context
+        this.act = act
+    }
+    fun setAllMenuList(menuList: ArrayList<DefaultMenuModel>, context: Context, act: FragmentActivity) {
+        this.allMenuArray = menuList
         this.context = context
         this.act = act
     }

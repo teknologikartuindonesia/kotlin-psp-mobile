@@ -6,11 +6,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.paging.LOGGER
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,11 +38,14 @@ class InvoicePaymentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInvoicePaymentBinding
     private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
     private lateinit var invoice: InvoiceDto
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInvoicePaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        layoutManager = LinearLayoutManager(this)
+
         detailInvoiceAdapter = DetailInvoiceAdapter()
 
         val intent = intent?.extras
@@ -111,8 +117,13 @@ class InvoicePaymentActivity : AppCompatActivity() {
             tvStatus.text = invoice.status
             tvAmount.text = Utils.formatCurrency(invoice.amount)
 
+            Log.e("te", invoice.detail.toString())
+            for (i in invoice.detail){
+
+            }
             detailInvoiceAdapter.setDetail(invoice.detail)
             rvDetailInvoice.setHasFixedSize(true)
+            rvDetailInvoice.layoutManager = layoutManager
             rvDetailInvoice.adapter = detailInvoiceAdapter
 
 

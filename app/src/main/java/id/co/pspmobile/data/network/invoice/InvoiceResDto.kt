@@ -49,7 +49,7 @@ data class InvoiceDto(
     val callerName: String? = null,
     val amount: Double,
     val paidAmount: Double,
-    val detail: List<Detail>,
+    val detail: ArrayList<Detail>,
     val status: String? = null,
     val history: List<History>,
     val tags: List<String>

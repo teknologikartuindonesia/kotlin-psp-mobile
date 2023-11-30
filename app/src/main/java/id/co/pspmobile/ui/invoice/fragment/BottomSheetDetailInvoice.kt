@@ -3,7 +3,9 @@ package id.co.pspmobile.ui.invoice.fragment
 import android.R.attr.data
 import android.R.attr.fragment
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -21,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
@@ -32,7 +35,9 @@ import id.co.pspmobile.ui.Utils.subString
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.OutputStream
+import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -45,6 +50,7 @@ class BottomSheetDetailInvoice(
     private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
     private val viewModel: InvoiceViewModel by viewModels()
 
+    private lateinit var layoutManager: LinearLayoutManager
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -53,6 +59,8 @@ class BottomSheetDetailInvoice(
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetDetailInvoiceBinding.inflate(inflater)
+        layoutManager = LinearLayoutManager(requireContext())
+
         detailInvoiceAdapter = DetailInvoiceAdapter()
 
         binding.apply {
@@ -98,15 +106,30 @@ class BottomSheetDetailInvoice(
                         "en" -> tvType.text = "CREDIT"
                         else -> tvType.text = "KREDIT"
                     }
+                    if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Paid Off"
+                            else -> tvStatus.text = "Lunas"
+                        }
+                    } else {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Partially Paid"
+                            else -> tvStatus.text = "Terbayar Sebagian"
+                        }
+                    }
                 } else {
                     when (viewModel.getLanguage().toString()) {
                         "en" -> tvType.text = "CASH"
                         else -> tvType.text = "TUNAI"
                     }
-                    tvType.text = "CASH"
+
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvStatus.text = "Paid Off"
+                        else -> tvStatus.text = "Lunas"
+                    }
                 }
                 tvParentName.text = viewModel.getUserData().user.name
-                tvStatus.text = invoice.status
+
                 tvAmount.text = formatCurrency(invoice.amount)
 
                 if (invoice.description == "") {
@@ -133,9 +156,12 @@ class BottomSheetDetailInvoice(
 
                 }
 
+                Log.e("r", invoice.detail.toString())
                 detailInvoiceAdapter.setDetail(invoice.detail)
                 rvDetailInvoice.setHasFixedSize(true)
+                rvDetailInvoice.layoutManager = layoutManager
                 rvDetailInvoice.adapter = detailInvoiceAdapter
+
                 btnDownload.setOnClickListener {
                     val bottomSheetDialogFragment: BottomSheetDialogFragment =
                         BottomSheetReceiptFragment(invoice)
@@ -147,8 +173,7 @@ class BottomSheetDetailInvoice(
                 btnShare.setOnClickListener {
                     btnShare.visibility=View.GONE
                     btnDownload.visibility=View.GONE
-                    val image = getBitmapFromView(binding.basePanel,invoice.title.toString())
-                    shareApp(image)
+                    shareApp(getBitmapUriFromView(requireContext(),binding.basePanel)!!)
                     btnShare.visibility=View.VISIBLE
                     btnDownload.visibility=View.VISIBLE
                 }
@@ -161,165 +186,68 @@ class BottomSheetDetailInvoice(
         return binding.root
     }
 
-    private fun getBitmapFromView(view: View,transactionName:String): Uri {
-        val builder = StrictMode.VmPolicy.Builder()
-        StrictMode.setVmPolicy(builder.build())
+    fun getBitmapUriFromView(context: Context, view: View): Uri? {
+        // Get the Bitmap from the View
+        val bitmap = getBitmapFromView(view)
 
-        //Define a bitmap with the same size as the view
-        val returnedBitmap =
-            Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        //Bind a canvas to it
-        val canvas = Canvas(returnedBitmap)
-        //Get the view's background
-        val bgDrawable = view.background
-        if (bgDrawable != null) {
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas)
-        } else {
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE)
-        }
-        // draw the view on the canvas
-        view.draw(canvas)
-        //return the bitmap
+        val file = saveBitmapToFile(context, bitmap)
+        // Obtain the URI from the saved file
+        return file?.let { getUriFromFile(context, it) }
+    }
 
-        var context = requireContext()
-        val dir = File(context.getExternalFilesDir(null).toString(), "tmpScreenshoot")
-        if (!dir.exists()) {
-            dir.mkdir()
+    // Function to save a Bitmap to a temporary file
+    fun saveBitmapToFile(context: Context, bitmap: Bitmap): File? {
+        val fileName = "receipt_invoice_" + UUID.randomUUID().toString() + ".png"
+        val directory = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "YourAppFolder")
+
+        if (!directory.exists()) {
+            directory.mkdirs()
         }
-        val uri = null;
+
+        val file = File(directory, fileName)
+
         try {
-            val gpxfile = File(dir, transactionName.replace(" ","_") + ".jpg")
-            val fos = FileOutputStream(gpxfile)
-            returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-            fos.flush()
-            fos.close()
-            Log.d("url", gpxfile.absolutePath)
-            return Uri.parse("file://" + gpxfile.absolutePath)
-        } catch (e: Exception) {
-            e.printStackTrace();
+            val stream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            stream.flush()
+            stream.close()
+            return file
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        throw java.lang.Exception("Error:")
+
+        return null
     }
 
-    private fun loadBitmapFromView(v: View): Bitmap? {
-        val specWidth = View.MeasureSpec.makeMeasureSpec(2000 /* any */, View.MeasureSpec.EXACTLY)
-        v.measure(specWidth, specWidth)
-        val questionWidth = v.measuredWidth
-        val b = Bitmap.createBitmap(questionWidth, questionWidth, Bitmap.Config.ARGB_8888)
-        val c = Canvas(b)
-        c.drawColor(Color.WHITE)
-        v.layout(v.left, v.top, v.right, v.bottom)
-        v.draw(c)
-        return b
-    }
-
-    /**Get Bitmap from any UI View
-     * @param view any UI view to get Bitmap of
-     * @return returnedBitmap the bitmap of the required UI View */
-    private fun getBitmapFromUiView(view: View?): Bitmap {
-        //Define a bitmap with the same size as the view
-        val returnedBitmap = view?.let {
-            Bitmap.createBitmap(
-                requireView().width,
-                it.height,
-                Bitmap.Config.ARGB_8888
-            )
-        }
-        //Bind a canvas to it
-        val canvas = returnedBitmap?.let { Canvas(it) }
-        //Get the view's background
-        val bgDrawable = view?.background
-        if (bgDrawable != null) {
-            //has background drawable, then draw it on the canvas
-            if (canvas != null) {
-                bgDrawable.draw(canvas)
+    fun getUriFromFile(context: Context, file: File): Uri? {
+        return try {
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, file.name)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+                put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/YourAppFolder")
             }
-        } else {
-            //does not have background drawable, then draw white background on the canvas
-            if (canvas != null) {
-                canvas.drawColor(Color.WHITE)
-            }
-        }
-        // draw the view on the canvas
-        view?.draw(canvas!!)
 
-        //return the bitmap
-        return returnedBitmap!!
-    }
+            val contentResolver: ContentResolver = context.contentResolver
+            val uri: Uri? = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
-
-    /**Save Bitmap To Gallery
-     * @param bitmap The bitmap to be saved in Storage/Gallery*/
-    private fun saveBitmapImage(bitmap: Bitmap) {
-        val timestamp = System.currentTimeMillis()
-
-        //Tell the media scanner about the new file so that it is immediately available to the user.
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        values.put(MediaStore.Images.Media.DATE_ADDED, timestamp)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            values.put(MediaStore.Images.Media.DATE_TAKEN, timestamp)
-            values.put(
-                MediaStore.Images.Media.RELATIVE_PATH,
-                "Pictures/" + getString(R.string.app_name)
-            )
-            values.put(MediaStore.Images.Media.IS_PENDING, true)
-            val uri = requireContext().contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                values
-            )
             if (uri != null) {
-                try {
-                    val outputStream = requireContext().contentResolver.openOutputStream(uri)
-                    if (outputStream != null) {
-                        try {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                            outputStream.close()
-                        } catch (e: Exception) {
-                            Log.e("TAG", "saveBitmapImage: ", e)
-                        }
-                    }
-                    values.put(MediaStore.Images.Media.IS_PENDING, false)
-                    requireContext().contentResolver.update(uri, values, null, null)
+                val outputStream: OutputStream? = contentResolver.openOutputStream(uri)
+                outputStream?.use { output -> file.inputStream().copyTo(output) }
+            }
 
-                    Toast.makeText(requireContext(), "Saved...", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    Log.e("TAG", "saveBitmapImage: ", e)
-                }
-            }
-        } else {
-            val imageFileFolder = File(
-                Environment.getExternalStorageDirectory().toString() + '/' + getString(
-                    R.string.app_name
-                )
-            )
-            if (!imageFileFolder.exists()) {
-                imageFileFolder.mkdirs()
-            }
-            val mImageName = "$timestamp.png"
-            val imageFile = File(imageFileFolder, mImageName)
-            try {
-                val outputStream: OutputStream = FileOutputStream(imageFile)
-                try {
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                    outputStream.close()
-                } catch (e: Exception) {
-                    Log.e("TAG", "saveBitmapImage: ", e)
-                }
-                values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
-                requireContext().contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    values
-                )
-
-                Toast.makeText(requireContext(), "Saved...", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Log.e("TAG", "saveBitmapImage: ", e)
-            }
+            uri
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
         }
     }
+    fun getBitmapFromView(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
 
     private fun shareApp(bitmapUri: Uri) {
         val intent = Intent()

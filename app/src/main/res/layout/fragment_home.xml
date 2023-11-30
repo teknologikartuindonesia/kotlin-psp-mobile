@@ -90,6 +90,7 @@
                         android:layout_weight="1"
                         android:text="@string/info_news"/>
                     <LinearLayout
+                        android:id="@+id/see_more_info_news"
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="center"

@@ -76,7 +76,7 @@ class HistoryFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
         binding.rvInvoice.layoutManager = layoutManager
-        historyAdapter = HistoryAdapter(requireActivity())
+        historyAdapter = HistoryAdapter(requireActivity(),viewModel)
         binding.rvInvoice.adapter = historyAdapter
     }
 

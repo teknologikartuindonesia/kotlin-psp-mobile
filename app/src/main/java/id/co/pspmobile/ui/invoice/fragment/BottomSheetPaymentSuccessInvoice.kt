@@ -57,11 +57,11 @@ class BottomSheetPaymentSuccessInvoice(
             tvInvoiceName.text = invoicePayment.inquiryResponseDto.title
             tvParentName.text = viewModel.getUserData().user.name
             tvStudentName.text = invoice.callerName
-            tvPaid.text = formatCurrency(invoicePayment.amount)
+            tvAmount.text = formatCurrency(invoicePayment.amount)
             tvPayDate.text =
                 formatDateTime(invoicePayment.inquiryResponseDto.createDate!!, "dd-MM-yyyy HH:mm")
             tvCreateDate.text = "Tanggal " + formatDateTime(
-                invoicePayment.inquiryResponseDto.createDate!!,
+                invoicePayment.dateTime.toString(),
                 "dd MMMM yyyy HH:mm"
             )
             var kekurangan = invoicePayment.inquiryResponseDto.amount -
@@ -74,19 +74,34 @@ class BottomSheetPaymentSuccessInvoice(
                 parentNameContainer.visibility = View.VISIBLE
             }
 
-            if (invoicePayment.inquiryResponseDto.partialMethod) {
-                tvType.text = "CREDIT"
+            if (invoice.partialMethod) {
+                when (viewModel.getLanguage().toString()) {
+                    "en" -> tvType.text = "CREDIT"
+                    else -> tvType.text = "KREDIT"
+                }
+                if ((invoicePayment.inquiryResponseDto.amount - invoicePayment.inquiryResponseDto.paidAmount).toInt() == 0) {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvStatus.text = "Paid Off"
+                        else -> tvStatus.text = "Lunas"
+                    }
+                } else {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvStatus.text = "Partially Paid"
+                        else -> tvStatus.text = "Terbayar Sebagian"
+                    }
+                }
             } else {
-                tvType.text = "CASH"
-            }
+                when (viewModel.getLanguage().toString()) {
+                    "en" -> tvType.text = "CASH"
+                    else -> tvType.text = "TUNAI"
+                }
 
-            if ((invoicePayment.inquiryResponseDto.amount - invoicePayment.amount).toInt() == 0) {
-                tvStatus.text = "Terbayar"
-            } else {
-                tvStatus.text = "Terbayar Sebagian"
-
+                when (viewModel.getLanguage().toString()) {
+                    "en" -> tvStatus.text = "Paid Off"
+                    else -> tvStatus.text = "Lunas"
+                }
             }
-            tvAmount.text =
+            tvPaid.text =
                 formatCurrency(invoicePayment.inquiryResponseDto.amount - invoicePayment.inquiryResponseDto.paidAmount)
 
             btnDownload.setOnClickListener {
@@ -102,7 +117,7 @@ class BottomSheetPaymentSuccessInvoice(
                 dismiss()
                 val args = arguments
                 val intent = Intent("finish-activity")
-                intent.putExtra("finish","finish")
+                intent.putExtra("finish", "finish")
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             }
 

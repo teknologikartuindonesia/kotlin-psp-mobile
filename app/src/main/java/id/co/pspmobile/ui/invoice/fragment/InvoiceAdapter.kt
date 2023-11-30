@@ -15,12 +15,13 @@ import id.co.pspmobile.databinding.AdapterInvoiceBinding
 import id.co.pspmobile.ui.HomeBottomNavigation.message.BroadcastDetailActivity
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
+import id.co.pspmobile.ui.invoice.InvoiceViewModel
 
 
-class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
+class InvoiceAdapter(private val context: Context,private val viewModel: InvoiceViewModel) : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
 
     private var list=ArrayList<InvoiceDto>()
-
+    var vm = viewModel
     @SuppressLint("NotifyDataSetChanged")
     fun setInvoices(item: ArrayList<InvoiceDto>) {
         list.addAll(item)
@@ -36,9 +37,17 @@ class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<Invoic
                 tvDate.text = invoice.invoiceDate
                 tvDueDate.text = invoice.dueDate
                 if (invoice.partialMethod) {
-                    tvType.text = "CREDIT"
+                    when (vm.getLanguage().toString()) {
+                        "en" -> tvType.text = "CREDIT"
+                        else -> tvType.text = "KREDIT"
+                    }
+
                 } else {
-                    tvType.text = "CASH"
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvType.text = "CASH"
+                        else -> tvType.text = "TUNAI"
+                    }
+
                 }
                 tvTotal.text = formatCurrency(invoice.amount)
                 tvPaidAmount.text = formatCurrency(invoice.paidAmount)

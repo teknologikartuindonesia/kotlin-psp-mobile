@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.report.TransactionDetailDto
 import id.co.pspmobile.databinding.AdapterTransactionDetailBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.formatDateTime
 
 class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.ViewHolder>() {
 
@@ -18,10 +19,15 @@ class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.V
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(private val binding: AdapterTransactionDetailBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: AdapterTransactionDetailBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: TransactionDetailDto) {
             with(binding) {
-                tvDate.text = transaction.createDate
+
+                tvDate.text = formatDateTime(
+                    transaction.createDate.toString(),
+                    "dd MMMM yyyy "
+                ) + "Pukul" + formatDateTime(transaction.createDate.toString(), " HH:MM")
                 tvTransactionName.text = transaction.transactionName
                 if (transaction.credit == 0.0) {
                     tvAmount.text = "Rp " + formatCurrency(transaction.debit)
@@ -33,8 +39,15 @@ class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.V
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionDetailAdapter.ViewHolder {
-        val binding = AdapterTransactionDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TransactionDetailAdapter.ViewHolder {
+        val binding = AdapterTransactionDetailBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ViewHolder(binding)
     }
 

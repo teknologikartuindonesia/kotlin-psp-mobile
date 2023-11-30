@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
@@ -29,9 +28,11 @@ import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.model.infonews.TagInSearch
 import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.FragmentHomeBinding
+import id.co.pspmobile.ui.HomeActivity
+import id.co.pspmobile.ui.HomeBottomNavigation.home.menu.MenuActivity
+import id.co.pspmobile.ui.HomeBottomNavigation.profile.faq.FaqActivity
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.handleApiError
-import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.account.AccountActivity
 import id.co.pspmobile.ui.attendance.AttendanceActivity
 import id.co.pspmobile.ui.calendar.CalendarActivity
@@ -39,6 +40,7 @@ import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
+import id.co.pspmobile.ui.main.MainActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import id.co.pspmobile.ui.schedule.ScheduleActivity
@@ -46,9 +48,9 @@ import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by viewModels()
 
@@ -80,12 +82,20 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), HistoryTopUpActivity::class.java))
         }
 
+        binding.seeMoreInfoNews.setOnClickListener {
+            try {
+                (activity as HomeActivity?)?.info()
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "onCreateView: $e")
+            }
+        }
+
         binding.layoutHomeMoreMenu.setOnClickListener {
             openBottomSheet()
         }
 
         viewModel.balanceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
+            when (it is Resource.Loading) {
                 true -> showLottieLoader()
                 else -> hideLottieLoader()
             }
@@ -134,10 +144,10 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.broadcastResponse.observe(viewLifecycleOwner){
-            if (it is Resource.Success){
+        viewModel.broadcastResponse.observe(viewLifecycleOwner) {
+            if (it is Resource.Success) {
                 val broadcastResponse = it.value
-                if (broadcastResponse.content.isNotEmpty()){
+                if (broadcastResponse.content.isNotEmpty()) {
                     val x = requireActivity().supportFragmentManager
                     val dialogBroadcast = DialogBroadcast(
                         broadcastResponse.content[0],
@@ -172,11 +182,14 @@ class HomeFragment : Fragment() {
         viewModel.getInfoNews(body, 0)
     }
 
-    fun configureFirebase(){
+    fun configureFirebase() {
         val current = SharePreferences.getFbToken(requireContext())
         val serverKeyId = BuildConfig.SERVER_KEY_ID
-        Log.d("HomeFragment", "configureFirebase: \n $current \n ${viewModel.getUserData().user.firebase.token}")
-        if (!current.isNullOrEmpty() && current != viewModel.getUserData().user.firebase.token){
+        Log.d(
+            "HomeFragment",
+            "configureFirebase: \n $current \n ${viewModel.getUserData().user.firebase.token}"
+        )
+        if (!current.isNullOrEmpty() && current != viewModel.getUserData().user.firebase.token) {
             viewModel.saveFirebaseToken(
                 current,
                 serverKeyId
@@ -237,6 +250,7 @@ class HomeFragment : Fragment() {
         // ga pake custom app
         var defaultMenuList = ArrayList<DefaultMenuModel>()
         var otherDefaultMenuList = ArrayList<DefaultMenuModel>()
+        var seeAllDefaultMenuList = ArrayList<DefaultMenuModel>()
         defaultMenuList.add(
             DefaultMenuModel(
                 resources.getString(R.string.topup),
@@ -311,21 +325,23 @@ class HomeFragment : Fragment() {
             DefaultMenuModel(
                 resources.getString(R.string.support),
                 R.drawable.ic_home_support,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), FaqActivity::class.java)
             )
         )
 
         otherDefaultMenuList = ArrayList(defaultMenuList.subList(7, defaultMenuList.size))
+        seeAllDefaultMenuList = ArrayList(defaultMenuList)
         defaultMenuList = ArrayList(defaultMenuList.subList(0, 7))
         defaultMenuList.add(
             DefaultMenuModel(
                 resources.getString(R.string.more),
                 R.drawable.ic_home_more_menu,
-                Intent(requireContext(), MutationActivity::class.java)
+                Intent(requireContext(), MenuActivity::class.java)
             )
         )
         val menuAdapter = DefaultMenuAdapter()
         menuAdapter.setMenuList(defaultMenuList, requireContext())
+        menuAdapter.setAllMenuList(seeAllDefaultMenuList, requireContext(), requireActivity())
         menuAdapter.setOtherMenuList(otherDefaultMenuList, requireContext(), requireActivity())
         otherDefaultMenuArray = otherDefaultMenuList
         rv.adapter = menuAdapter
@@ -334,9 +350,15 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun openBottomSheet(){
+    fun openBottomSheet() {
         val bottomSheetOtherMenuFragment =
-            otherDefaultMenuArray?.let { BottomSheetOtherMenuFragment(it, requireContext(), requireActivity()) }
+            otherDefaultMenuArray?.let {
+                BottomSheetOtherMenuFragment(
+                    it,
+                    requireContext(),
+                    requireActivity()
+                )
+            }
         bottomSheetOtherMenuFragment?.show(
             (requireActivity()).supportFragmentManager,
             bottomSheetOtherMenuFragment.tag
@@ -370,6 +392,7 @@ class HomeFragment : Fragment() {
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

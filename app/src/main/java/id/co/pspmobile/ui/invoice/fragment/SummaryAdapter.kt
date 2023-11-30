@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.AdapterSummaryInvoiceBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.formatDateTime
 
 class SummaryAdapter : RecyclerView.Adapter<SummaryAdapter.ViewHolder>() {
 
@@ -23,7 +24,7 @@ class SummaryAdapter : RecyclerView.Adapter<SummaryAdapter.ViewHolder>() {
         fun bind(invoice: InvoiceDto) {
             with(binding) {
                 tvName.text = invoice.title
-                tvDate.text = invoice.invoiceDate
+                tvDate.text = formatDateTime(invoice.createDate.toString(),"dd-MM-yyyy / HH:mm")
                 tvAmount.text = formatCurrency(invoice.amount)
                 tvPaid.text = formatCurrency(invoice.paidAmount)
                 tvDue.text = formatCurrency(invoice.amount - invoice.paidAmount)

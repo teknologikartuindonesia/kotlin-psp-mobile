@@ -26,6 +26,9 @@
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
         <activity
+            android:name=".ui.HomeBottomNavigation.home.menu.MenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.invoice.InvoicePaymentActivity"
             android:exported="false" />
         <activity

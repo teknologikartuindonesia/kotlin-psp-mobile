@@ -146,8 +146,8 @@
     <string name="pay_now">Bayar Sekarang</string>
     <string name="download">Unduh</string>
     <string name="share">Bagikan</string>
-    <string name="payment_success">Payment Success</string>
-    <string name="description">Description</string>
+    <string name="payment_success">Pembayaran Berhasil</string>
+    <string name="description">Deskripsi</string>
     <string name="please_input_valid_email_or_phone">Mohon masukkan email dan nomor yang valid</string>
     <string name="wrong_username_password">Username atau Password salah</string>
     <string name="time">Waktu</string>
@@ -155,9 +155,16 @@
     <string name="notification">Notifikasi</string>
     <string name="inbox">Kotak Masuk</string>
     <string name="broadcast">Siaran</string>
-    <string name="seeMore">See More</string>
+    <string name="seeMore">Lihat Semua</string>
     <string name="unanswered">Jika kendala anda belum terjawab silahkan hubungi kami</string>
     <string name="help_center">Pusat Bantuan</string>
     <string name="explore_help_topics">Jelajahi topik bantuan</string>
     <string name="contact_us">Hubungi Kami</string>
+    <string name="all_menu">Semua Menu</string>
+    <string name="transaction_in">Transaksi Masuk</string>
+    <string name="transaction_out">Transaksi Keluar</string>
+    <string name="number_of_transaction">Jumlah Transaksi</string>
+    <string name="detail">Detail</string>
+    <string name="income">Saldo Masuk</string>
+    <string name="outcome">Saldo Keluar</string>
 </resources>
