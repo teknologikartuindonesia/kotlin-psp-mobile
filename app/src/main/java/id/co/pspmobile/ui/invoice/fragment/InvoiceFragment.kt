@@ -51,8 +51,6 @@ class InvoiceFragment() : Fragment() {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
-                Log.e("total", size.toString())
-                Log.w("totalPage", totalContent.toString())
                 if (!isLoading && totalContent >= size) {
                     if (visibleItemCount + pastVisibleItem >= total) {
                         page++
@@ -85,6 +83,11 @@ class InvoiceFragment() : Fragment() {
         setupRecyclerView()
         viewModel.getUnpaidInvoice(page)
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            invoiceAdapter.clear()
+            viewModel.getUnpaidInvoice(0)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
         //Declare LocalBroadcastManager
         LocalBroadcastManager.getInstance(requireContext())
             .registerReceiver(finishMessageReceiver, IntentFilter("reload-invoice"))

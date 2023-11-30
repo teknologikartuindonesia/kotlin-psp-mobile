@@ -147,7 +147,7 @@ class BottomSheetDetailInvoice(
                 btnShare.setOnClickListener {
                     btnShare.visibility=View.GONE
                     btnDownload.visibility=View.GONE
-                    val image = getBitmapFromView(binding.basePanel)
+                    val image = getBitmapFromView(binding.basePanel,invoice.title.toString())
                     shareApp(image)
                     btnShare.visibility=View.VISIBLE
                     btnDownload.visibility=View.VISIBLE
@@ -161,7 +161,7 @@ class BottomSheetDetailInvoice(
         return binding.root
     }
 
-    private fun getBitmapFromView(view: View): Uri {
+    private fun getBitmapFromView(view: View,transactionName:String): Uri {
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
 
@@ -190,7 +190,7 @@ class BottomSheetDetailInvoice(
         }
         val uri = null;
         try {
-            val gpxfile = File(dir, "transactionId" + ".jpg")
+            val gpxfile = File(dir, transactionName.replace(" ","_") + ".jpg")
             val fos = FileOutputStream(gpxfile)
             returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
             fos.flush()

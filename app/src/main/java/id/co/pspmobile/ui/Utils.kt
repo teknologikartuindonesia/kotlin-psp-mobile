@@ -53,7 +53,6 @@ object Utils {
                     view.snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi")
                 } else {
                     view.snackbar("Mohon Maaf, sedang idak dapat memproses request anda.")
-
                 }
             }
             else -> {
