@@ -159,4 +159,8 @@
     <string name="buka_video_terkait">Buka Video Terkait</string>
     <string name="open">Buka</string>
     <string name="no_schedule">Tidak Ada Jadwal</string>
+    <string name="donation_name">"Nama Donasi: "</string>
+    <string name="donation_amount_input">Jumlah Donasi</string>
+    <string name="donation_detail">Detail Donasi</string>
+    <string name="history">Riwayat</string>
 </resources>
