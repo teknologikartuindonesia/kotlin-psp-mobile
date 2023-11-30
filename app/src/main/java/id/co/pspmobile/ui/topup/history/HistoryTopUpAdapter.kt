@@ -16,11 +16,11 @@ import id.co.pspmobile.ui.invoice.fragment.SummaryAdapter
 
 class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>() {
 
-    private lateinit var list: List<TransactionResDto>
+    private var list= ArrayList<TransactionResDto>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setHistoryTopUp(list: List<TransactionResDto>) {
-        this.list = list
+    fun setHistoryTopUp(item: List<TransactionResDto>) {
+        list.addAll(item)
 
         notifyDataSetChanged()
     }
@@ -30,7 +30,7 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
         fun bind(transaction: TransactionResDto) {
             with(binding) {
                 tvDate.text = formatDateTime(transaction.dateTime.toString(),"dd MMMM yyyy")
-                tvTransactionName.text = transaction.name
+                tvTransactionName.text = transaction.name?.trim()
                 tvBalance.text = "Rp. " + formatCurrency(transaction.amount)
             }
         }
@@ -45,6 +45,10 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
         holder.bind(list[position])
     }
 
+    fun clear() {
+        list.clear()
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int = list.size
 
 }

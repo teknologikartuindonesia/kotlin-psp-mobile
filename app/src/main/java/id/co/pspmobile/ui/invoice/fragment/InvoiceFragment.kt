@@ -85,6 +85,7 @@ class InvoiceFragment() : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             invoiceAdapter.clear()
+            totalContent = 0
             viewModel.getUnpaidInvoice(0)
             binding.swipeRefreshLayout.isRefreshing = false
         }

@@ -71,7 +71,7 @@ class HistoryFragment : Fragment() {
             viewModel.getPaidInvoice(0)
             binding.swipeRefreshLayout.isRefreshing = false
         }
-    }g
+    }
 
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)

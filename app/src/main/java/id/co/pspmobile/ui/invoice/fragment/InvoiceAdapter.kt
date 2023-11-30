@@ -20,16 +20,11 @@ import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
 class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
 
     private var list=ArrayList<InvoiceDto>()
-    private lateinit var onPayClickListener : (invoice: InvoiceDto) -> (Unit)
 
     @SuppressLint("NotifyDataSetChanged")
     fun setInvoices(item: ArrayList<InvoiceDto>) {
         list.addAll(item)
         notifyDataSetChanged()
-    }
-
-    fun setOnPayClickListener(onPayClickListener: (invoice: InvoiceDto) -> (Unit)) {
-        this.onPayClickListener = onPayClickListener
     }
 
     inner class ViewHolder(private val binding: AdapterInvoiceBinding) : RecyclerView.ViewHolder(binding.root) {
