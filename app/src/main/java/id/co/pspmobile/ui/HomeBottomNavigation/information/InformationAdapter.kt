@@ -6,19 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import id.co.pspmobile.data.network.information.InformationDto
+import id.co.pspmobile.data.network.responses.infonews.Content
 import id.co.pspmobile.databinding.AdapterInformationBinding
 import id.co.pspmobile.ui.Utils
 
 class InformationAdapter() : RecyclerView.Adapter<InformationAdapter.ViewHolder>() {
 
-    private lateinit var list: List<InformationDto>
+    private var list = ArrayList<Content>()
     private var onItemClickListener : View.OnClickListener? = null
     private var baseUrl: String = ""
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setInformations(list: List<InformationDto>) {
-        this.list = list
+    fun setInformations(list: List<Content>) {
+        this.list.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        this.list.clear()
         notifyDataSetChanged()
     }
 
@@ -31,18 +36,18 @@ class InformationAdapter() : RecyclerView.Adapter<InformationAdapter.ViewHolder>
     }
 
     inner class ViewHolder(private val binding: AdapterInformationBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(info: InformationDto) {
+        fun bind(info: Content) {
             with(binding) {
                 tvTitle.text = info.title
                 tvDate.text = Utils.formatDateTime(info.createTime, "dd-MM-yyyy")
                 tvDescription.text = info.description
 
-                if (info.image.isNotEmpty()) {
+                if (!info.image.isNullOrEmpty()) {
                     Picasso.get().load(baseUrl + "/main_a/image/get/" + info.image + "/pas").noFade().fit()
                         .into(ivInfo);
                 }
                 itemView.tag = info
-                itemView.setOnClickListener(onItemClickListener)
+//                itemView.setOnClickListener(onItemClickListener)
             }
         }
     }
