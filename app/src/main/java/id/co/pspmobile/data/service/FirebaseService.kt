@@ -16,6 +16,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
@@ -376,8 +377,10 @@ class FirebaseService : FirebaseMessagingService() {
 
     fun subscribeTopic(context: Context, topic: String) {
         FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener {
+            Log.d("FirebaseService", "Subscribed $topic")
 //            Toast.makeText(context, "Subscribed $topic", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
+            Log.d("FirebaseService", "Failed to Subscribe $topic")
 //            Toast.makeText(context, "Failed to Subscribe $topic", Toast.LENGTH_LONG).show()
         }
     }

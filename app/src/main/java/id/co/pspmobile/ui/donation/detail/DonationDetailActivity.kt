@@ -68,8 +68,8 @@ class DonationDetailActivity : AppCompatActivity() {
                 val msg =
                     if (lang == "id") "Donasi ${donationDto?.title} ($amount) Berhasil"
                     else "Donation ${donationDto?.title} ($amount) Success"
-                binding.root.snackbar(msg)
-                viewModel.getDonationById(donationDto!!.id)
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                finish()
             } else if (it is Resource.Failure) {
                 handleApiError(binding.rvDonationHistory, it)
             }
@@ -100,6 +100,20 @@ class DonationDetailActivity : AppCompatActivity() {
                 viewModel.donate(body)
             }
         }
+
+        viewModel.balanceResponse.observe(this){
+            if (it is Resource.Success) {
+                binding.tvBalance.text = Utils.formatCurrency(it.value.balance)
+                viewModel.saveBalanceData(it.value)
+            } else if (it is Resource.Failure) {
+                handleApiError(binding.rvDonationHistory, it)
+            }
+        }
+        getBalance()
+    }
+
+    fun getBalance(){
+        viewModel.getBalance()
     }
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()

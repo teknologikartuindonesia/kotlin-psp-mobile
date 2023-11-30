@@ -155,6 +155,14 @@
     <string name="notification">Notification</string>
     <string name="inbox">Inbox</string>
     <string name="broadcast">Broadcast</string>
+    <string name="buka_url_terkait">Open Related Url</string>
+    <string name="buka_video_terkait">Open Related Video</string>
+    <string name="open">Open</string>
+    <string name="no_schedule">No Schedule</string>
+    <string name="donation_name">"Donation Name: "</string>
+    <string name="donation_amount_input">Donation Amount Input</string>
+    <string name="donation_detail">Donation Detail</string>
+    <string name="history">History</string>
     <string name="seeMore">See More</string>
     <string name="unanswered">If your issue wasn\'t answered, please contact us!</string>
     <string name="help_center">Help Center</string>

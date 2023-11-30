@@ -31,6 +31,9 @@
         <activity
             android:name=".ui.invoice.InvoicePaymentActivity"
             android:exported="false" />
+            <activity
+            android:name=".ui.HomeBottomNavigation.information.InfoDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.HomeBottomNavigation.message.NotificationMessageDetailActivity"
             android:exported="false" />

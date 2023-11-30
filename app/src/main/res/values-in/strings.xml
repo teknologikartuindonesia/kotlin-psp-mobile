@@ -155,6 +155,14 @@
     <string name="notification">Notifikasi</string>
     <string name="inbox">Kotak Masuk</string>
     <string name="broadcast">Siaran</string>
+    <string name="buka_url_terkait">Buka Url Terkait</string>
+    <string name="buka_video_terkait">Buka Video Terkait</string>
+    <string name="open">Buka</string>
+    <string name="no_schedule">Tidak Ada Jadwal</string>
+    <string name="donation_name">"Nama Donasi: "</string>
+    <string name="donation_amount_input">Jumlah Donasi</string>
+    <string name="donation_detail">Detail Donasi</string>
+    <string name="history">Riwayat</string>
     <string name="seeMore">Lihat Semua</string>
     <string name="unanswered">Jika kendala anda belum terjawab silahkan hubungi kami</string>
     <string name="help_center">Pusat Bantuan</string>

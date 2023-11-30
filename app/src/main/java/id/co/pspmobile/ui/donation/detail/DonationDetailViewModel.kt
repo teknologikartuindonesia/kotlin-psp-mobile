@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.donation.DonationDto
 import id.co.pspmobile.data.network.donation.DonationPayDto
 import id.co.pspmobile.data.network.donation.DonationRepository
@@ -18,8 +19,20 @@ import javax.inject.Inject
 @HiltViewModel
 class DonationDetailViewModel @Inject constructor(
     private val donationRepository: DonationRepository,
+    private val authRepository: AuthRepository,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
+
+    private var _balanceResponse: MutableLiveData<Resource<BalanceResponse>> = MutableLiveData()
+    val balanceResponse: LiveData<Resource<BalanceResponse>> get() = _balanceResponse
+    fun getBalance() = viewModelScope.launch {
+        _balanceResponse.value = Resource.Loading
+        _balanceResponse.value = authRepository.getBalance()
+    }
+
+    fun saveBalanceData(balance: BalanceResponse) = viewModelScope.launch {
+        userPreferences.saveBalanceData(balance)
+    }
 
     private var _donationResponse: MutableLiveData<Resource<DonationDto>> = MutableLiveData()
     val donationResponse: LiveData<Resource<DonationDto>> get() = _donationResponse

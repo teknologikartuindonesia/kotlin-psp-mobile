@@ -176,8 +176,10 @@ class HomeFragment : Fragment() {
     fun getInfoHeadline() {
         val defaultBool: List<DefaultBool> =
             listOf(DefaultBool("enable", true), DefaultBool("isHeadline", true))
+        val tags = viewModel.getUserData().tags as MutableList<String>
+        tags.add("info")
         val tagInSearch: List<TagInSearch> =
-            listOf(TagInSearch("tags", viewModel.getUserData().tags))
+            listOf(TagInSearch("tags", tags))
         val body = ModelInfoNews(defaultBool, emptyList(), tagInSearch)
         viewModel.getInfoNews(body, 0)
     }

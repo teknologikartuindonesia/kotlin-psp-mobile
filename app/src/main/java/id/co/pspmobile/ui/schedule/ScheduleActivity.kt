@@ -19,6 +19,7 @@ import id.co.pspmobile.data.network.responses.calendarschedule.Lesson
 import id.co.pspmobile.data.network.responses.checkcredential.CallerIdentity
 import id.co.pspmobile.databinding.ActivityScheduleBinding
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.visible
 import java.util.Calendar
 
@@ -79,7 +80,7 @@ class ScheduleActivity : AppCompatActivity() {
             binding.progressBar.visible(it is Resource.Loading)
             if(it is Resource.Success){
                 schedulePerDay = if (it.value.content.isEmpty()){
-                    Toast.makeText(this, "Tidak ada jadwal", Toast.LENGTH_SHORT).show()
+                    binding.root.snackbar(resources.getString(R.string.no_schedule))
                     ArrayList<Lesson>()
                 }else{
                     it.value.content[0].lessons as ArrayList<Lesson>
