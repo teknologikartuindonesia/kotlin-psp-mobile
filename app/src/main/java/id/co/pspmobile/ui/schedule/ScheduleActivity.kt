@@ -179,7 +179,12 @@ class ScheduleActivity : AppCompatActivity() {
     }
 
     fun configureAsset(){
-        binding.txtDay.text = currentDay
+        if (viewModel.getLanguage() == "en"){
+            binding.txtDay.text = currentDay
+        }else {
+            val indoDays = arrayOf("MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU")
+            binding.txtDay.text = indoDays[days.indexOf(currentDay)]
+        }
         when(currentDay){
             "SUNDAY" -> {
                 binding.imgSchedule.setImageResource(R.drawable.ic_calendar_sun)

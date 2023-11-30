@@ -65,6 +65,10 @@ class HistoryAdapter(private val context: Context) : RecyclerView.Adapter<Histor
         holder.bind(list[position])
     }
 
+    fun clear() {
+        list.clear()
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int = list.size
 
 }

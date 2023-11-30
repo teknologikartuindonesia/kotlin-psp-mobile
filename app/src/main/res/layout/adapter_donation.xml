@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_donation_name"
+                android:id="@+id/tv_donation_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -42,7 +42,7 @@
                 tools:text="Invoice Name" />
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_nominal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"

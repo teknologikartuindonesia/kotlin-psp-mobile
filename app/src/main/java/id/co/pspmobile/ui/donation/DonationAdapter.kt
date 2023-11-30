@@ -1,6 +1,8 @@
 package id.co.pspmobile.ui.donation
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.donation.DonationDto
 import id.co.pspmobile.databinding.AdapterDonationBinding
 import id.co.pspmobile.ui.Utils.formatDateTime
+import id.co.pspmobile.ui.donation.detail.DonationDetailActivity
+import java.io.Serializable
 
-class DonationAdapter : RecyclerView.Adapter<DonationAdapter.ViewHolder>() {
+class DonationAdapter(private val context: Context) : RecyclerView.Adapter<DonationAdapter.ViewHolder>() {
 
-    private lateinit var list: List<DonationDto>
+    private var list = ArrayList<DonationDto>()
     private var onItemClickListener : View.OnClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setDonations(list: List<DonationDto>) {
-        this.list = list
+    fun setDonations(list: ArrayList<DonationDto>) {
+        this.list.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -30,8 +34,13 @@ class DonationAdapter : RecyclerView.Adapter<DonationAdapter.ViewHolder>() {
                 itemView.tag = donationDto
                 itemView.setOnClickListener(onItemClickListener)
 
-                tvDonationName.text = donationDto.title
-                tvDate.text = formatDateTime(donationDto.createDate, "dd MMMM yyyy")
+                basePanel.setOnClickListener {
+                    val intent = Intent(context, DonationDetailActivity::class.java)
+                    intent.putExtra("donationDto", donationDto as Serializable)
+                    context.startActivity(intent)
+                }
+                tvDonationDate.text = donationDto.title
+                tvNominal.text = formatDateTime(donationDto.createDate, "dd MMMM yyyy")
             }
         }
     }

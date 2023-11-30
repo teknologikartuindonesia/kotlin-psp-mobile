@@ -13,12 +13,16 @@ import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.view.marginLeft
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
+import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 import id.co.pspmobile.ui.login.LoginActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import kotlinx.coroutines.runBlocking
@@ -44,9 +48,41 @@ object Utils {
                     this.logout()
                 }
             }
+            failure.errorCode == 400 -> {
+                if (this is InvoicePaymentActivity) {
+                    view.snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi")
+                } else {
+                    view.snackbar("Mohon Maaf, sedang idak dapat memproses request anda.")
+                }
+            }
             else -> {
                 val error = failure.errorBody?.string().toString()
                 view.snackbar(error)
+            }
+        }
+    }
+
+//    for Fragment use handle this
+    fun Fragment.handleFragmentApiError(
+        failure: Resource.Failure,
+        retry: (() -> Unit)? = null
+    ) {
+        when {
+            failure.isNetworkError ->  {
+                requireView().snackbar("Gagal koneksi. Silahkan check kembali koneksi jaringan anda")
+            }
+            failure.errorCode == 401 -> {
+            }
+            failure.errorCode == 400 -> {
+                if (this is BottomSheetPaymentSuccessInvoice) {
+                    requireView().snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi.")
+                } else {
+                    this.requireActivity().logout()
+                }
+            }
+            else -> {
+                val error = failure.errorBody?.string().toString()
+                requireView().snackbar(error)
             }
         }
     }
@@ -66,10 +102,11 @@ object Utils {
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         val layoutParams = FrameLayout.LayoutParams(snackbar.view.layoutParams)
+        layoutParams.setMargins(10, 10, 10, 10)
         layoutParams.gravity = Gravity.BOTTOM
-        snackbar.view.setPadding(0, 0, 0, 20)
+        snackbar.view.setPadding(10, 10, 10, 10)
         snackbar.view.layoutParams = layoutParams
-        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snackbar.show()
     }
 
@@ -217,4 +254,16 @@ object Utils {
         loaderDialogFragment?.dismiss()
     }
 
+    fun subString(input: String, startIndex: Int, endIndex: Int): String {
+        // Ensure startIndex and endIndex are within valid bounds
+        val start = startIndex.coerceIn(0, input.length)
+        val end = endIndex.coerceIn(0, input.length)
+
+        // Return the substring
+        return if (start <= end) {
+            input.substring(start, end)
+        } else {
+            ""
+        }
+    }
 }

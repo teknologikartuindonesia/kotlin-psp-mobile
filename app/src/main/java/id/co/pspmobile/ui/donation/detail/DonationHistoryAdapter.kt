@@ -21,8 +21,10 @@ class DonationHistoryAdapter : RecyclerView.Adapter<DonationHistoryAdapter.ViewH
     inner class ViewHolder(private val binding: AdapterDonationBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(participant: Participant) {
             with(binding) {
-                tvDonationName.text = participant.callerName
-                tvDate.text = formatCurrency(participant.amount)
+                val date = participant.dateTime.split("T")[0]
+                val time = participant.dateTime.split("T")[1].substring(0, 5)
+                tvDonationDate.text = "$date $time"
+                tvNominal.text = "Rp " + formatCurrency(participant.amount)
             }
         }
     }

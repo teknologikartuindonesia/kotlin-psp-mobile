@@ -3,6 +3,7 @@ package id.co.pspmobile.data.network.auth
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.BaseRepository
 import id.co.pspmobile.data.network.model.ModelLogin
+import id.co.pspmobile.data.network.model.firebase.ModelFirebaseToken
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.profile.UserResponse
@@ -117,6 +118,12 @@ class AuthRepository @Inject constructor (
             "broadcastSent",
             -1
         )
+    },
+        userPreferences
+    )
+
+    suspend fun saveFirebaseToken(token: String, serverKeyId:String) = safeApiCall({
+        api.saveFirebaseToken(ModelFirebaseToken(token, serverKeyId))
     },
         userPreferences
     )

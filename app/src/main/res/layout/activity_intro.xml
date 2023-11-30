@@ -22,8 +22,8 @@
                     android:id="@+id/btn_logo"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:src="@drawable/main_logo"
-                    android:visibility="invisible"/>
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/main_logo"/>
 
                 <ImageView
                     android:id="@+id/img_intro1"
@@ -50,16 +50,19 @@
                     android:orientation="horizontal"
                     android:gravity="center">
                     <ImageView
+                        android:id="@+id/img_pager1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="2dp"
                         android:src="@drawable/active_dot"/>
                     <ImageView
+                        android:id="@+id/img_pager2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="2dp"
                         android:src="@drawable/inactive_dot"/>
                     <ImageView
+                        android:id="@+id/img_pager3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="2dp"
