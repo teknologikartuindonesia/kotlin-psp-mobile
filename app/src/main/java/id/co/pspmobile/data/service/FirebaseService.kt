@@ -378,10 +378,10 @@ class FirebaseService : FirebaseMessagingService() {
     fun subscribeTopic(context: Context, topic: String) {
         FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnSuccessListener {
             Log.d("FirebaseService", "Subscribed $topic")
-            Toast.makeText(context, "Subscribed $topic", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "Subscribed $topic", Toast.LENGTH_LONG).show()
         }.addOnFailureListener {
             Log.d("FirebaseService", "Failed to Subscribe $topic")
-            Toast.makeText(context, "Failed to Subscribe $topic", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "Failed to Subscribe $topic", Toast.LENGTH_LONG).show()
         }
     }
 

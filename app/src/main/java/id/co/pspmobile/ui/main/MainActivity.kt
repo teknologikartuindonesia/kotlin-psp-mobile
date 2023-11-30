@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.BuildConfig
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.service.FirebaseService
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 //Subscribe Topics FCM
                 subscribeTopics("broadcast-all")
-                subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
+                subscribeTopics("broadcast-${BuildConfig.APPLICATION_ID}")
                 subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
                 subscribeTopics("academic-${it.value.activeCompany.companyCode}")
 
