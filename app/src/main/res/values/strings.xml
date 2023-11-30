@@ -157,4 +157,7 @@
     <string name="notification">Notifikasi</string>
     <string name="inbox">Kotak Masuk</string>
     <string name="broadcast">Broadcast</string>
+    <string name="buka_url_terkait">Buka Url Terkait</string>
+    <string name="buka_video_terkait">Buka Video Terkait</string>
+    <string name="open">Buka</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ItemTagsBinding
+import id.co.pspmobile.ui.Utils.visible
 
 class TagsAdapter(val context: Context): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
     var defaultTags = listOf<String>()
@@ -43,6 +44,9 @@ class TagsAdapter(val context: Context): RecyclerView.Adapter<TagsAdapter.TagsVi
             }
         }
         fun bind(tag: String) {
+            if (tag == "info"){
+                binding.btnTag.visible(false)
+            }
             binding.btnTag.setOnClickListener {
                 Log.d("TagsAdapter", "TagsViewHolder: btn clicked")
                 clickedTag = tag

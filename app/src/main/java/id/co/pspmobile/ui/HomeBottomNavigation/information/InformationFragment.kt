@@ -81,9 +81,7 @@ class InformationFragment : Fragment() {
             }
         }
         allTagsFromUser = viewModel.getUserData().tags as MutableList<String>
-//        allTagsFromUser.add(0, "info")
         selectedTag = viewModel.getUserData().tags as MutableList<String>
-//        selectedTag.add(0, "info")
 
         setupRecyclerView()
         setupTagsRecyclerView()
@@ -93,18 +91,22 @@ class InformationFragment : Fragment() {
             if (isAll){
                 return@setOnClickListener
             }
-            isAll = true
-            selectedTag.clear()
-            selectedTag = allTagsFromUser
-            tagsAdapter.setSelectedTag(selectedTag)
-            tagsAdapter.setDefaultTag(allTagsFromUser)
-            tagsAdapter.setAll(true)
-            page = 0
-            infoAdapter.clear()
-            binding.btnAll.background = resources.getDrawable(R.drawable.tab_layout_bg)
-            binding.btnAll.setTextColor(resources.getColor(R.color.white))
-            getInfo(false)
+            getAll()
         }
+    }
+
+    fun getAll(){
+        isAll = true
+        selectedTag.clear()
+        selectedTag = allTagsFromUser
+        tagsAdapter.setSelectedTag(selectedTag)
+        tagsAdapter.setDefaultTag(allTagsFromUser)
+        tagsAdapter.setAll(true)
+        page = 0
+        infoAdapter.clear()
+        binding.btnAll.background = resources.getDrawable(R.drawable.tab_layout_bg)
+        binding.btnAll.setTextColor(resources.getColor(R.color.white))
+        getInfo(false)
     }
 
     fun getInfo(isOnrefresh: Boolean){
@@ -126,6 +128,8 @@ class InformationFragment : Fragment() {
         binding.rvInfo.setHasFixedSize(true)
         binding.rvInfo.layoutManager = layoutManager
         infoAdapter = InformationAdapter()
+        infoAdapter.setContext(requireContext())
+        infoAdapter.setBaseUrl(viewModel.getBaseUrl())
         binding.rvInfo.adapter = infoAdapter
     }
 
@@ -138,25 +142,9 @@ class InformationFragment : Fragment() {
         tagsAdapter.setOnItemClickListener { v ->
             Log.d("TagsAdapter", "InformationFragment: clicked $v  \n ${v.tag}")
 
-//            val position = binding.rvTags.getChildAdapterPosition(v!!)
-//            val clickedTag = tagsAdapter.defaultTags[position]
             val tagTarget = tagsAdapter.clickedTag // clickedTag// requireView().tag as String
-            Toast.makeText(context, "tagTarget: $tagTarget", Toast.LENGTH_LONG).show()
             Log.d("TagsAdapter", "InformationFragment: clicked $tagTarget")
             Log.d("TagsAdapter", "InformationFragment: clicked $selectedTag")
-/*
-if(temp.includes(tag)){
-      for (let i = 0; i < temp.length; i++) {
-        const e = temp[i];
-        if(e == tag){
-          temp.splice(i, 1)
-        }
-      }
-    }else{
-      temp.push(tag)
-    }
-    this.selectedTags = temp
-* */
 
             tagsAdapter.setAll(false)
             var temp = if (!isAll) selectedTag else mutableListOf()
@@ -170,29 +158,10 @@ if(temp.includes(tag)){
 
             binding.btnAll.background = resources.getDrawable(R.drawable.tab_layout_outline)
             binding.btnAll.setTextColor(resources.getColor(R.color.primary))
-//            if (tagTarget == "info") {
-//                isAll = true
-//                if (selectedTag.contains(tagTarget)) {
-//                    selectedTag.remove(tagTarget)
-//                } else {
-//                    selectedTag.add(tagTarget)
-//                }
-//            } else {
-//                isAll = false
-//                if (selectedTag.contains("info")) {
-//                    selectedTag.remove("info")
-//                }
-//                if(selectedTag.contains(tagTarget)){
-//                    selectedTag.remove(tagTarget)
-//                } else {
-//                    selectedTag.add(tagTarget)
-//                }
-//            }
-//            if (selectedTag.contains(tagTarget)) {
-//                selectedTag.remove(tagTarget)
-//            } else {
-//                selectedTag.add(tagTarget)
-//            }
+            if (selectedTag.size == 0){
+                getAll()
+                return@setOnItemClickListener
+            }
             tagsAdapter.setSelectedTag(selectedTag)
             tagsAdapter.clickedTag = ""
             Log.d("TagsAdapter", "InformationFragment: clicked $selectedTag")
@@ -201,54 +170,8 @@ if(temp.includes(tag)){
 
             getInfo(false)
         }
-//        tagsAdapter.setOnItemClickListener { view ->
-//            val position = binding.rvTags.getChildAdapterPosition(view)
-//            val clickedTag = tagsAdapter.defaultTags[position]
-//            val tagTarget = clickedTag// requireView().tag as String
-//            if (selectedTag.contains(tagTarget)) {
-//                selectedTag.remove(tagTarget)
-//            } else {
-//                selectedTag.add(tagTarget)
-//            }
-//            tagsAdapter.setSelectedTag(selectedTag)
-//            getInfo(false)
-//        }
-        Toast.makeText(context, "selectedTag: $selectedTag", Toast.LENGTH_LONG).show()
         binding.rvTags.adapter = tagsAdapter
     }
-
-    // jika semua, "info" + semua tag
-    // jika tag tertentu, tag tertentu saja
-
-    // ambil semua tag dari user
-    // taruh di allTagsFromUser
-    // set selectedTag = "info" + allTagsFromUser
-    // tampilkan di recyclerview
-    // ambil data dari tag yang dipilih
-//    fun initialize() {
-//        allTagsFromUser = viewModel.getUserData().tags
-//        selectedTag = viewModel.getUserData().tags as MutableList<String>
-//        selectedTag.add(0, "info")
-//        getInfo(false)
-//
-//        tagsAdapter = TagsAdapter(requireContext())
-//        tagsAdapter.setDefaultTag(allTagsFromUser)
-//        tagsAdapter.setSelectedTag(selectedTag)
-//        tagsAdapter.setOnItemClickListener { view ->
-//            val tagTarget = requireView().tag as String
-//            if (selectedTag.contains(tagTarget)) {
-//                selectedTag.remove(tagTarget)
-//            } else {
-//                selectedTag.add(tagTarget)
-//            }
-//            tagsAdapter.setSelectedTag(selectedTag)
-//            getInfo(false)
-//        }
-//        binding.apply {
-//            rvTags.setHasFixedSize(true)
-//            rvTags.adapter = tagsAdapter
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
