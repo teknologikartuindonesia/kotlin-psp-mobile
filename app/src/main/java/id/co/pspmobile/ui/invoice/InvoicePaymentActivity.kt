@@ -1,55 +1,50 @@
-package id.co.pspmobile.ui.invoice.fragment
+package id.co.pspmobile.ui.invoice
 
-import android.R
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.invoice.InvoiceDto
+import id.co.pspmobile.data.network.responses.activebroadcast.ContentX
+import id.co.pspmobile.databinding.ActivityInvoiceBinding
+import id.co.pspmobile.databinding.ActivityInvoicePaymentBinding
 import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.ui.NumberTextWatcher
 import id.co.pspmobile.ui.Utils
-import id.co.pspmobile.ui.Utils.formatCurrency
-import id.co.pspmobile.ui.Utils.parseDouble
+import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.customDialog.CustomDialogFragment
-import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
+import id.co.pspmobile.ui.invoice.fragment.DetailInvoiceAdapter
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
-
 @AndroidEntryPoint
-class BottomSheetPaymentInvoice(
-    private val userName: String,
-    private val invoice: InvoiceDto,
-) : BottomSheetDialogFragment() {
-
-    private lateinit var binding: BottomSheetPaymentInvoiceBinding
+class InvoicePaymentActivity : AppCompatActivity() {
     private val viewModel: InvoiceViewModel by viewModels()
+    private lateinit var binding: ActivityInvoicePaymentBinding
     private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
+    private lateinit var invoice: InvoiceDto
 
-    @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = BottomSheetPaymentInvoiceBinding.inflate(inflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityInvoicePaymentBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         detailInvoiceAdapter = DetailInvoiceAdapter()
 
+        val intent = intent?.extras
+        val c = intent?.getString("content")
+        invoice = c?.let { Gson().fromJson(it, InvoiceDto::class.java) }!!
 
         binding.apply {
             edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
@@ -57,14 +52,14 @@ class BottomSheetPaymentInvoice(
 //                Toast.makeText(requireContext(), edNominal.text.toString().trim().replace(".", "").replace(",", ""), Toast.LENGTH_SHORT).show()
             }
 
-            tvInvoiceName.text = invoice.title
-            tvInvoiceNameDetail.text = invoice.title
-            if (invoice.showDetail) {
+            tvInvoiceName.text = invoice?.title
+            tvInvoiceNameDetail.text = invoice?.title
+            if (invoice!!.showDetail) {
                 rvDetailInvoice.visibility = View.VISIBLE
             } else {
                 rvDetailInvoice.visibility = View.GONE
             }
-            if (invoice.callerName == viewModel.getUserData().user.name) {
+            if (invoice?.callerName == viewModel.getUserData().user.name) {
                 parentNameContainer.visibility = View.GONE
             } else {
                 parentNameContainer.visibility = View.VISIBLE
@@ -75,8 +70,8 @@ class BottomSheetPaymentInvoice(
             }
             if (invoice.description?.length!! <= 100) tvShowAll.visibility = View.GONE
 
-            tvShowAll.text = resources.getString(R.string.cut)
-            tvInvoiceDescription.text = Utils.subString(invoice.description, 0, 100) + "..."
+            tvShowAll.text = resources.getString(android.R.string.cut)
+            tvInvoiceDescription.text = Utils.subString(invoice.description!!, 0, 100) + "..."
             tvShowAll.setOnClickListener {
                 when (tvShowAll.text) {
                     "Tampilkan Semua" -> {
@@ -87,7 +82,7 @@ class BottomSheetPaymentInvoice(
                     else -> {
                         tvShowAll.text = "Tampilkan Semua"
                         tvInvoiceDescription.text =
-                            invoice.description.length.toString().subSequence(0, 100)
+                            invoice.description!!.length.toString().subSequence(0, 100)
                     }
                 }
 
@@ -97,8 +92,8 @@ class BottomSheetPaymentInvoice(
             tvStudentName.text = invoice.callerName
             tvDate.text = invoice.invoiceDate
             tvDueDate.text = invoice.dueDate
-            tvPaid.text = formatCurrency(invoice.paidAmount)
-            tvMinus.text = formatCurrency(invoice.amount - invoice.paidAmount)
+            tvPaid.text = Utils.formatCurrency(invoice.paidAmount)
+            tvMinus.text = Utils.formatCurrency(invoice.amount - invoice.paidAmount)
             if (invoice.partialMethod) {
                 when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CREDIT"
@@ -114,7 +109,7 @@ class BottomSheetPaymentInvoice(
                 containerNominal.visibility = View.GONE
             }
             tvStatus.text = invoice.status
-            tvAmount.text = formatCurrency(invoice.amount)
+            tvAmount.text = Utils.formatCurrency(invoice.amount)
 
             detailInvoiceAdapter.setDetail(invoice.detail)
             rvDetailInvoice.setHasFixedSize(true)
@@ -147,70 +142,52 @@ class BottomSheetPaymentInvoice(
 
                 }
 
-
-
             }
 
-            viewModel.paymentInvoiceResponse.observe(viewLifecycleOwner) {
+            viewModel.paymentInvoiceResponse.observe(this@InvoicePaymentActivity) {
                 when (it is Resource.Loading) {
                     true -> showLottieLoader()
                     else -> hideLottieLoader()
                 }
                 if (it is Resource.Success) {
-                    dismiss()
+
                     val bottomSheetDialogFragment: BottomSheetDialogFragment =
                         BottomSheetPaymentSuccessInvoice("", it.value, invoice)
+                    bottomSheetDialogFragment.setCancelable(false);
                     bottomSheetDialogFragment.show(
-                        (requireActivity()).supportFragmentManager,
+                        supportFragmentManager,
                         bottomSheetDialogFragment.tag
                     )
                 } else if (it is Resource.Failure) {
+                    handleApiError(binding.root, it)
                 }
             }
 
-        }
+            binding.btnBack.setOnClickListener {
+                finish()
+            }
 
-        //Declare LocalBroadcastManager
-        LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(mMessageReceiver, IntentFilter("custom-dialog"))
+            //Declare LocalBroadcastManager
+            LocalBroadcastManager.getInstance(this@InvoicePaymentActivity)
+                .registerReceiver(mMessageReceiver, IntentFilter("custom-dialog"))
 
-        return binding.root
-    }
+            //Declare LocalBroadcastManager
+            LocalBroadcastManager.getInstance(this@InvoicePaymentActivity)
+                .registerReceiver(finishMessageReceiver, IntentFilter("finish-activity"))
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val bottomSheet : FrameLayout = dialog?.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.TextAppearance_Theme_Dialog)
-
-        // Height of the view
-        bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-
-        // Behavior of the bottom sheet
-        val behavior = BottomSheetBehavior.from(bottomSheet)
-        behavior.apply {
-            peekHeight = resources.displayMetrics.heightPixels // Pop-up height
-            state = BottomSheetBehavior.STATE_EXPANDED // Expanded state
-
-            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            })
         }
     }
 
-    fun paymentPartial() {
+    fun paymentPartial(invoice: InvoiceDto) {
         viewModel.paymentInvoice(
-            parseDouble(
+            Utils.parseDouble(
                 binding.edNominal.text.toString().trim().replace(".", "").replace(",", "")
             ),
             invoice.invoiceId!!
         )
     }
 
-    fun paymentCash() {
+    fun paymentCash(invoice: InvoiceDto) {
         viewModel.paymentInvoice(
             invoice.amount,
             invoice.invoiceId!!
@@ -228,7 +205,7 @@ class BottomSheetPaymentInvoice(
         dialogFragment.setArguments(bundle)
         dialogFragment.getView()?.setElevation(10f);
 
-        dialogFragment.show(parentFragmentManager, "myDialog")
+        dialogFragment.show(supportFragmentManager, "myDialog")
     }
 
     //Listen from LocalBroadcastManager custom dialog
@@ -238,26 +215,39 @@ class BottomSheetPaymentInvoice(
             val feature = intent.getStringExtra("feature")
             val type = intent.getStringExtra("type")
             if (feature == "invoice" && type == "partial") {
-                paymentPartial()
+                paymentPartial(invoice)
 
             } else {
-                paymentCash()
+                paymentCash(invoice)
             }
 
         }
     }
 
+    //Listen from LocalBroadcastManager payment Success
+    private val finishMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val finish = intent.getStringExtra("finish")
+            if (finish == "finish") {
+                val intent = Intent("reload-invoice")
+                intent.putExtra("reload", "reload")
+                LocalBroadcastManager.getInstance(this@InvoicePaymentActivity).sendBroadcast(intent)
+                finish()
+            }
+        }
+    }
 
 
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()
-        loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
+        loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
 
     }
 
     private fun hideLottieLoader() {
         val loaderDialogFragment =
-            parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
+            supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
         loaderDialogFragment?.dismiss()
     }
 }

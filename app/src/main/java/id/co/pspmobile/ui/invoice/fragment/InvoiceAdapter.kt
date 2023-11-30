@@ -2,14 +2,19 @@ package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.AdapterInvoiceBinding
+import id.co.pspmobile.ui.HomeBottomNavigation.message.BroadcastDetailActivity
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
 
 
 class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<InvoiceAdapter.ViewHolder>() {
@@ -45,14 +50,9 @@ class InvoiceAdapter(private val context: Context) : RecyclerView.Adapter<Invoic
                 tvUnpaidAmount.text = formatCurrency(invoice.amount - invoice.paidAmount)
 
                 btnPay.setOnClickListener {
-
-                    val bottomSheetDialogFragment: BottomSheetDialogFragment = BottomSheetPaymentInvoice("",invoice)
-                    bottomSheetDialogFragment
-                    bottomSheetDialogFragment.show(
-                        (context as FragmentActivity).supportFragmentManager,
-                        bottomSheetDialogFragment.tag
-                    )
-
+                    val i = Intent(context, InvoicePaymentActivity::class.java)
+                    i.putExtra("content", Gson().toJson(invoice))
+                    context.startActivity(i)
                 }
             }
         }

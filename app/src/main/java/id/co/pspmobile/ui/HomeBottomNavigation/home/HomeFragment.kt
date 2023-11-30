@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
         viewPager.setPageTransformer(compositePageTransformer)
 
         viewModel.infoNewsResponse.observe(viewLifecycleOwner) {
-            binding.progressbar.visible(it is Resource.Loading)
+//            binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success) {
                 val infoNewsResponse = it.value
                 Log.d("HomeFragment", "infoNewsResponse: $infoNewsResponse")

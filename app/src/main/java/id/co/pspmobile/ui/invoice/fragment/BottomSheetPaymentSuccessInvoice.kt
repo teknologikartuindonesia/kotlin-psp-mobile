@@ -2,6 +2,7 @@ package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -16,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
@@ -42,7 +44,6 @@ class BottomSheetPaymentSuccessInvoice(
     private lateinit var binding: BottomSheetPaymentSuccessInvoiceBinding
     private val viewModel: InvoiceViewModel by viewModels()
 
-
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +55,7 @@ class BottomSheetPaymentSuccessInvoice(
 
         binding.apply {
             tvInvoiceName.text = invoicePayment.inquiryResponseDto.title
-            tvParentName.text =  viewModel.getUserData().user.name
+            tvParentName.text = viewModel.getUserData().user.name
             tvStudentName.text = invoice.callerName
             tvPaid.text = formatCurrency(invoicePayment.amount)
             tvPayDate.text =
@@ -71,9 +72,7 @@ class BottomSheetPaymentSuccessInvoice(
                 parentNameContainer.visibility = View.GONE
             } else {
                 parentNameContainer.visibility = View.VISIBLE
-
             }
-
 
             if (invoicePayment.inquiryResponseDto.partialMethod) {
                 tvType.text = "CREDIT"
@@ -101,7 +100,10 @@ class BottomSheetPaymentSuccessInvoice(
 
             btnClose.setOnClickListener {
                 dismiss()
-
+                val args = arguments
+                val intent = Intent("finish-activity")
+                intent.putExtra("finish","finish")
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             }
 
         }

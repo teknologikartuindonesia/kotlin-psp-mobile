@@ -43,6 +43,7 @@ tools:context=".ui.HomeBottomNavigation.information.InformationFragment">
         android:id="@+id/rv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="25dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/adapter_information" />
 
