@@ -8,7 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.donation.DonationDto
+import id.co.pspmobile.data.network.donation.DonationPayDto
 import id.co.pspmobile.data.network.donation.DonationRepository
+import id.co.pspmobile.data.network.donation.DonationResDto
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,6 +29,15 @@ class DonationDetailViewModel @Inject constructor(
         _donationResponse.value = donationRepository.getDonationById(donationId)
     }
 
+    private var _donateResponse: MutableLiveData<Resource<DonationResDto>> = MutableLiveData()
+    val donateResponse: LiveData<Resource<DonationResDto>> get() = _donateResponse
+    fun donate(dto: DonationPayDto) = viewModelScope.launch {
+        _donateResponse.value = Resource.Loading
+        _donateResponse.value = donationRepository.donate(dto)
+    }
+
+    fun getLanguage() = userPreferences.getLanguage()
+    fun getUserData() = userPreferences.getUserData()
     fun getBalanceData() : BalanceResponse {
         return userPreferences.getBalanceData()
     }

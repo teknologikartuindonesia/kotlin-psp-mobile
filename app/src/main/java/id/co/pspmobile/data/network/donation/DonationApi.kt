@@ -1,6 +1,7 @@
 package id.co.pspmobile.data.network.donation
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -25,4 +26,9 @@ interface DonationApi {
         @Path("id") id: String
     ) : Response<DonationResDto>
 
+
+    @POST("/katalis/transaction/donation/payment")
+    suspend fun donate(
+        @Body donationPayDto: DonationPayDto
+    ) : Response<DonationResDto>
 }

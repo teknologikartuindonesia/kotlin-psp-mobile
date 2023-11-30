@@ -37,4 +37,12 @@ class DonationRepository @Inject constructor (
         userPreferences
     )
 
+    suspend fun donate(
+        don: DonationPayDto
+    ) = safeApiCall(
+        {
+            api.donate(don)
+        },
+        userPreferences
+    )
 }

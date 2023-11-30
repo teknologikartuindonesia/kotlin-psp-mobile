@@ -20,7 +20,9 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.BuildConfig
 import id.co.pspmobile.R
+import id.co.pspmobile.data.local.SharePreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.model.infonews.DefaultBool
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
@@ -33,6 +35,7 @@ import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.account.AccountActivity
 import id.co.pspmobile.ui.attendance.AttendanceActivity
 import id.co.pspmobile.ui.calendar.CalendarActivity
+import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
@@ -130,9 +133,30 @@ class HomeFragment : Fragment() {
                 requireActivity().handleApiError(binding.progressbar, it)
             }
         }
+
+        viewModel.broadcastResponse.observe(viewLifecycleOwner){
+            if (it is Resource.Success){
+                val broadcastResponse = it.value
+                if (broadcastResponse.content.isNotEmpty()){
+                    val x = requireActivity().supportFragmentManager
+                    val dialogBroadcast = DialogBroadcast(
+                        broadcastResponse.content[0],
+                        x
+                    )
+                    dialogBroadcast.show(x, dialogBroadcast.tag)
+                }
+            }
+        }
+        getActiveBroadcast()
+
+        configureFirebase()
         return root
 
 
+    }
+
+    fun getActiveBroadcast() {
+        viewModel.getBroadcastMessage()
     }
 
     fun getBalance() {
@@ -146,6 +170,18 @@ class HomeFragment : Fragment() {
             listOf(TagInSearch("tags", viewModel.getUserData().tags))
         val body = ModelInfoNews(defaultBool, emptyList(), tagInSearch)
         viewModel.getInfoNews(body, 0)
+    }
+
+    fun configureFirebase(){
+        val current = SharePreferences.getFbToken(requireContext())
+        val serverKeyId = BuildConfig.SERVER_KEY_ID
+        Log.d("HomeFragment", "configureFirebase: \n $current \n ${viewModel.getUserData().user.firebase.token}")
+        if (!current.isNullOrEmpty() && current != viewModel.getUserData().user.firebase.token){
+            viewModel.saveFirebaseToken(
+                current,
+                serverKeyId
+            )
+        }
     }
 
     fun getCustomAppData() {

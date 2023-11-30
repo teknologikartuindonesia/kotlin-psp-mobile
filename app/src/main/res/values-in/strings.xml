@@ -148,5 +148,12 @@
     <string name="share">Bagikan</string>
     <string name="payment_success">Payment Success</string>
     <string name="description">Description</string>
+    <string name="please_input_valid_email_or_phone">Mohon masukkan email dan nomor yang valid</string>
+    <string name="wrong_username_password">Username atau Password salah</string>
+    <string name="time">Waktu</string>
+    <string name="lesson">Pelajaran</string>
+    <string name="notification">Notifikasi</string>
+    <string name="inbox">Kotak Masuk</string>
+    <string name="broadcast">Siaran</string>
     <string name="seeMore">See More</string>
 </resources>

@@ -64,8 +64,8 @@ class EditProfileActivity : AppCompatActivity() {
             checkPermission()
         }
 
-        currentEmail = viewModel.getUserInfo().user.email
-        currentPhone = viewModel.getUserInfo().user.phone
+        currentEmail = viewModel.getUserInfo().user.email ?: ""
+        currentPhone = viewModel.getUserInfo().user.phone ?: ""
         binding.edEditEmail.setText(currentEmail)
         binding.edEditPhone.setText(currentPhone)
 
@@ -169,8 +169,16 @@ class EditProfileActivity : AppCompatActivity() {
             }
             if(it is Resource.Success){
                 tempUserResponse = it.value
-                currentEmail = it.value.email
-                currentPhone = it.value.phone
+
+
+                if(!it.value.email.isNullOrEmpty()){
+                    currentEmail = it.value.email
+                }
+
+                if (!it.value.phone.isNullOrEmpty()){
+                    currentPhone = it.value.phone
+                }
+
                 binding.edEditEmail.setText(currentEmail)
                 binding.edEditPhone.setText(currentPhone)
                 val url = "${viewModel.getBaseUrl()}/main_a/image/get/${it.value.photoUrl}/pas"
@@ -196,9 +204,13 @@ class EditProfileActivity : AppCompatActivity() {
     fun updateProfile(email: String, phone: String){
         try {
             val temp = tempUserResponse
-            temp.email = email
-            temp.phone = phone
-            viewModel.updateProfile(temp)
+            val newUserResponse = UserResponse(
+                temp.accounts, temp.address, temp.banks, temp.dateOfBirth, email, temp.firebase,
+                temp.gender, temp.id, temp.maritalStatus, temp.name, temp.nik, temp.openfire,
+                phone, temp.photoUrl, temp.placeOfBirth, temp.regDate, temp.religion,
+                temp.socmedAccounts, temp.tags, temp.validationStatus
+            )
+            viewModel.updateProfile(newUserResponse)
         }catch (e: Exception){
             Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
         }

@@ -120,12 +120,12 @@ class CalendarActivity : AppCompatActivity() {
                     calendar.content += content.color
                 } else {
                     // Agenda held for a range of days
-                    val calendarDate = SimpleDateFormat("yyyy-MM-dd").parse(calendar.tgl)!!
-
-                    if (calendarDate.after(SimpleDateFormat("yyyy-MM-dd").parse(contentStartDate)!!)
-                        && calendarDate.before(SimpleDateFormat("yyyy-MM-dd").parse(contentEndDate)!!)
-                    ) {
-                        calendar.content += content.color
+                    // create for loop from "2023-09-11" to "2023-09-15"
+                    for (i in 0..contentEndDate.split("-")[2].toInt() - contentStartDate.split("-")[2].toInt()) {
+                        val date = "${contentStartDate.split("-")[0]}-${contentStartDate.split("-")[1]}-${contentStartDate.split("-")[2].toInt() + i}"
+                        if (calendar.tgl == date) {
+                            calendar.content += content.color
+                        }
                     }
                 }
             }
