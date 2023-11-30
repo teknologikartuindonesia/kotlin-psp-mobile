@@ -160,4 +160,5 @@
     <string name="buka_url_terkait">Buka Url Terkait</string>
     <string name="buka_video_terkait">Buka Video Terkait</string>
     <string name="open">Buka</string>
+    <string name="no_schedule">Tidak Ada Jadwal</string>
 </resources>

@@ -158,4 +158,5 @@
     <string name="buka_url_terkait">Open Related Url</string>
     <string name="buka_video_terkait">Open Related Video</string>
     <string name="open">Open</string>
+    <string name="no_schedule">No Schedule</string>
 </resources>
