@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.ui.donation.detail.DonationDetailActivity
 import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
 import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 import id.co.pspmobile.ui.login.LoginActivity
@@ -51,8 +52,16 @@ object Utils {
             failure.errorCode == 400 -> {
                 if (this is InvoicePaymentActivity) {
                     view.snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi")
+                } else if(this is DonationDetailActivity){
+                    val error = failure.errorBody?.string().toString()
+                    view.snackbar(error)
                 } else {
-                    view.snackbar("Mohon Maaf, sedang idak dapat memproses request anda.")
+                    val error = failure.errorBody?.string().toString()
+                    if(!error.isNullOrEmpty()){
+                        view.snackbar(error)
+                    }else{
+                        view.snackbar("Mohon Maaf, sedang tidak dapat memproses request anda.")
+                    }
                 }
             }
             else -> {
