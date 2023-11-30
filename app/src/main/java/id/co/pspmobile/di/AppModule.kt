@@ -10,6 +10,7 @@ import id.co.pspmobile.data.network.auth.AuthApi
 import id.co.pspmobile.data.network.calendarschedule.CalendarScheduleApi
 import id.co.pspmobile.data.network.digitalCard.DigitalCardApi
 import id.co.pspmobile.data.network.donation.DonationApi
+import id.co.pspmobile.data.network.faq.FaqApi
 import id.co.pspmobile.data.network.information.InformationApi
 import id.co.pspmobile.data.network.invoice.InvoiceApi
 import id.co.pspmobile.data.network.report.ReportApi
@@ -100,6 +101,14 @@ object AppModule {
         remoteDataSource: RemoteDataSource
     ): UserApi {
         return remoteDataSource.buildApi(UserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFaqApi(
+        remoteDataSource: RemoteDataSource
+    ): FaqApi {
+        return remoteDataSource.buildApi(FaqApi::class.java)
     }
 
 }

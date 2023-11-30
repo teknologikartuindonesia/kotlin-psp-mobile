@@ -1,14 +1,20 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -45,15 +51,13 @@ class InvoiceFragment() : Fragment() {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
-                Log.e("total", size.toString())
-                Log.w("totalPage", totalContent.toString())
                 if (!isLoading && totalContent >= size) {
                     if (visibleItemCount + pastVisibleItem >= total) {
                         page++
                         isLoading = true
                         viewModel.getUnpaidInvoice(page++)
                     }
-                }else{
+                } else {
 
                 }
                 super.onScrolled(recyclerView, dx, dy)
@@ -78,6 +82,17 @@ class InvoiceFragment() : Fragment() {
 
         setupRecyclerView()
         viewModel.getUnpaidInvoice(page)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            invoiceAdapter.clear()
+            totalContent = 0
+            viewModel.getUnpaidInvoice(0)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+        //Declare LocalBroadcastManager
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(finishMessageReceiver, IntentFilter("reload-invoice"))
+
     }
 
     private fun setupRecyclerView() {
@@ -94,6 +109,19 @@ class InvoiceFragment() : Fragment() {
         binding = FragmentInvoiceBinding.inflate(inflater)
         return binding.root
     }
+
+    //Listen from LocalBroadcastManager payment Success
+    private val finishMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val reload = intent.getStringExtra("reload")
+            if (reload == "reload") {
+                invoiceAdapter.clear()
+                viewModel.getUnpaidInvoice(page)
+            }
+        }
+    }
+
 
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()

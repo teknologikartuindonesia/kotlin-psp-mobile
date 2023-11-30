@@ -165,4 +165,9 @@
     <string name="donation_amount_input">Donation Amount Input</string>
     <string name="donation_detail">Donation Detail</string>
     <string name="history">History</string>
+    <string name="seeMore">See More</string>
+    <string name="unanswered">Kendala anda belum terjawab silahkan hubungi kami</string>
+    <string name="help_center">Pusat Bantuan</string>
+    <string name="explore_help_topics">Jelajahi topik bantuan</string>
+    <string name="contact_us">Hubungi Kami</string>
 </resources>

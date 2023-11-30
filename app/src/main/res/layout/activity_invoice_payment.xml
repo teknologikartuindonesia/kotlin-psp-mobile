@@ -1,63 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_sheet_dialog"
-    android:gravity="center"
+    android:gravity="top"
     android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="16dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <View
-        android:layout_width="38dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="6dp"
-        android:alpha=".90"
-        android:background="@drawable/bg_bottom_sheet_view" />
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:src="@drawable/arrow_left" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:text="@string/invoice"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+    </LinearLayout>
+<ScrollView
+    android:layout_below="@id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/base_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
         android:orientation="vertical"
-        android:background="@drawable/bg_receipt_white"
         android:paddingHorizontal="14dp"
         android:paddingVertical="14dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_success_rounded" />
+            <TextView
+                android:id="@+id/tv_invoice_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                tools:text="Invoice Name" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
+                android:id="@+id/tv_invoice_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/montserrat"
-                android:text="@string/payment_success"
-                android:textSize="24dp" />
+                android:gravity="center_vertical"
+                android:text="lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet "
+                android:textColor="@color/black"
+                android:textSize="10dp" />
 
             <TextView
-                android:id="@+id/tv_create_date"
+                android:id="@+id/tv_show_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_light"
-                android:text="Tanggal 04 Desember 2022 08.00"
-                android:textAlignment="center"
-                android:textSize="14dp" />
+                android:text="@string/seeMore"
+                android:textColor="@color/primary"
+                android:textSize="10dp" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="?android:attr/listDivider" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -152,13 +190,13 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/tv_invoice_name"
+                android:id="@+id/tv_invoice_name_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:gravity="right"
-                tools:text="Partial" />
+                tools:text="14 Jan 2023" />
         </LinearLayout>
 
         <LinearLayout
@@ -180,13 +218,41 @@
                 android:text=":" />
 
             <TextView
-                android:id="@+id/tv_pay_date"
+                android:id="@+id/tv_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:gravity="right"
                 tools:text="14 Jan 2023" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/invoice_due_date" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/tv_due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:gravity="right"
+                tools:text="31 Dec 2023" />
         </LinearLayout>
 
         <LinearLayout
@@ -246,6 +312,16 @@
                 tools:text="PAID" />
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_detail_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_detail_invoice" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -292,7 +368,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="@string/invoice_total" />
+                android:text="@string/paid" />
 
             <TextView
                 android:layout_width="10dp"
@@ -307,7 +383,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:gravity="right"
-                android:textColor="@color/primary"
+                android:textColor="@color/warning"
                 tools:text="Rp. 300.000,00" />
         </LinearLayout>
 
@@ -321,7 +397,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="@string/rest_of_invoice" />
+                android:text="@string/minus" />
 
             <TextView
                 android:layout_width="10dp"
@@ -340,6 +416,43 @@
                 tools:text="Rp. 300.000,00" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/container_nominal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_detail_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/input_amount"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_nominal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/input_bg"
+                android:hint="@string/minimum_payment"
+                android:inputType="number"
+                android:paddingHorizontal="12dp" />
+
+            <TextView
+                android:id="@+id/alert_nominal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:layout_marginLeft="4dp"
+                android:text="@string/minimum_payment"
+                android:textColor="@color/danger"
+                android:visibility="gone" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -356,24 +469,19 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_download"
+                android:id="@+id/btn_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="@string/download"
+                android:text="@string/pay_now"
                 android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/btn_close"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/primary"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/close"
-                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>
+</ScrollView>
 
-</LinearLayout>
+
+
+</RelativeLayout>

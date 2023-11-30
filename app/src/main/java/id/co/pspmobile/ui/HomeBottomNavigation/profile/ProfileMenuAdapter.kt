@@ -2,19 +2,19 @@ package id.co.pspmobile.ui.HomeBottomNavigation.profile
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import id.co.pspmobile.data.local.UserPreferences
-import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ItemProfileMenuBinding
 import id.co.pspmobile.ui.Utils.logout
 import id.co.pspmobile.ui.dialog.DialogYesNo
 
-class ProfileMenuAdapter(viewModel: ProfileViewModel) : RecyclerView.Adapter<ProfileMenuAdapter.ProfileMenuViewHolder>() {
+
+class ProfileMenuAdapter(viewModel: ProfileViewModel) :
+    RecyclerView.Adapter<ProfileMenuAdapter.ProfileMenuViewHolder>() {
     private lateinit var menuArray: ArrayList<ProfileMenuModel>
     private lateinit var context: Context
     private lateinit var currentActivity: Activity
@@ -65,9 +65,13 @@ class ProfileMenuAdapter(viewModel: ProfileViewModel) : RecyclerView.Adapter<Pro
 
                             }
                         )
-                        dialog.show((context as FragmentActivity).supportFragmentManager, "Dialog Yes No")
+                        dialog.show(
+                            (context as FragmentActivity).supportFragmentManager,
+                            "Dialog Yes No"
+                        )
                         return@setOnClickListener
                     }
+                    menuModel.path.putExtra("key", "profile")
                     context.startActivity(menuModel.path)
                 }
             }

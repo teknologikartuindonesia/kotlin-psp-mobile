@@ -30,7 +30,7 @@ class SummaryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.allInvoiceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
+            when (it is Resource.Loading) {
                 true -> showLottieLoader()
                 else -> hideLottieLoader()
             }
@@ -39,7 +39,25 @@ class SummaryFragment : Fragment() {
                 currentSize = currentSizeinvoice(it.value.content.size)
 
                 binding.btnPrevious.isEnabled = page != 0
-                binding.btnNext.isEnabled = currentSize == size
+                if (currentSize == size) {
+                    binding.btnNext.isEnabled = true
+                    binding.btnNext.alpha = 1f
+
+                } else {
+                    binding.btnNext.isEnabled = false
+                    binding.btnNext.alpha = 0.2f
+
+                }
+
+                if (page == 0) {
+                    binding.btnPrevious.isEnabled = false
+                    binding.btnPrevious.alpha = 0.2f
+
+                } else {
+                    binding.btnPrevious.isEnabled=true
+                    binding.btnPrevious.alpha = 1f
+
+                }
 
                 binding.apply {
                     rvInvoice.setHasFixedSize(true)
@@ -53,10 +71,16 @@ class SummaryFragment : Fragment() {
         summaryAdapter = SummaryAdapter()
         viewModel.getAllInvoice(page)
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getAllInvoice(0)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
         binding.btnPrevious.setOnClickListener {
             page--
             viewModel.getAllInvoice(page)
         }
+
+
         binding.btnNext.setOnClickListener {
             if (currentSize == size) {
                 page++
@@ -83,6 +107,7 @@ class SummaryFragment : Fragment() {
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

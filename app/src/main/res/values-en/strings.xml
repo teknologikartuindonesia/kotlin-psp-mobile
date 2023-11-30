@@ -163,4 +163,9 @@
     <string name="donation_amount_input">Donation Amount Input</string>
     <string name="donation_detail">Donation Detail</string>
     <string name="history">History</string>
+    <string name="seeMore">See More</string>
+    <string name="unanswered">If your issue wasn\'t answered, please contact us!</string>
+    <string name="help_center">Help Center</string>
+    <string name="explore_help_topics">Explore Help Topics</string>
+    <string name="contact_us">Contact Us</string>
 </resources>
