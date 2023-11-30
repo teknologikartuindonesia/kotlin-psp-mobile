@@ -21,7 +21,6 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
     @SuppressLint("NotifyDataSetChanged")
     fun setHistoryTopUp(list: List<TransactionResDto>) {
         this.list = list
-
         notifyDataSetChanged()
     }
 
@@ -35,12 +34,10 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
             }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryTopUpAdapter.ViewHolder {
         val binding = AdapterHistoryTopupBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-
     override fun onBindViewHolder(holder: HistoryTopUpAdapter.ViewHolder, position: Int) {
         holder.bind(list[position])
     }

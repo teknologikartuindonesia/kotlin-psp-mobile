@@ -1,33 +1,28 @@
 package id.co.pspmobile.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
-import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
-import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ActivityLoginBinding
 import id.co.pspmobile.ui.HomeActivity
-import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
+import id.co.pspmobile.ui.HomeBottomNavigation.profile.faq.FaqActivity
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
-import id.co.pspmobile.ui.dialog.DialogCS
-import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import java.util.concurrent.Executor
@@ -71,22 +66,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnCs.setOnClickListener {
-            val dialogYesNot = DialogYesNo(
-                "Perhatian",
-                "Apakah Kendala Anda Lupa Password? Silahkan Gunakan Fitur Lupa Password",
-                "Buka Fitur",
-                "Tidak",
-                yesListener = {
-                    startActivity(Intent(this, ForgotPasswordActivity::class.java))
-                },
-                noListener = {
-                    val args = Bundle()
-                    val dialog = DialogCS()
-                    dialog.arguments = args
-                    dialog.show(supportFragmentManager, dialog.tag)
-                }
-            )
-            dialogYesNot.show(supportFragmentManager, dialogYesNot.tag)
+            val intent = Intent(this, FaqActivity::class.java)
+            intent.putExtra(
+                "key",
+                "login"
+            ) // You can use different data types and multiple putExtra calls
+            startActivity(intent)
         }
 
         viewModel.checkCredentialResponse.observe(this) {

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:orientation="vertical"
-        android:background="@drawable/ic_faq_bottom_bg">
+        android:background="@drawable/bg_faq_item">
         <TextView
             android:id="@+id/txt_answer"
             android:layout_width="match_parent"
@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:visibility="gone"
             android:gravity="end">
             <Button
                 android:id="@+id/btn_faq_action"

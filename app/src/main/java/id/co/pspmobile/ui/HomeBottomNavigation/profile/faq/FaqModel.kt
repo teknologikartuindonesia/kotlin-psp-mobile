@@ -1,7 +1,8 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.profile.faq
 
-data class FaqModel (
+data class FaqModel(
     val question: String,
     val answer: String,
-    var show: Boolean
+    var show: Boolean,
+    val openPage: String
 )
