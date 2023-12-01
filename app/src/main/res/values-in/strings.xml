@@ -175,4 +175,8 @@
     <string name="detail">Detail</string>
     <string name="income">Saldo Masuk</string>
     <string name="outcome">Saldo Keluar</string>
+    <string name="change_language">Ganti Bahasa</string>
+    <string name="profile">Profil</string>
+    <string name="faq">FAQ</string>
+    <string name="logout">Keluar</string>
 </resources>

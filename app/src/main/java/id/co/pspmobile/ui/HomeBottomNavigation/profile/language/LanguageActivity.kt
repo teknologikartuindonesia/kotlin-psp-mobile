@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityLanguageBinding
@@ -31,15 +33,14 @@ class LanguageActivity : AppCompatActivity() {
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, i ->
             when(i){
                 R.id.radioIndonesia -> {
-                    setLang("id")
+                    setLocale("id")
                 }
                 R.id.radioEnglish -> {
-                    setLang("en")
+                    setLocale("en")
                 }
             }
         }
     }
-
     fun setLang(lang: String){
         val resources: Resources = resources
         val configuration: Configuration = resources.configuration
@@ -55,6 +56,12 @@ class LanguageActivity : AppCompatActivity() {
         viewModel.saveLanguage(lang)
         resources.updateConfiguration(configuration, resources.displayMetrics)
         Log.d("Language", "Success set "+Locale.getDefault().language)
+        finish()
+    }
+    fun setLocale(language: String?) {
+        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
+        AppCompatDelegate.setApplicationLocales(appLocale)
+        viewModel.saveLanguage(language!!)
         finish()
     }
 }
