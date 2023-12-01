@@ -177,4 +177,18 @@
     <string name="detail">Detail</string>
     <string name="income">Income</string>
     <string name="outcome">Outcome</string>
+    <string name="va_method">Metode Pembayaran VA</string>
+    <string name="other_method">Metode Lainnya</string>
+    <string name="create_va_message">You don\'t have a Virtual Account at bankName yet. Do you want to make one ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_name">Account Name</string>
+    <string name="admin_fee">Admin Fee</string>
+    <string name="account_number">Account Number</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="amount_empty">Nominal belum diisi</string>
+    <string name="amount_minimum">Nominal top up minimal Rp 10.000</string>
+    <string name="masukkan_nominal_top_up">Masukkan Nominal Top up</string>
+    <string name="proses">Proses</string>
 </resources>

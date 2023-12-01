@@ -35,7 +35,7 @@
             android:fontFamily="@font/montserrat"
             android:textFontWeight="600"
             android:textColor="@color/black"
-            android:text="Masukkan Nominal Top up"/>
+            android:text="@string/masukkan_nominal_top_up"/>
 
         <EditText
             android:id="@+id/et_amount"
@@ -75,7 +75,7 @@
             android:backgroundTint="@color/primary"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/white"
-            android:text="Proses"/>
+            android:text="@string/proses"/>
     </LinearLayout>
 
     <ProgressBar

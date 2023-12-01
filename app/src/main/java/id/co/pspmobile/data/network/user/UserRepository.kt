@@ -29,4 +29,11 @@ class UserRepository @Inject constructor (
         },
         userPreferences
     )
+    // https://api.dev.katalis.info/main_a/general/tutorial_bank?bank=BSI&lang=id&cid=asd&kode=ad&va=dsa
+    suspend fun getTutorial(bank: String, lang: String, cid: String, kode: String, va: String) = safeApiCall(
+        {
+            api.getTutorial(bank, lang, cid, kode, va)
+        },
+        userPreferences
+    )
 }

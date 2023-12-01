@@ -1,20 +1,25 @@
 package id.co.pspmobile.ui.topup
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.BottomSheetTopupMerchantBinding
+import id.co.pspmobile.ui.NumberTextWatcher
+import id.co.pspmobile.ui.Utils.getMerchantIcon
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.topup.tutorial.TutorialMerchantActivity
 
 @AndroidEntryPoint
 class BottomSheetTopUpMerchant(
@@ -33,41 +38,27 @@ class BottomSheetTopUpMerchant(
         binding = BottomSheetTopupMerchantBinding.inflate(inflater)
 
         binding.apply {
-            when (merchantName) {
-                "INDOMARET" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_indomaret) })
-                }
-                "ALFAMART" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_alfamart) })
-                }
-                "GOPAY" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_gopay) })
-                }
-                "TOKOPEDIA" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_tokopedia) })
-                }
-                "SHOPEE" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_shopee) })
-                }
-                "BLIBLI" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_blibli) })
-                }
-                "AYOPOP" -> {
-                    ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), R.drawable.logo_ayopop) })
-                }
-            }
+            ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), getMerchantIcon(merchantName)) })
 
             viewModel.topUpIdnResponse.observe(viewLifecycleOwner) {
                 binding.progressbar.visible(it is Resource.Loading)
                 if (it is Resource.Success) {
-                    AlertDialog.Builder(requireContext())
-                        .setMessage("Silahkan melakukan top up berdasarkan panduan yang ada.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK") { _, _ ->
-                            dismiss()
-                        }
-                        .create()
-                        .show()
+                    val i = Intent(requireContext(), TutorialMerchantActivity::class.java)
+                    i.putExtra("bankName", merchantName)
+                    i.putExtra("companyName", it.value.companyName)
+                    i.putExtra("accountName", it.value.accountName)
+                    i.putExtra("accountNumber", it.value.accountNumber)
+                    i.putExtra("cid", it.value.billReq?.branch_code)
+                    i.putExtra("amount", etAmount.text.toString().trim())
+                    requireContext().startActivity(i)
+//                    AlertDialog.Builder(requireContext())
+//                        .setMessage("Silahkan melakukan top up berdasarkan panduan yang ada.")
+//                        .setCancelable(false)
+//                        .setPositiveButton("OK") { _, _ ->
+//                            dismiss()
+//                        }
+//                        .create()
+//                        .show()
                 } else if (it is Resource.Failure) {
                     requireActivity().handleApiError(btnProcess, it)
                 }
@@ -76,17 +67,25 @@ class BottomSheetTopUpMerchant(
             btnProcess.setOnClickListener {
                 if (etAmount.text.toString().trim().isEmpty()) {
                     tvMessage.visible(true)
-                    tvMessage.text = "Nominal top up belum diisi"
-                } else if (etAmount.text.toString().trim().toDouble() < 10000) {
+                    tvMessage.text = resources.getString(R.string.amount_empty)
+                } else if (etAmount.text.toString()
+                        .replace(",","")
+                        .replace(".","").trim().toDouble() < 10000) {
                     tvMessage.visible(true)
-                    tvMessage.text = "Nominal top up minimal Rp 10.000"
+                    tvMessage.text = resources.getString(R.string.amount_minimum)
                 } else {
                     tvMessage.visible(false)
-                    viewModel.topUpIdn(etAmount.text.toString().trim().toDouble())
+                    viewModel.topUpIdn(
+                        etAmount.text.toString()
+                            .replace(",","")
+                            .replace(".","")
+                            .trim().toDouble()
+                    )
                 }
             }
         }
 
+        binding.etAmount.addTextChangedListener(NumberTextWatcher(binding.etAmount))
         return binding.root
     }
 

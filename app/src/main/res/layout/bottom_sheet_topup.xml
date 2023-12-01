@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
-                android:text="Bank Name"
+                android:text="@string/bank_name"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
                 android:textColor="@color/black" />
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
-                android:text="Account Name"
+                android:text="@string/account_name"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
                 android:textColor="@color/black" />
@@ -97,7 +97,7 @@
             <TextView
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
-                android:text="Bank Admin"
+                android:text="@string/admin_fee"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
                 android:textColor="@color/black" />
@@ -127,7 +127,7 @@
             <TextView
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
-                android:text="Account Number"
+                android:text="@string/account_number"
                 android:fontFamily="@font/montserrat"
                 android:textFontWeight="600"
                 android:textColor="@color/black" />
@@ -167,7 +167,7 @@
             android:background="@drawable/bg_button_blue_shadow"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/white"
-            android:text="Tutorial"/>
+            android:text="@string/tutorial"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
