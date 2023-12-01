@@ -55,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                 else -> hideLottieLoader()
             }
             if (it is Resource.Success) {
+                viewModel.saveUsername(binding.edUsername.text.toString())
+                viewModel.savePassword(binding.edPassword.text.toString())
                 if (it.value.firstLogin) {
                     // go to create password
                     val i = Intent(this, CreatePasswordActivity::class.java)
