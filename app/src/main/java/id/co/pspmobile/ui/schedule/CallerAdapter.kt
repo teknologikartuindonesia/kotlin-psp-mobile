@@ -25,6 +25,7 @@ class CallerAdapter(context: Context, private val callers: List<CallerIdentity>)
 
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = callers[position].name
+        textView.setPadding(10, 20, 10, 20)
 
         return view
     }
