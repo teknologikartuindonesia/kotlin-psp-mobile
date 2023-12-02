@@ -190,4 +190,5 @@
     <string name="masukkan_nominal_top_up">Masukkan Nominal Top up</string>
     <string name="proses">Proses</string>
     <string name="wajib_diisi">*Wajib diisi</string>
+    <string name="wrong_otp">Kode OTP Tidak Sesuai</string>
 </resources>

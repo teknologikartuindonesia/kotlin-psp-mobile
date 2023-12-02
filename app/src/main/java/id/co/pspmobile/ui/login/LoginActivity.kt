@@ -75,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnCs.setOnClickListener {
             val intent = Intent(this, FaqActivity::class.java)
+            intent.putExtra("isFromFaq", false)
             intent.putExtra(
                 "key",
                 "login"

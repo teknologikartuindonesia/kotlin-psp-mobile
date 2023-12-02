@@ -192,4 +192,5 @@
     <string name="masukkan_nominal_top_up">Input Topup Amount</string>
     <string name="proses">Proceed</string>
     <string name="wajib_diisi">Field required</string>
+    <string name="wrong_otp">Incorrect OTP code</string>
 </resources>

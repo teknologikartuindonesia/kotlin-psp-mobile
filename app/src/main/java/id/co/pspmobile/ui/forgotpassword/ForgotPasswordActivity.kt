@@ -21,7 +21,9 @@ import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.Utils.slideAnimation
+import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.dialog.DialogCS
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -63,6 +65,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
 
         binding.showCs.setOnClickListener {
+            val dialog = DialogCS()
+            val args = Bundle()
+            args.putBoolean("isFromHome", false)
+            dialog.arguments = args
+            dialog.show(supportFragmentManager, "DialogCS")
 //            showCS()
         }
 
@@ -140,7 +147,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
             if (it is Resource.Success){
                 goToNext(binding.slideCheckOtp, binding.slideNewPassword)
             } else if (it is Resource.Failure){
-                handleApiError(binding.progressbar, it)
+                if (it.errorCode == 400){
+                    binding.root.snackbar(resources.getString(R.string.wrong_otp))
+                } else {
+                    handleApiError(binding.progressbar, it)
+                }
             }
         }
         
