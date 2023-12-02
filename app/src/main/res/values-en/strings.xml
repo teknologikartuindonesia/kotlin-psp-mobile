@@ -34,9 +34,9 @@
     <string name="save">Save</string>
     <string name="create_password">Create Password</string>
     <string name="digital_card">Digital Card</string>
-    <string name="subtitle_intro_1">Try our other product, about customer relation manager. this product is about leads and bla</string>
-    <string name="subtitle_intro_2">Try our other product, about customer relation manager. this product is about leads and bla</string>
-    <string name="subtitle_intro_3">Try our other product, about customer relation manager. this product is about leads and bla</string>
+    <string name="subtitle_intro_1">Digital cards facilitate cashless shopping, offering convenient payment options, and providing control over expenses according to needs.</string>
+    <string name="subtitle_intro_2">Bill payments with practical solutions provide comfort without hassle.</string>
+    <string name="subtitle_intro_3">Optimize Presence, Enhance Education, Shape the Future.</string>
     <string name="absensi">Attendance</string>
     <string name="digital_invoice">Digital Invoice</string>
     <string name="memuat">Loading…</string>
@@ -191,4 +191,5 @@
     <string name="amount_minimum">Amount should at least Rp 10.000</string>
     <string name="masukkan_nominal_top_up">Input Topup Amount</string>
     <string name="proses">Proceed</string>
+    <string name="wajib_diisi">Field required</string>
 </resources>

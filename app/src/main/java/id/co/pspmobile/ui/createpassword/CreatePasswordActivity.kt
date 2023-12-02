@@ -21,6 +21,7 @@ import id.co.pspmobile.databinding.ActivityCreatePasswordBinding
 import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.hideKeyboard
 import id.co.pspmobile.ui.Utils.slideAnimation
 import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.startNewActivity
@@ -288,6 +289,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                 pass,
                 wa
             )
+            hideKeyboard()
             viewModel.sendCreatePassword(tempModel)
         }
     }
