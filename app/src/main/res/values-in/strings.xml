@@ -191,4 +191,9 @@
     <string name="proses">Proses</string>
     <string name="wajib_diisi">*Wajib diisi</string>
     <string name="wrong_otp">Kode OTP Tidak Sesuai</string>
+    <string name="attendance_detail">Detail Absensi</string>
+    <string name="data_empty">Data tidak ditemukan</string>
+    <string name="on_time">Tepat Waktu</string>
+    <string name="late">Datang Terlambat</string>
+    <string name="early">Pulang Awal</string>
 </resources>
