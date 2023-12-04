@@ -59,13 +59,14 @@ class InvoicePaymentActivity : AppCompatActivity() {
             btnPay.isEnabled = false
             edNominal.addTextChangedListener {
                 try {
+                    Log.d("nominal",viewModel.getBalanceUser().toString())
                     if (it.toString().trim().replace(".", "").replace(",", "").toInt() < 10000) {
                         btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
                         btnPay.isEnabled = false
                         alertNominal.visibility = View.VISIBLE
 
                     } else {
-                        btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                        btnPay.setBackgroundColor(resources.getColor(R.color.blue))
                         btnPay.isEnabled = true
                         alertNominal.visibility = View.INVISIBLE
 
