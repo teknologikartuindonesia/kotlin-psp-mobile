@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -164,6 +165,19 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         }
     }
 
+    val customApp: Flow<String>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[CUSTOM_APP] ?: ""
+        }
+    fun getCustomApp() = runBlocking(Dispatchers.IO) {
+       Gson().fromJson(customApp.first().toString(), CustomAppResponse::class.java) ?: null
+    }
+    fun saveCustomApp(customApp: CustomAppResponse) = runBlocking(Dispatchers.IO) {
+        appContext.dataStore.edit { preferences ->
+            preferences[CUSTOM_APP] = Gson().toJson(customApp)
+        }
+    }
+
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_DATA = stringPreferencesKey("user_data")
@@ -174,6 +188,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         private val LANGUAGE = stringPreferencesKey("language")
         private val BALANCE = stringPreferencesKey("balance")
         private val SYNC_DC = stringPreferencesKey("sync_digital_card")
+        private val CUSTOM_APP = stringPreferencesKey("custom_app")
     }
 
 }

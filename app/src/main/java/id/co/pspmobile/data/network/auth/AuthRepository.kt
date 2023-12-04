@@ -127,4 +127,10 @@ class AuthRepository @Inject constructor (
     },
         userPreferences
     )
+
+    suspend fun getCustomApp(companyId: String, lang: String) = safeApiCall({
+        api.getCustomApp(companyId, lang)
+    },
+        userPreferences
+    )
 }
