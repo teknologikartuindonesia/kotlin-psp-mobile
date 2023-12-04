@@ -40,6 +40,10 @@ class LanguageActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
     }
     fun setLang(lang: String){
         val resources: Resources = resources

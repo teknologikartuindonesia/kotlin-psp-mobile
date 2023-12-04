@@ -1,10 +1,12 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.home.menu
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.responses.customapp.AppMenu
@@ -12,6 +14,9 @@ import id.co.pspmobile.databinding.ActivityForgotPasswordBinding
 import id.co.pspmobile.databinding.ActivityMenuBinding
 import id.co.pspmobile.ui.HomeBottomNavigation.home.DefaultMenuAdapter
 import id.co.pspmobile.ui.HomeBottomNavigation.home.DefaultMenuModel
+import id.co.pspmobile.ui.HomeBottomNavigation.home.HomeViewModel
+import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuAdapter
+import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
 import id.co.pspmobile.ui.HomeBottomNavigation.profile.faq.FaqActivity
 import id.co.pspmobile.ui.account.AccountActivity
 import id.co.pspmobile.ui.attendance.AttendanceActivity
@@ -28,7 +33,7 @@ import id.co.pspmobile.ui.transaction.TransactionActivity
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
-    private val viewModel: ForgotPasswordViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private var otherDefaultMenuArray: ArrayList<DefaultMenuModel>? = null
 
@@ -37,11 +42,59 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        configureMenu()
+        val extra = intent.extras
+        val allMenu = extra?.getString("allMenu")
+        val isCustomApp = extra?.getBoolean("isCustomApp")
+        var menuArray = ArrayList<MenuModel>()
+        if (isCustomApp == true){
+            val custom = viewModel.getLocalCustomApp()
+            if(custom != null){
+                val defaultMenuList = ArrayList<MenuModel>()
+                for (i in custom.app_menu){
+                    val imageUrl =
+                        "${viewModel.getBaseUrl()}/main_a/web_view/custom_apps/icon/${viewModel.getUserData().activeCompany.id}/${i.menu_icon_url}"
+                    val intent = when(i.menu_path){
+                        "/topup" -> Intent(this@MenuActivity, TopUpActivity::class.java)
+                        "/invoice" -> Intent(this@MenuActivity, InvoiceActivity::class.java)
+                        "/mutation" -> Intent(this@MenuActivity, MutationActivity::class.java)
+                        "/transaction-history" -> Intent(this@MenuActivity, TransactionActivity::class.java)
+                        "/attendance" -> Intent(this@MenuActivity, AttendanceActivity::class.java)
+                        "/digital-card" -> Intent(this@MenuActivity, DigitalCardActivity::class.java)
+                        "/account" -> Intent(this@MenuActivity, AccountActivity::class.java)
+                        "/donation" -> Intent(this@MenuActivity, DonationActivity::class.java)
+                        "/schedule" -> Intent(this@MenuActivity, ScheduleActivity::class.java)
+                        "/calendar" -> Intent(this@MenuActivity, CalendarActivity::class.java)
+                        "/support" -> Intent(this@MenuActivity, FaqActivity::class.java)
+                        "/etc" -> Intent(this@MenuActivity, FaqActivity::class.java)
+                        else ->
+                            if (i.menu_path.contains("http")) Intent(Intent.ACTION_VIEW, Uri.parse(i.menu_path))
+                            else Intent(this@MenuActivity, MenuActivity::class.java)
+                    }
+                    if (i.menu_is_show) defaultMenuList.add(MenuModel(i.menu_name, imageUrl, intent))
+                }
+                menuArray = defaultMenuList
+                configureCustomMenu(menuArray)
+            }
+        }else{
+            configureMenu()
+        }
 
         binding.btnBack.setOnClickListener {
             finish()
         }
+    }
+
+    fun configureCustomMenu(menuArray: ArrayList<MenuModel>) {
+        val rv = binding.rvMenu
+        val rvSpanCount = 4
+        val layoutManager =
+            GridLayoutManager(this, rvSpanCount, GridLayoutManager.VERTICAL, false)
+        rv.layoutManager = layoutManager
+
+        val menuAdapter = MenuAdapter()
+        rv.adapter = menuAdapter
+        menuAdapter.setMenuList(menuArray, viewModel.getBaseUrl(), viewModel.getUserData().activeCompany.id)
+        rv.adapter = menuAdapter
     }
 
     fun configureMenu() {

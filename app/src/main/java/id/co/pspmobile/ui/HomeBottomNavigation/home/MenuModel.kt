@@ -1,6 +1,9 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.home
 
+import android.content.Intent
+
 data class MenuModel (
-    val menuName: String,
-    val menuImage: Int
+    val name: String,
+    val icon: String,
+    val path: Intent,
 )
