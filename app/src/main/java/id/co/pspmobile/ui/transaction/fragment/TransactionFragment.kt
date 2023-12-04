@@ -104,6 +104,14 @@ class TransactionFragment : Fragment() {
         }
 
         binding.spinnerMonth.setSelection(0)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            val month = spinnerAdapter.getItem(binding.spinnerMonth.selectedItemPosition)!!.split(" ")[0]
+            val year = spinnerAdapter.getItem(binding.spinnerMonth.selectedItemPosition)!!.split(" ")[1]
+
+            viewModel.getTransaction(getMonth(month), year.toInt())
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
