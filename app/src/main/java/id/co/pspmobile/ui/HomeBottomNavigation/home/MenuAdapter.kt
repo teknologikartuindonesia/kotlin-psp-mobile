@@ -11,6 +11,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.request.ImageRequest
+import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
@@ -24,7 +25,8 @@ import kotlinx.coroutines.runBlocking
 
 class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
-    private lateinit var menuArray: ArrayList<AppMenu>
+    private lateinit var menuArray: ArrayList<MenuModel>
+    private lateinit var allMenu: ArrayList<MenuModel>
     private var onItemClickListener : View.OnClickListener? = null
     private lateinit var userPreferences: UserPreferences
     private lateinit var baseURL: String
@@ -41,8 +43,12 @@ class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return menuArray.size
     }
+    fun setAllMenuList(menuList: ArrayList<MenuModel>) {
+        this.allMenu = menuList
+        notifyDataSetChanged()
+    }
 
-    fun setMenuList(menuList: ArrayList<AppMenu>, baseURL: String, comp: String) {
+    fun setMenuList(menuList: ArrayList<MenuModel>, baseURL: String, comp: String) {
         this.menuArray = menuList
         this.baseURL = baseURL
         this.companyId = comp
@@ -53,9 +59,9 @@ class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(private val binding: ItemHomeMenuBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuModel: AppMenu) {
+        fun bind(menuModel: MenuModel) {
             with(binding) {
-                if (menuModel.menu_icon_url == "more.svg"){
+                if (menuModel.icon == "more.svg"){
                     val imageLoader = ImageLoader.Builder(itemView.context)
                         .components {
                             add(SvgDecoder.Factory())
@@ -68,7 +74,7 @@ class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
                         .build()
                     val disposable = imageLoader.enqueue(imageRequest)
                 } else {
-                    val imgUrl = "${baseURL}/main_a/web_view/custom_apps/icon/$companyId/${menuModel.menu_icon_url}"
+                    val imgUrl = menuModel.icon
                     val imageLoader = ImageLoader.Builder(itemView.context)
                         .components {
                             add(SvgDecoder.Factory())
@@ -78,11 +84,16 @@ class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
                         .data(imgUrl)
                         .target(imgHomeMenu)
                         .transformations(RoundedCornersTransformation())
+                        .size(40, 40)
+                        .scale(Scale.FIT)
                         .build()
                     val disposable = imageLoader.enqueue(imageRequest)
                 }
 
-                txtHomeMenu.text = menuModel.menu_name
+                itemView.setOnClickListener {
+                    itemView.context.startActivity(menuModel.path)
+                }
+                txtHomeMenu.text = menuModel.name
             }
         }
     }
