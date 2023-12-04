@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_white"
     tools:context=".ui.invoice.fragment.InvoiceFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_invoice"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/adapter_invoice" />
+        android:layout_height="match_parent">
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressbar"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:visibility="gone"-->
-<!--        tools:visibility="visible"/>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_invoice" />
 
-    <Button
-        android:id="@+id/btn_retry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Retry"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        <!--    <ProgressBar-->
+        <!--        android:id="@+id/progressbar"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_centerInParent="true"-->
+        <!--        android:visibility="gone"-->
+        <!--        tools:visibility="visible"/>-->
 
-    <TextView
-        android:id="@+id/tv_information"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_retry"
-        android:layout_centerHorizontal="true"
-        android:text="Data tidak ditemukan"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Retry"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_retry"
+            android:layout_centerHorizontal="true"
+            android:text="Data tidak ditemukan"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

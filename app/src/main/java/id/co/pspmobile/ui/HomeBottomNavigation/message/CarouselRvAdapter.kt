@@ -1,5 +1,7 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.message
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import id.co.pspmobile.R
+import id.co.pspmobile.ui.dialog.DialogYesNo
 
 class CarouselRvAdapter(
     private val list: List<String>
@@ -30,6 +33,10 @@ class CarouselRvAdapter(
             .load(list[position])
             .placeholder(R.drawable.info_news_default)
             .into(img)
+        img.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(list[position]))
+            holder.itemView.context.startActivity(browserIntent)
+        }
     }
 
 

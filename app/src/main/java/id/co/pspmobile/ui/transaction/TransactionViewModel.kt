@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.report.ReportRepository
 import id.co.pspmobile.data.network.report.TransactionResDto
@@ -13,9 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TransactionViewModel @Inject constructor(
-    private val reportRepository: ReportRepository
+    private val reportRepository: ReportRepository,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
+    fun getLanguage() = userPreferences.getLanguage()
     private var _transactionResponse: MutableLiveData<Resource<TransactionResDto>> = MutableLiveData()
     val transactionResponse: LiveData<Resource<TransactionResDto>> get() = _transactionResponse
 

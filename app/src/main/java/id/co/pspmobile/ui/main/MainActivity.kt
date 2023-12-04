@@ -4,10 +4,13 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.BuildConfig
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.service.FirebaseService
@@ -34,19 +37,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!viewModel.getIntro()) {
-            viewModel.saveIntro(true)
-            startNewActivity(IntroActivity::class.java)
-        }
+        configLanguage()
+        Handler().postDelayed({
+            if (!viewModel.getIntro()) {
+                viewModel.saveIntro(true)
+                startNewActivity(IntroActivity::class.java)
+            } else {
+                if (viewModel.getToken() != "") {
+                    checkCurrentToken()
+                } else {
+                    startNewActivity(LoginActivity::class.java)
+                }
+
+            }
+        }, 2000)
         // define user will be login or not
         // if already logged in, go to home activity
         // if not, go to login activity
 
-        if (viewModel.getToken() != "") {
-            checkCurrentToken()
-        } else {
-            startNewActivity(LoginActivity::class.java)
-        }
 
         viewModel.checkCredentialResponse.observe(this) {
             when(it is Resource.Loading){
@@ -58,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 //Subscribe Topics FCM
                 subscribeTopics("broadcast-all")
-                subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
+                subscribeTopics("broadcast-${BuildConfig.APPLICATION_ID}")
                 subscribeTopics("broadcast-${it.value.activeCompany.companyCode}")
                 subscribeTopics("academic-${it.value.activeCompany.companyCode}")
 
@@ -68,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     var id: String = intent?.getStringExtra("type").toString()
                     var type: String = intent?.getStringExtra("id").toString()
 
+                    viewModel.saveUserData(it.value)
                     val i = Intent(this, HomeActivity::class.java)
                     i.putExtra("type", intent?.getStringExtra("type").toString())
                     i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -77,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 handleApiError(binding.progressbar, it)
             }
         }
-        configLanguage()
     }
 
     private fun checkCurrentToken() {

@@ -11,7 +11,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".PspMobileApp"
         android:allowBackup="true"
@@ -24,6 +25,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PSPMobile"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.topup.tutorial.TutorialMerchantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.topup.tutorial.TutorialTopupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.home.menu.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.invoice.InvoicePaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeBottomNavigation.information.InfoDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.HomeBottomNavigation.message.NotificationMessageDetailActivity"
             android:exported="false" />
@@ -41,7 +57,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.invoice.InvoiceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.topup.history.HistoryTopUpActivity"
             android:exported="false" />
@@ -112,20 +129,23 @@
         <activity
             android:name=".ui.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home">
             <intent-filter>
                 <action android:name="id.co.nobu.neobiz.notifications_TARGET_NOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <service android:name=".data.service.FirebaseService"
-            android:exported="true"
-            android:enabled="true">
+        <service
+            android:name=".data.service.FirebaseService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/notification_channel_id" />

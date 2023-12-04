@@ -1,14 +1,20 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -29,8 +35,8 @@ class InvoiceFragment() : Fragment() {
     private lateinit var binding: FragmentInvoiceBinding
     private lateinit var invoiceAdapter: InvoiceAdapter
     private var page: Int = 0
-    private var size: Int = 5
-    private var totalPage: Int = 1
+    private var size: Int = 10
+    private var totalContent: Int = 1
     private var isLoading = false
 
     private lateinit var layoutManager: LinearLayoutManager
@@ -45,12 +51,14 @@ class InvoiceFragment() : Fragment() {
                 val visibleItemCount = layoutManager.childCount
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = invoiceAdapter.itemCount
-
-                if (!isLoading && page < totalPage) {
+                if (!isLoading && totalContent >= size) {
                     if (visibleItemCount + pastVisibleItem >= total) {
+                        page++
                         isLoading = true
                         viewModel.getUnpaidInvoice(page++)
                     }
+                } else {
+
                 }
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -58,13 +66,13 @@ class InvoiceFragment() : Fragment() {
         })
 
         viewModel.unpaidInvoiceResponse.observe(viewLifecycleOwner) {
-            when(it is Resource.Loading){
+            when (it is Resource.Loading) {
                 true -> showLottieLoader()
                 else -> hideLottieLoader()
             }
             if (it is Resource.Success) {
                 invoiceAdapter.setInvoices(it.value.content)
-                totalPage = it.value.totalElements!!
+                totalContent = it.value.content.size
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false
@@ -74,12 +82,23 @@ class InvoiceFragment() : Fragment() {
 
         setupRecyclerView()
         viewModel.getUnpaidInvoice(page)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            invoiceAdapter.clear()
+            totalContent = 0
+            viewModel.getUnpaidInvoice(0)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+        //Declare LocalBroadcastManager
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(finishMessageReceiver, IntentFilter("reload-invoice"))
+
     }
 
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
-        binding.rvInvoice.layoutManager= layoutManager
-        invoiceAdapter = InvoiceAdapter(requireActivity())
+        binding.rvInvoice.layoutManager = layoutManager
+        invoiceAdapter = InvoiceAdapter(requireActivity(),viewModel)
         binding.rvInvoice.adapter = invoiceAdapter
     }
 
@@ -91,11 +110,25 @@ class InvoiceFragment() : Fragment() {
         return binding.root
     }
 
+    //Listen from LocalBroadcastManager payment Success
+    private val finishMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // Get extra data included in the Intent
+            val reload = intent.getStringExtra("reload")
+            if (reload == "reload") {
+                invoiceAdapter.clear()
+                viewModel.getUnpaidInvoice(page)
+            }
+        }
+    }
+
+
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

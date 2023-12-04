@@ -1,12 +1,14 @@
 package id.co.pspmobile.data.network.auth
 
 import id.co.pspmobile.data.network.model.ModelLogin
+import id.co.pspmobile.data.network.model.firebase.ModelFirebaseToken
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.LoginResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.BroadcastMessageResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessageResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
+import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
 import id.co.pspmobile.data.network.responses.profile.UserResponse
@@ -89,7 +91,7 @@ interface AuthApi {
         @Query("page") page: Int?,
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
-    ) : Response<InfoNewsResponse>
+    ) : Response<BroadcastResponse>
 
     @POST("main_a/info/get_info")
     suspend fun getInfoNews(
@@ -116,4 +118,9 @@ interface AuthApi {
         @Query("sort") sort: String?,
         @Query("dir") dir: Int?
     ) : Response<BroadcastMessageResponse>
+
+    @PUT("katalis/user/firebase/token")
+    suspend fun saveFirebaseToken(
+        @Body data: ModelFirebaseToken
+    ): Response<Unit>
 }

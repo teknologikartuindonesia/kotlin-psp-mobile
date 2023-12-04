@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.invoice.InvoicePaymentDto
 import id.co.pspmobile.data.network.invoice.InvoiceRepository
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InvoiceViewModel @Inject constructor(
-    private val invoiceRepository: InvoiceRepository
+    private val invoiceRepository: InvoiceRepository,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
     private var _unpaidInvoiceResponse: MutableLiveData<Resource<InvoiceResDto>> = MutableLiveData()
@@ -49,4 +51,7 @@ class InvoiceViewModel @Inject constructor(
         _paymentInvoiceResponse.value = Resource.Loading
         _paymentInvoiceResponse.value = invoiceRepository.paymentInvoice(amount,invoiceId)
     }
+
+    fun getUserData() = userPreferences.getUserData()
+    fun getLanguage() = userPreferences.getLanguage()
 }

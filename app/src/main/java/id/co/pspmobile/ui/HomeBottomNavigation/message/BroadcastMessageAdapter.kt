@@ -47,7 +47,7 @@ class BroadcastMessageAdapter(private val context: Context): RecyclerView.Adapte
             with(binding) {
                 txtBroadcastTitle.text = broadcastMessage.title
                 val sent = broadcastMessage.broadcastSent.split("T")[0]
-                txtBroadcastDate.text = sent
+                txtBroadcastDate.text = sent.split("-").reversed().joinToString("/")
                 if (broadcastMessage.imagesFirebase.isNotEmpty()) {
                     Glide.with(itemView.context)
                         .load(broadcastMessage.imagesFirebase[0])

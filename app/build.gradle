@@ -8,6 +8,10 @@ plugins {
     id 'com.google.devtools.ksp'
 }
 
+def secretPropertiesFile = rootProject.file("secret.properties")
+def secretProperties = new Properties()
+secretProperties.load(new FileInputStream(secretPropertiesFile))
+
 android {
     namespace 'id.co.pspmobile'
     compileSdk 34
@@ -20,6 +24,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SERVER_KEY_ID", secretProperties['SERVER_KEY_ID_2'])
     }
 
     buildTypes {
@@ -36,6 +41,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 }

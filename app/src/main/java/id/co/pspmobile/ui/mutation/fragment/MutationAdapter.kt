@@ -13,15 +13,23 @@ import id.co.pspmobile.data.network.report.MutationDto
 import id.co.pspmobile.databinding.AdapterMutationBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
+import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import id.co.pspmobile.ui.mutation.MutationViewModel
 
-class MutationAdapter(private val context: Context) :
+class MutationAdapter(private val context: Context, private val viewModel: MutationViewModel) :
     RecyclerView.Adapter<MutationAdapter.ViewHolder>() {
 
     private var list = ArrayList<MutationDto>()
+    var vm = viewModel
 
     @SuppressLint("NotifyDataSetChanged")
     fun setMutations(item: List<MutationDto>) {
         list.addAll(item)
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        list.clear()
         notifyDataSetChanged()
     }
 
@@ -30,7 +38,7 @@ class MutationAdapter(private val context: Context) :
         @SuppressLint("ResourceAsColor")
         fun bind(mutation: MutationDto) {
             with(binding) {
-                tvDateTime.text = formatDateTime(mutation.dateTime, "dd-MM-YYYY hh:mm")
+                tvDateTime.text = formatDateTime(mutation.dateTime, "dd-MM-YYYY H:MM")
                 if (mutation.debit == 0.0) {
                     tvDebitCredit.text = "Rp " + formatCurrency(mutation.credit)
                     tvDebitCredit.setTextColor(context.getColor(R.color.green))
@@ -39,7 +47,11 @@ class MutationAdapter(private val context: Context) :
                     tvDebitCredit.text = "-Rp " + formatCurrency(mutation.debit)
                 }
                 tvTransactionName.text = mutation.transactionName
-                tvBalance.text = "Saldo: Rp " + formatCurrency(mutation.balance)
+
+                when(viewModel.getLanguage()){
+                    "en" ->tvBalance.text = "Balance: Rp " + formatCurrency(mutation.balance)
+                    else -> tvBalance.text = "Saldo: Rp " + formatCurrency(mutation.balance)
+                }
                 tvNote.text = mutation.callerName
 
                 if (mutation.tags.indexOf("invoice") >= 0) {

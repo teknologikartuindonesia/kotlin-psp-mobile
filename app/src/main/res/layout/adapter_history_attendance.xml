@@ -25,12 +25,14 @@
             android:paddingVertical="8dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_photo_in"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="4dp"
+                app:shapeAppearance="@style/Circular"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_account" />
 
             <LinearLayout
@@ -52,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="12dp"
-                        android:fontFamily="@font/montserrat"
+                        android:fontFamily="@font/montserrat_bold"
                         android:textFontWeight="600"
                         android:textColor="@color/black"
                         tools:text="Shift Name" />
@@ -164,12 +166,14 @@
 
             </LinearLayout>
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_photo_out"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp"
+                app:shapeAppearance="@style/Circular"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_account" />
 
         </LinearLayout>

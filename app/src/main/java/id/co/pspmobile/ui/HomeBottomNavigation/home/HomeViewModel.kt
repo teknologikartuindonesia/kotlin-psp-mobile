@@ -15,6 +15,7 @@ import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
+import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject

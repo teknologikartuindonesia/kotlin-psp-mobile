@@ -22,8 +22,8 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryInvoiceBinding
     private lateinit var historyAdapter: HistoryAdapter
     private var page: Int = 0
-    private var size: Int = 5
-    private var totalPage: Int = 1
+    private var size: Int = 10
+    private var totalContent: Int = 1
     private var isLoading = false
 
     private lateinit var layoutManager: LinearLayoutManager
@@ -38,7 +38,7 @@ class HistoryFragment : Fragment() {
                 val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
                 val total = historyAdapter.itemCount
 
-                if (!isLoading && page < totalPage) {
+                if (!isLoading && totalContent >= size) {
                     if (visibleItemCount + pastVisibleItem >= total) {
                         isLoading = true
                         viewModel.getPaidInvoice(page++)
@@ -55,27 +55,28 @@ class HistoryFragment : Fragment() {
 //            }
             if (it is Resource.Success) {
                 historyAdapter.setInvoices(it.value.content)
-                totalPage = it.value.totalElements!!
+                totalContent = it.value.content.size
                 isLoading = false
             } else if (it is Resource.Failure) {
                 isLoading = false
                 requireActivity().handleApiError(binding.rvInvoice, it)
             }
         }
-
-//        historyAdapter = HistoryAdapter(requireActivity())
-//        historyAdapter.setOnDetailClickListener() { invoice ->
-//            val bottomSheetDetailInvoice = BottomSheetDetailInvoice("User Name", invoice)
-//            bottomSheetDetailInvoice.show(childFragmentManager, tag)
-//        }
         setupRecyclerView()
         viewModel.getPaidInvoice(page)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            historyAdapter.clear()
+            totalContent = 0
+            viewModel.getPaidInvoice(0)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupRecyclerView() {
         binding.rvInvoice.setHasFixedSize(true)
         binding.rvInvoice.layoutManager = layoutManager
-        historyAdapter = HistoryAdapter(requireActivity())
+        historyAdapter = HistoryAdapter(requireActivity(),viewModel)
         binding.rvInvoice.adapter = historyAdapter
     }
 
@@ -92,6 +93,7 @@ class HistoryFragment : Fragment() {
         loaderDialogFragment.show(parentFragmentManager, "lottieLoaderDialog")
 
     }
+
     private fun hideLottieLoader() {
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?

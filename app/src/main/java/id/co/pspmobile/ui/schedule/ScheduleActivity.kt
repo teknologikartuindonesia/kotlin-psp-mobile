@@ -19,6 +19,9 @@ import id.co.pspmobile.data.network.responses.calendarschedule.Lesson
 import id.co.pspmobile.data.network.responses.checkcredential.CallerIdentity
 import id.co.pspmobile.databinding.ActivityScheduleBinding
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.hideLottieLoader
+import id.co.pspmobile.ui.Utils.showLottieLoader
+import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.visible
 import java.util.Calendar
 
@@ -76,10 +79,13 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         viewModel.schedulePerDayResponse.observe(this){
-            binding.progressBar.visible(it is Resource.Loading)
+            when(it is Resource.Loading){
+                true -> showLottieLoader(supportFragmentManager)
+                else -> hideLottieLoader(supportFragmentManager)
+            }
             if(it is Resource.Success){
                 schedulePerDay = if (it.value.content.isEmpty()){
-                    Toast.makeText(this, "Tidak ada jadwal", Toast.LENGTH_SHORT).show()
+                    binding.root.snackbar(resources.getString(R.string.no_schedule))
                     ArrayList<Lesson>()
                 }else{
                     it.value.content[0].lessons as ArrayList<Lesson>
@@ -179,7 +185,12 @@ class ScheduleActivity : AppCompatActivity() {
     }
 
     fun configureAsset(){
-        binding.txtDay.text = currentDay
+        if (viewModel.getLanguage() == "en"){
+            binding.txtDay.text = currentDay
+        }else {
+            val indoDays = arrayOf("MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU")
+            binding.txtDay.text = indoDays[days.indexOf(currentDay)]
+        }
         when(currentDay){
             "SUNDAY" -> {
                 binding.imgSchedule.setImageResource(R.drawable.ic_calendar_sun)

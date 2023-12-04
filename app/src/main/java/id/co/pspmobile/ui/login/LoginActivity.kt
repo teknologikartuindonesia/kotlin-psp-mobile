@@ -8,15 +8,14 @@ import android.text.InputType
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.caverock.androidsvg.SVG
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
-import id.co.pspmobile.data.network.RemoteDataSource
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.model.customapp.ModelMenu
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
@@ -24,12 +23,14 @@ import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ActivityLoginBinding
 import id.co.pspmobile.ui.HomeActivity
-import id.co.pspmobile.ui.HomeBottomNavigation.home.MenuModel
+import id.co.pspmobile.ui.HomeBottomNavigation.profile.faq.FaqActivity
 import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.Utils.showToast
+import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.createpassword.CreatePasswordActivity
+import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.dialog.DialogCS
 import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.forgotpassword.ForgotPasswordActivity
@@ -63,6 +64,8 @@ class LoginActivity : AppCompatActivity() {
                 else -> hideLottieLoader()
             }
             if (it is Resource.Success) {
+                viewModel.saveUsername(binding.edUsername.text.toString())
+                viewModel.savePassword(binding.edPassword.text.toString())
                 if (it.value.firstLogin) {
                     // go to create password
                     val i = Intent(this, CreatePasswordActivity::class.java)
@@ -73,27 +76,20 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.checkCredential()
                 }
             } else if (it is Resource.Failure) {
-
+                if (it.errorCode == 401){
+                    binding.root.snackbar(resources.getString(R.string.wrong_username_password))
+                }
             }
         }
 
         binding.btnCs.setOnClickListener {
-            val dialogYesNot = DialogYesNo(
-                "Perhatian",
-                "Apakah Kendala Anda Lupa Password? Silahkan Gunakan Fitur Lupa Password",
-                "Buka Fitur",
-                "Tidak",
-                yesListener = {
-                    startActivity(Intent(this, ForgotPasswordActivity::class.java))
-                },
-                noListener = {
-                    val args = Bundle()
-                    val dialog = DialogCS()
-                    dialog.arguments = args
-                    dialog.show(supportFragmentManager, dialog.tag)
-                }
-            )
-            dialogYesNot.show(supportFragmentManager, dialogYesNot.tag)
+            val intent = Intent(this, FaqActivity::class.java)
+            intent.putExtra("isFromFaq", false)
+            intent.putExtra(
+                "key",
+                "login"
+            ) // You can use different data types and multiple putExtra calls
+            startActivity(intent)
         }
 
         viewModel.checkCredentialResponse.observe(this) {
@@ -210,6 +206,25 @@ class LoginActivity : AppCompatActivity() {
             binding.btnBiometric.visible(true)
             binding.lineBtnBiometric.visible(true)
         }
+
+        viewModel.broadcastResponse.observe(this){
+            if (it is Resource.Success){
+                val broadcastResponse = it.value
+                if (broadcastResponse.content.isNotEmpty()){
+                    val x = supportFragmentManager
+                    val dialogBroadcast = DialogBroadcast(
+                        broadcastResponse.content[0],
+                        x
+                    )
+                    dialogBroadcast.show(supportFragmentManager, dialogBroadcast.tag)
+                }
+            }
+        }
+        getActiveBroadcast()
+    }
+
+    fun getActiveBroadcast(){
+        viewModel.getBroadcastMessage()
     }
 
     fun getCustomApp(){

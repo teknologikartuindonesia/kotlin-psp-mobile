@@ -1,6 +1,5 @@
 package id.co.pspmobile.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -12,10 +11,10 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityHomeBinding
+import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.calendar.CalendarActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
-import id.co.pspmobile.ui.Utils.showToast
 
 
 @AndroidEntryPoint
@@ -24,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private var exit = false
     private lateinit var navController: NavController
-    private lateinit var menuBottom : ChipNavigationBar
+    private lateinit var menuBottom: ChipNavigationBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +31,12 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         navController = findNavController(R.id.nav_host_fragment_activity_home)
 
         menuBottom = binding.bottomNavBar
         menuBottom.setItemSelected(R.id.navigation_home, true)
         menuBottom.setOnItemSelectedListener {
-            when(it){
+            when (it) {
                 R.id.navigation_home -> {
                     navController.navigate(R.id.navigation_home)
                 }
@@ -68,11 +66,13 @@ class HomeActivity : AppCompatActivity() {
                         )
                     )
                 }, 500)
+
                 "notification" -> Handler().postDelayed({
                     menuBottom.setItemSelected(R.id.navigation_message, true)
                     navController.navigate(R.id.navigation_message)
-                    
+
                 }, 500)
+
                 "academic-calendar" -> Handler().postDelayed({
                     startActivity(
                         Intent(
@@ -81,14 +81,15 @@ class HomeActivity : AppCompatActivity() {
                         )
                     )
                 }, 500)
+
                 "calendar-academic" -> Handler().postDelayed({
-                startActivity(
-                    Intent(
-                        this,
-                        CalendarActivity::class.java
+                    startActivity(
+                        Intent(
+                            this,
+                            CalendarActivity::class.java
+                        )
                     )
-                )
-            }, 500)
+                }, 500)
             }
         }
     }
@@ -119,5 +120,12 @@ class HomeActivity : AppCompatActivity() {
             menuBottom = binding.bottomNavBar
             menuBottom.setItemSelected(R.id.navigation_home, true)
         }
+    }
+
+    fun info() {
+            navController.navigate(R.id.navigation_information)
+            menuBottom = binding.bottomNavBar
+            menuBottom.setItemSelected(R.id.navigation_information, true)
+
     }
 }

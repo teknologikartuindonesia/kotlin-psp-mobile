@@ -233,13 +233,16 @@ class TransactionFragment : Fragment() {
 
         for (transaction in transactions) {
             if (transaction.amount < 0) {
-                outcome += transaction.amount
-            } else {
                 income += transaction.amount
+            } else {
+                outcome += transaction.amount
             }
         }
 
-        binding.tvIncome.text = "Rp. " + Utils.formatCurrency(income)
-        binding.tvOutcome.text = "Rp. " + Utils.formatCurrency(outcome)
+        binding.tvIncome.text = "Rp. " + Utils.formatCurrency(income).replace("-", "")
+        binding.tvOutcome.text =
+            if (outcome==0.0) "Rp. 0"
+            else "- Rp. " + Utils.formatCurrency(outcome).replace("-", "")
+
     }
 }

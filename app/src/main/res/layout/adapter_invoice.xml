@@ -65,7 +65,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Nama" />
+                android:text="@string/name" />
 
             <TextView
                 android:layout_width="10dp"
@@ -91,7 +91,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="NIS" />
+                android:text="@string/NIS" />
 
             <TextView
                 android:layout_width="10dp"
@@ -117,7 +117,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Tgl Tagihan" />
+                android:text="@string/invoice_date" />
 
             <TextView
                 android:layout_width="10dp"
@@ -144,7 +144,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Tgl Jatuh Tempo" />
+                android:text="@string/due_date" />
 
             <TextView
                 android:layout_width="10dp"
@@ -170,7 +170,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Tipe Tagihan" />
+                android:text="@string/invoice_type" />
 
             <TextView
                 android:layout_width="10dp"
@@ -196,7 +196,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Total Tagihan" />
+                android:text="@string/invoice_total" />
 
             <TextView
                 android:layout_width="10dp"
@@ -222,7 +222,7 @@
                 android:layout_width="120dp"
                 android:fontFamily="@font/montserrat"
                 android:layout_height="wrap_content"
-                android:text="Terbayar" />
+                android:text="@string/invoice_paid" />
 
             <TextView
                 android:layout_width="10dp"
@@ -262,7 +262,7 @@
                     android:layout_width="wrap_content"
                     android:fontFamily="@font/montserrat"
                     android:layout_height="wrap_content"
-                    android:text="Sisa Tagihan" />
+                    android:text="@string/rest_of_invoice" />
 
                 <TextView
                     android:id="@+id/tv_unpaid_amount"
@@ -282,7 +282,7 @@
                 android:textSize="12dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:layout_centerInParent="true"
-                android:text="Bayar" />
+                android:text="@string/pay" />
         </LinearLayout>
 
     </LinearLayout>

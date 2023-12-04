@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
@@ -20,6 +21,7 @@ import id.co.pspmobile.databinding.ActivityCreatePasswordBinding
 import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.hideKeyboard
 import id.co.pspmobile.ui.Utils.slideAnimation
 import id.co.pspmobile.ui.Utils.snackbar
 import id.co.pspmobile.ui.Utils.startNewActivity
@@ -46,6 +48,8 @@ class CreatePasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePasswordBinding
     private val viewModel: CreatePasswordViewModel by viewModels()
+    var emailEmpty = true
+    var waEmpty = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreatePasswordBinding.inflate(layoutInflater)
@@ -143,6 +147,17 @@ class CreatePasswordActivity : AppCompatActivity() {
             doLogin()
         }
 
+        binding.edEmailCreatePassword.addTextChangedListener { editable ->
+            emailEmpty = editable.toString().isEmpty()
+            binding.btnCreatePassword.isEnabled = !emailEmpty && !waEmpty
+
+        }
+
+        binding.edWaCreatePassword.addTextChangedListener { editable ->
+            waEmpty = editable.toString().isEmpty()
+            binding.btnCreatePassword.isEnabled = !emailEmpty && !waEmpty
+        }
+
         viewModel.createPasswordResponse.observe(this){
             binding.progressbar.visible(it is Resource.Loading)
             if (it is Resource.Success){
@@ -203,10 +218,18 @@ class CreatePasswordActivity : AppCompatActivity() {
                         viewModel.saveAccessToken("")
                     }
                 } else {
-                    binding.edEmailCreatePassword.setText(it.value.user.email)
+                    if(!it.value.user.email.isNullOrEmpty()){
+                        binding.edEmailCreatePassword.setText(it.value.user.email)
+                        emailEmpty = false
+                    }else{
+                        emailEmpty = true
+                    }
 
-                    if (it.value.user.phone.isNotEmpty()){
+                    if (!it.value.user.phone.isNullOrEmpty()){
                         binding.edWaCreatePassword.setText(it.value.user.phone)
+                        waEmpty = false
+                    }else{
+                        waEmpty = true
                     }
 
                     wasInputted = true
@@ -247,13 +270,14 @@ class CreatePasswordActivity : AppCompatActivity() {
         pass = oldPass
         val confirmPass = oldPass
 
-        if (!isValidEmail(email)){
-            binding.root.snackbar(resources.getString(R.string.must_a_valid_email))
+
+        if (email.isNullOrEmpty() || wa.isNullOrEmpty()){
+            binding.root.snackbar(resources.getString(R.string.please_input_valid_email_or_phone))
             return
         }
 
-        if (email.isNullOrEmpty() || wa.isNullOrEmpty()){
-            binding.root.snackbar(resources.getString(R.string.please_input_email_or_whatsapp))
+        if (!isValidEmail(email)){
+            binding.root.snackbar(resources.getString(R.string.must_a_valid_email))
             return
         }
 
@@ -265,6 +289,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                 pass,
                 wa
             )
+            hideKeyboard()
             viewModel.sendCreatePassword(tempModel)
         }
     }

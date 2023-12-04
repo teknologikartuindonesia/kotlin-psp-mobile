@@ -35,7 +35,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat_bold"
                     android:gravity="center"
-                    android:text="Schedule"
+                    android:text="@string/schedule"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Time"
+                    android:text="@string/time"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Lesson"
+                    android:text="@string/lesson"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textAlignment="center"/>

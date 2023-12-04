@@ -14,6 +14,7 @@ import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialRes
 import id.co.pspmobile.data.network.responses.LoginResponse
 import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
 import id.co.pspmobile.data.network.responses.customapp.SvgResponse
+import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import javax.inject.Inject
@@ -25,6 +26,14 @@ class LoginViewModel@Inject constructor(
     private val customAppRepository: CustomAppRepository,
     private val userPreferences: UserPreferences
 ) : ViewModel() {
+
+    private var _broadcastResponse: MutableLiveData<Resource<BroadcastResponse>> = MutableLiveData()
+    val broadcastResponse: LiveData<Resource<BroadcastResponse>> get() = _broadcastResponse
+    fun getBroadcastMessage() = viewModelScope.launch {
+        _broadcastResponse.value = Resource.Loading
+        _broadcastResponse.value = authRepository.getActiveBroadcast()
+    }
+
     private var _loginResponse: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
     val loginResponse: LiveData<Resource<LoginResponse>> get() = _loginResponse
 

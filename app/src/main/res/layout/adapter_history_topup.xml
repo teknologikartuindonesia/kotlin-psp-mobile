@@ -44,7 +44,7 @@
                 android:textSize="14dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@color/black"
-                android:text="Saldo" />
+                android:text="@string/balance" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,24 +60,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingRight="2dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="15sp"
                 android:textStyle="bold"
-
-                tools:text="Nama Transaksi" />
+                android:text="Nama Transaksi" />
 
             <TextView
                 android:id="@+id/tv_balance"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:gravity="right"
+                android:paddingLeft="2dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:textColor="@color/teal_700"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                tools:text="0.0" />
+                tools:text="Rp.1.000.000" />
         </LinearLayout>
 
     </LinearLayout>

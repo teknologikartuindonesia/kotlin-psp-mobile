@@ -37,6 +37,10 @@ class IntroActivity : AppCompatActivity() {
                     binding.imgIntro1.visible(false)
                     binding.imgIntro1.visible(false)
                     binding.imgIntro2.visible(true)
+                    binding.imgPager1.setImageResource(R.drawable.inactive_dot)
+                    binding.imgPager2.setImageResource(R.drawable.active_dot)
+                    binding.imgPager3.setImageResource(R.drawable.inactive_dot)
+
                     binding.txtTitle.text = resources.getText(R.string.digital_invoice)
                     binding.txtSubtitle.text = resources.getText(R.string.subtitle_intro_2)
                     step += 1
@@ -46,6 +50,9 @@ class IntroActivity : AppCompatActivity() {
                     binding.imgIntro2.visible(false)
                     binding.imgIntro2.visible(false)
                     binding.imgIntro3.visible(true)
+                    binding.imgPager1.setImageResource(R.drawable.inactive_dot)
+                    binding.imgPager2.setImageResource(R.drawable.inactive_dot)
+                    binding.imgPager3.setImageResource(R.drawable.active_dot)
                     binding.txtTitle.text = resources.getText(R.string.absensi)
                     binding.txtSubtitle.text = resources.getText(R.string.subtitle_intro_3)
                     step += 1

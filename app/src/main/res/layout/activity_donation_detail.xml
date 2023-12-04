@@ -34,7 +34,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
-                android:text="Donation Detail"
+                android:text="@string/donation_detail"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat"
-                            android:text="Saldo" />
+                            android:text="@string/balance" />
 
                         <TextView
                             android:id="@+id/tv_balance"
@@ -116,7 +116,7 @@
                 android:layout_marginEnd="12dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="Donation Name : " />
+                android:text="@string/donation_name" />
 
             <TextView
                 android:id="@+id/tv_donation_name"
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:paddingHorizontal="20dp"
-            android:text="Donation Amount Input"
+            android:text="@string/donation_amount_input"
             android:textStyle="bold" />
 
         <EditText
@@ -142,6 +142,7 @@
             android:layout_marginStart="34dp"
             android:layout_marginEnd="34dp"
             android:background="@drawable/input_bg"
+            android:imeOptions="actionDone"
             android:inputType="number"
             android:singleLine="true"
             android:maxLines="1"
@@ -165,7 +166,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="36dp"
-            android:text="History"
+            android:text="@string/history"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
