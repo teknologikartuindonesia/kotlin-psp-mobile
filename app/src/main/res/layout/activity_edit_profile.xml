@@ -77,6 +77,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text="Email" />
 
             <LinearLayout
@@ -109,6 +110,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
                 android:text="Phone" />
 
             <LinearLayout
@@ -154,6 +156,7 @@
                 android:background="@drawable/psp_btn"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Edit"/>
         </LinearLayout>
 
