@@ -70,11 +70,11 @@ class ProfileFragment : Fragment() {
 
     fun configureMenu(){
         val menuList = ArrayList<ProfileMenuModel>()
-        menuList.add(ProfileMenuModel("Profile", R.drawable.ic_profile_profile, Intent(requireContext(), EditProfileActivity::class.java)))
-        menuList.add(ProfileMenuModel("Change Password", R.drawable.ic_profile_change_password, Intent(requireContext(), ChangePasswordActivity::class.java)))
-        menuList.add(ProfileMenuModel("FAQ", R.drawable.ic_profile_faq, Intent(requireContext(), FaqActivity::class.java)))
-        menuList.add(ProfileMenuModel("Language", R.drawable.ic_profile_language, Intent(requireContext(), LanguageActivity::class.java)))
-        menuList.add(ProfileMenuModel("Logout", R.drawable.ic_profile_logout, Intent(requireContext(), LanguageActivity::class.java)))
+        menuList.add(ProfileMenuModel(getString(R.string.profile), R.drawable.ic_profile_profile, Intent(requireContext(), EditProfileActivity::class.java)))
+        menuList.add(ProfileMenuModel(getString(R.string.change_password), R.drawable.ic_profile_change_password, Intent(requireContext(), ChangePasswordActivity::class.java)))
+        menuList.add(ProfileMenuModel(getString(R.string.faq), R.drawable.ic_profile_faq, Intent(requireContext(), FaqActivity::class.java)))
+        menuList.add(ProfileMenuModel(getString(R.string.change_language), R.drawable.ic_profile_language, Intent(requireContext(), LanguageActivity::class.java)))
+        menuList.add(ProfileMenuModel(getString(R.string.logout), R.drawable.ic_profile_logout, Intent(requireContext(), LanguageActivity::class.java)))
         val adapter = ProfileMenuAdapter(viewModel)
         Log.d("ProfileFragment", "configureMenu: ${menuList.size}")
         adapter.setMenuList(menuList, requireActivity())

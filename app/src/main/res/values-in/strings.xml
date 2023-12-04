@@ -196,4 +196,8 @@
     <string name="on_time">Tepat Waktu</string>
     <string name="late">Datang Terlambat</string>
     <string name="early">Pulang Awal</string>
+    <string name="change_language">Ganti Bahasa</string>
+    <string name="profile">Profil</string>
+    <string name="faq">FAQ</string>
+    <string name="logout">Keluar</string>
 </resources>

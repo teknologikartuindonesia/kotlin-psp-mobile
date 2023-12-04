@@ -22,7 +22,9 @@ import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
+import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
 import id.co.pspmobile.databinding.ActivityDigitalCardBinding
+import id.co.pspmobile.ui.HomeBottomNavigation.profile.ProfileMenuModel
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetSetLimitFragment
@@ -134,5 +136,7 @@ class DigitalCardActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
         loaderDialogFragment?.dismiss()
     }
+
+
 
 }

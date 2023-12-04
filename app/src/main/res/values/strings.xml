@@ -198,4 +198,8 @@
     <string name="on_time">On Time</string>
     <string name="late">Late</string>
     <string name="early">Too Early</string>
+    <string name="change_language">Change Language</string>
+    <string name="profile">Profile</string>
+    <string name="faq">FAQ</string>
+    <string name="logout">Logout</string>
 </resources>

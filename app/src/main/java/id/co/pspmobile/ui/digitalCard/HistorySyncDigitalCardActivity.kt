@@ -7,8 +7,10 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.local.SharePreferences
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
+import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import id.co.pspmobile.databinding.ActivityDigitalCardBinding
 import id.co.pspmobile.databinding.ActivityHistorySyncDigitalCardBinding
 import id.co.pspmobile.ui.invoice.fragment.HistorySyncDigitalCardAdapter
@@ -28,8 +30,9 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         binding = ActivityHistorySyncDigitalCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var history = runBlocking { viewModel.getSyncDigitalCard() }
-        Log.e("test", history.toString())
+        val existing = SharePreferences.getNewSyncDigitalCard(this) // viewModel.getSyncDataNew()
+
+        Log.e("test", existing.toString())
 //        historySyncDigitalCardAdapter.setHistorySyncDigitalCard(history.data)
 //
 //

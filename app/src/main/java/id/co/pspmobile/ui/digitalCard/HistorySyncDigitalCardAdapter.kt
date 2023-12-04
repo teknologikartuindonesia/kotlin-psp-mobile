@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.invoice.InvoiceDto
+import id.co.pspmobile.data.network.responses.digitalCard.CardDataItem
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
 import id.co.pspmobile.databinding.AdapterSummaryInvoiceBinding
@@ -12,14 +13,16 @@ import id.co.pspmobile.databinding.ItemDigitalCardBinding
 import id.co.pspmobile.databinding.ItemHistorySyncDigitalCardBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
+import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 
-class HistorySyncDigitalCardAdapter :
+class HistorySyncDigitalCardAdapter(private var viewModel: DigitalCardViewModel) :
     RecyclerView.Adapter<HistorySyncDigitalCardAdapter.ViewHolder>() {
 
-    private lateinit var list: List<SyncDigitalCardItem>
+    private lateinit var list: List<CardDataItem>
+    var vm = viewModel
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setHistorySyncDigitalCard(list: List<SyncDigitalCardItem>) {
+    fun setHistorySyncDigitalCard(list: List<CardDataItem>) {
         this.list = list
 
         notifyDataSetChanged()
@@ -27,11 +30,11 @@ class HistorySyncDigitalCardAdapter :
 
     inner class ViewHolder(private val binding: ItemHistorySyncDigitalCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SyncDigitalCardItem) {
+        fun bind(item: CardDataItem) {
             with(binding) {
                 nfcId.text = item.nfcId
-                createDate.text = formatDateTime(item.createDate.toString(), "DD MMMM YYYY HH:MM")
-                callerName.text = item.callerName
+                createDate.text = formatDateTime(item.history.toString(), "DD MMMM YYYY HH:MM")
+                callerName.text = vm.getUserData().user.name
             }
         }
     }
