@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
@@ -42,7 +43,10 @@ class BottomSheetPaymentSuccessInvoice(
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetPaymentSuccessInvoiceBinding
+    private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
+
     private val viewModel: InvoiceViewModel by viewModels()
+    private lateinit var layoutManager: LinearLayoutManager
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -52,6 +56,8 @@ class BottomSheetPaymentSuccessInvoice(
     ): View {
 
         binding = BottomSheetPaymentSuccessInvoiceBinding.inflate(inflater)
+        layoutManager = LinearLayoutManager(requireContext())
+        detailInvoiceAdapter = DetailInvoiceAdapter()
 
         binding.apply {
             tvInvoiceName.text = invoicePayment.inquiryResponseDto.title
@@ -103,6 +109,12 @@ class BottomSheetPaymentSuccessInvoice(
             }
             tvPaid.text =
                 formatCurrency(invoicePayment.inquiryResponseDto.amount - invoicePayment.inquiryResponseDto.paidAmount)
+
+            Log.e("r", invoice.detail.toString())
+            detailInvoiceAdapter.setDetail(invoice.detail)
+            rvDetailInvoice.setHasFixedSize(true)
+            rvDetailInvoice.layoutManager = layoutManager
+            rvDetailInvoice.adapter = detailInvoiceAdapter
 
             btnDownload.setOnClickListener {
                 btnDownload.visibility = View.GONE

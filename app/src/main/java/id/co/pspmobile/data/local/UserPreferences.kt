@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
@@ -48,10 +49,12 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
 
     val digitalCardData: Flow<String>
         get() = appContext.dataStore.data.map { preferences ->
-            preferences[SYNC_DC] ?: ""
+            preferences[DIGITAL_CARD] ?: ""
         }
 
     suspend fun saveUserData(userData: CheckCredentialResponse) {
+        Log.d("UserPreferences", "saveUserData: ${userData}")
+
         appContext.dataStore.edit { preferences ->
             preferences[USER_DATA] = Gson().toJson(userData)
         }
@@ -138,22 +141,35 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         Gson().fromJson(balanceData.first().toString(), BalanceResponse::class.java)
     }
 
-    suspend fun saveSyncDigitalCard(data: SyncDigitalCard) {
+    suspend fun saveSyncDigitalCard(data: String) {
+        Log.d("UserPreferences", "saveSyncDigitalCard: ${data}")
         appContext.dataStore.edit { preferences ->
-            preferences[SYNC_DC] = Gson().toJson(data.data)
+            preferences[DIGITAL_CARD] = data
+        }
+    }
+    suspend fun saveDigitalCard(value: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[DIGITAL_CARD] = value.toString()
         }
     }
 
 
     fun getSyncDigitalCard() = runBlocking(Dispatchers.IO) {
-        Log.d("UserPreferences", "getSyncDigitalCard: ${digitalCardData.first()}")
-        Gson().fromJson(digitalCardData.first().toString(), SyncDigitalCard::class.java)
+        val value = runBlocking { digitalCardData.first() }
+        GsonBuilder().create().fromJson(value.toString(), SyncDigitalCard::class.java)
+    }
+    inline fun <reified T> getUserObject(): T? {
+        val value = runBlocking { digitalCardData.first() }
+        Log.d("UserPreferences", "getUserObject: ${value.toString()}")
+
+        return GsonBuilder().create().fromJson(value.toString(), T::class.java)
     }
 
     val language: Flow<String>
         get() = appContext.dataStore.data.map { preferences ->
             preferences[LANGUAGE] ?: "id"
         }
+
     fun getLanguage() = runBlocking(Dispatchers.IO) {
         language.first()
     }
@@ -173,7 +189,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         private val INTRO = booleanPreferencesKey("intro")
         private val LANGUAGE = stringPreferencesKey("language")
         private val BALANCE = stringPreferencesKey("balance")
-        private val SYNC_DC = stringPreferencesKey("sync_digital_card")
+        private val DIGITAL_CARD = stringPreferencesKey("digital_card")
     }
 
 }

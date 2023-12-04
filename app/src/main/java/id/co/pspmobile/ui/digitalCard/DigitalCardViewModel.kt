@@ -1,9 +1,11 @@
 package id.co.pspmobile.ui.digitalCard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.RemoteDataSource
@@ -11,12 +13,14 @@ import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
 import id.co.pspmobile.data.network.digitalCard.DigitalCardRepository
+import id.co.pspmobile.data.network.responses.User
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class DigitalCardViewModel @Inject constructor(
@@ -81,13 +85,8 @@ class DigitalCardViewModel @Inject constructor(
         )
     }
 
-    fun saveSyncDigitalCard(data: SyncDigitalCardItem) = viewModelScope.launch {
-        var getSync = getSyncDigitalCard()
-        getSync.data.add(data)
-        userPreferences.saveSyncDigitalCard(getSync)
-    }
+   fun getUserData():CheckCredentialResponse{
+       return userPreferences.getUserData()
+   }
 
-    fun getSyncDigitalCard(): SyncDigitalCard {
-        return userPreferences.getSyncDigitalCard() ?: SyncDigitalCard(mutableListOf())
-    }
 }
