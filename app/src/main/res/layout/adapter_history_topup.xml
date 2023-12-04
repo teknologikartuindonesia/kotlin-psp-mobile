@@ -44,7 +44,7 @@
                 android:textSize="14dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@color/black"
-                android:text="Saldo" />
+                android:text="@string/balance" />
         </LinearLayout>
 
         <LinearLayout

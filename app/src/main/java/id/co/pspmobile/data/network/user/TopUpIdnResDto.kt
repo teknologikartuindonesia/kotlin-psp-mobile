@@ -5,14 +5,19 @@ data class TopUpIdnResDto(
 	val dateTimeval : String,
 	val accountIdval : String,
 	val companyIdval : String,
-	val companyNameval : String,
-	val accountNumberval : String,
-	val accountNameval : String,
-//	val BillReqDto billReq;
+	val companyName : String,
+	val accountNumber : String,
+	val accountName : String,
+	val billReq: BillReq?,
 	val status: String,
 	val message: String,
 	val callBackDateTime: String,
 //	val CallBack callBack;,
 	val trxId: String,
 	val repeateCount: Int
+)
+
+data class BillReq(
+	val bill_key: String,
+	val branch_code: String,
 )

@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface UserApi {
 
@@ -23,4 +24,12 @@ interface UserApi {
         @Body topUpIdnReqDto: TopUpIdnReqDto,
     ) : Response<TopUpIdnResDto>
 
+    @GET("/main_a/general/tutorial_bank")
+    suspend fun getTutorial(
+        @Query("bank") bank: String,
+        @Query("lang") lang: String,
+        @Query("cid") cid: String,
+        @Query("kode") kode: String,
+        @Query("va") va: String
+    ) : Response<TutorialResDto>
 }

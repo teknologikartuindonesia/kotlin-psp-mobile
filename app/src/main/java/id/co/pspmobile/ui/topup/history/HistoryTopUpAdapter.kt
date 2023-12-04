@@ -29,7 +29,8 @@ class HistoryTopUpAdapter : RecyclerView.Adapter<HistoryTopUpAdapter.ViewHolder>
         @SuppressLint("SetTextI18n")
         fun bind(transaction: TransactionResDto) {
             with(binding) {
-                tvDate.text = formatDateTime(transaction.dateTime.toString(),"dd MMMM yyyy")
+                tvDate.text = formatDateTime(transaction.dateTime.toString(),"dd-MM-yyyy HH:mm")
+                val text = "<b>${transaction.name?.trim()}</b> ${transaction.callerName}"
                 tvTransactionName.text = transaction.name?.trim()
                 tvBalance.text = "Rp. " + formatCurrency(transaction.amount)
             }

@@ -27,7 +27,11 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
         fun bind(transaction: TransactionDto) {
             with(binding) {
                 tvTransactionName.text = transaction.transactionName
-                tvAmount.text = "Rp " + formatCurrency(transaction.amount)
+                tvAmount.text =
+                    if(transaction.amount < 0) "Rp " + formatCurrency(transaction.amount)
+                        .replace("-", "")
+                    else "- Rp " + formatCurrency(transaction.amount)
+                        .replace("-", "")
                 tvCount.text = transaction.count.toString()
 
                 btnDetail.setOnClickListener {

@@ -72,6 +72,11 @@ class FaqActivity : AppCompatActivity() {
 
         binding.btnCs.setOnClickListener {
             val dialog = DialogCS()
+            if (!isFromFaq) {
+                val bundle = Bundle()
+                bundle.putBoolean("isFromHome", false)
+                dialog.arguments = bundle
+            }
             dialog.show(supportFragmentManager, dialog.tag)
         }
         val intent = intent
