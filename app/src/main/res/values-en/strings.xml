@@ -202,4 +202,6 @@
     <string name="profile">Profile</string>
     <string name="faq">FAQ</string>
     <string name="logout">Logout</string>
+    <string name="donation_is_empty">Amount of donation cant empty</string>
+    <string name="donation_minimum">Minimum amount Rp 10</string>
 </resources>

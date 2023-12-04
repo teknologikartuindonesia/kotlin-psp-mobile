@@ -200,4 +200,6 @@
     <string name="profile">Profil</string>
     <string name="faq">FAQ</string>
     <string name="logout">Keluar</string>
+    <string name="donation_is_empty">Jumlah donasi harus diisi</string>
+    <string name="donation_minimum">Donasi minimal Rp 10</string>
 </resources>
