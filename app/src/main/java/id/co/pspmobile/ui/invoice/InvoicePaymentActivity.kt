@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -54,8 +55,25 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
         binding.apply {
             edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
+            btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+            btnPay.isEnabled = false
             edNominal.addTextChangedListener {
-//                Toast.makeText(requireContext(), edNominal.text.toString().trim().replace(".", "").replace(",", ""), Toast.LENGTH_SHORT).show()
+                try {
+                    Log.d("nominal",viewModel.getBalanceUser().toString())
+                    if (it.toString().trim().replace(".", "").replace(",", "").toInt() < 10000) {
+                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+                        btnPay.isEnabled = false
+                        alertNominal.visibility = View.VISIBLE
+
+                    } else {
+                        btnPay.setBackgroundColor(resources.getColor(R.color.blue))
+                        btnPay.isEnabled = true
+                        alertNominal.visibility = View.INVISIBLE
+
+                    }
+                } catch (e: Exception) {
+
+                }
             }
 
             tvInvoiceName.text = invoice?.title
@@ -132,8 +150,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
             }
             tvAmount.text = Utils.formatCurrency(invoice.amount)
 
-            Log.e("te", invoice.detail.toString())
-            for (i in invoice.detail){
+            for (i in invoice.detail) {
 
             }
             detailInvoiceAdapter.setDetail(invoice.detail)
@@ -144,24 +161,16 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
-                    if (edNominal.text.toString().trim().replace(".", "")
-                            .replace(",", "").toInt() < 10000
-                    ) {
-                        alertNominal.visibility = View.VISIBLE
-                    } else {
-                        alertNominal.visibility = View.GONE
-                        OpenCustomDialog(
-                            "Konfirmasi",
-                            "Apakah anda yakin akan melakukan pembayaran?",
-                            "invoice",
-                            "partial"
-                        )
-                    }
-
+                    OpenCustomDialog(
+                        resources.getString(R.string.confirmation),
+                        resources.getString(R.string.are_you_sure_to_pay),
+                        "invoice",
+                        "partial"
+                    )
                 } else {
                     OpenCustomDialog(
-                        "Konfirmasi",
-                        "Apakah anda yakin akan melakukan pembayaran?",
+                        resources.getString(R.string.confirmation),
+                        resources.getString(R.string.are_you_sure_to_pay),
                         "invoice",
                         "cash"
                     )

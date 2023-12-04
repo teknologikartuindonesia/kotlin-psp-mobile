@@ -104,6 +104,11 @@ class OldTransactionFragment : Fragment() {
         }
 
         binding.spinnerYear.setSelection(0)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getOldTransaction(getMonth(binding.spinnerMonth.selectedItem.toString()), targetYear)
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

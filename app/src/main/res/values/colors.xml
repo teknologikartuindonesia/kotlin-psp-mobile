@@ -9,7 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="bg_white">#F3F4FB</color>
     <color name="overlay">#BF000000</color>
-    <color name="primary">#0054E6</color>
+<!--    <color name="primary">#0054E6</color>-->
 
     <color name="primary_blue">#2189FA</color>
     <color name="dialogBackground">#60000000</color>

@@ -200,4 +200,6 @@
     <string name="profile">Profil</string>
     <string name="faq">FAQ</string>
     <string name="logout">Keluar</string>
+    <string name="confirmation">Konfirmasi</string>
+    <string name="are_you_sure_to_pay">Apakah anda yakin ingin membayar?</string>
 </resources>

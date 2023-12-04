@@ -8,6 +8,7 @@ import id.co.pspmobile.data.network.responses.LoginResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.BroadcastMessageResponse
 import id.co.pspmobile.data.network.responses.activebroadcast.NotificationMessageResponse
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
+import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
 import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import id.co.pspmobile.data.network.responses.profile.UploadImageResponse
@@ -25,6 +26,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AuthApi {
@@ -123,4 +125,11 @@ interface AuthApi {
     suspend fun saveFirebaseToken(
         @Body data: ModelFirebaseToken
     ): Response<Unit>
+
+    // https://api.dev.katalis.info/main_a/web_view/custom_apps/mobile/62b2e3e27c7490988621ca39?lang=EN
+    @GET("main_a/web_view/custom_apps/mobile/{companyId}")
+    suspend fun getCustomApp(
+        @Path("companyId") companyId: String?,
+        @Query("lang") lang: String?
+    ): Response<CustomAppResponse>
 }

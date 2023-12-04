@@ -1,10 +1,14 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -17,6 +21,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
@@ -29,9 +34,12 @@ import id.co.pspmobile.databinding.FragmentBottomSheetReceiptBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.OutputStream
+import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -41,6 +49,9 @@ class BottomSheetReceiptFragment(
 
     private lateinit var binding: FragmentBottomSheetReceiptBinding
     private val viewModel: InvoiceViewModel by viewModels()
+    private lateinit var detailInvoiceAdapter: DetailInvoiceAdapter
+
+    private lateinit var layoutManager: LinearLayoutManager
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -50,7 +61,8 @@ class BottomSheetReceiptFragment(
     ): View {
 
         binding = FragmentBottomSheetReceiptBinding.inflate(inflater)
-
+        layoutManager = LinearLayoutManager(requireContext())
+        detailInvoiceAdapter = DetailInvoiceAdapter()
 
         Log.e("TAG", invoice.toString())
         binding.apply {
@@ -58,7 +70,7 @@ class BottomSheetReceiptFragment(
             tvParentName.text = invoice.callerName
             tvStudentName.text = invoice.callerName
             tvDescription.text = invoice.description
-            tvPaid.text = "Rp "+formatCurrency(invoice.paidAmount)
+            tvPaid.text = "Rp " + formatCurrency(invoice.paidAmount)
             tvPayDate.text =
                 formatDateTime(invoice.createDate!!, "dd-MM-yyyy HH:mm")
             tvCreateDate.text = "Tanggal " + formatDateTime(
@@ -66,7 +78,7 @@ class BottomSheetReceiptFragment(
                 "dd MMMM yyyy HH:mm"
             )
             var kekurangan = (invoice.amount - invoice.paidAmount)
-            tvMinus.text = "Rp "+formatCurrency(kekurangan)
+            tvMinus.text = "Rp " + formatCurrency(kekurangan)
 
             if (invoice.partialMethod) {
                 tvType.text = "CREDIT"
@@ -80,7 +92,7 @@ class BottomSheetReceiptFragment(
                 tvStatus.text = "Terbayar Sebagian"
 
             }
-            tvAmount.text = "Rp "+ formatCurrency(invoice.amount)
+            tvAmount.text = "Rp " + formatCurrency(invoice.amount)
 
             if (invoice.description == "") {
                 tvDescription.visibility = View.GONE
@@ -94,12 +106,38 @@ class BottomSheetReceiptFragment(
 
             }
             tvParentName.text = viewModel.getUserData().user.name
-            Handler().postDelayed({
-                val image = getBitmapFromUiView(basePanel)
-                saveBitmapImage(image!!)
-                dismiss()
-            }, 600)
+
+
         }
+        val key = arguments?.getString("key_data")
+        Log.d("key", key.toString())
+        when (key) {
+            "download" -> {
+                Handler().postDelayed({
+                    val image = getBitmapFromUiView(binding.basePanel)
+                    saveBitmapImage(image!!)
+                    dismiss()
+                }, 600)
+            }
+
+            else -> {
+            }
+        }
+        binding.tvStatusPayment.setOnClickListener {
+            Log.d(
+                "TAG",
+                getBitmapUriFromView(requireActivity(), binding.parentNameContainer).toString()
+            )
+            shareApp()
+        }
+
+        Log.e("r", invoice.detail.toString())
+        detailInvoiceAdapter.setDetail(invoice.detail)
+
+        binding.rvDetailInvoice.setHasFixedSize(true)
+        binding.rvDetailInvoice.layoutManager = layoutManager
+        binding.rvDetailInvoice.adapter = detailInvoiceAdapter
+
 
         return binding.root
     }
@@ -134,6 +172,74 @@ class BottomSheetReceiptFragment(
         //return the bitmap
         return returnedBitmap!!
     }
+
+    fun getBitmapUriFromView(context: Context, view: View): Uri? {
+        // Get the Bitmap from the View
+        val bitmap = getBitmapFromView(view)
+
+        val file = saveBitmapToFile(context, bitmap)
+        // Obtain the URI from the saved file
+        return file?.let { getUriFromFile(context, it) }
+    }
+
+    fun getBitmapFromView(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    fun saveBitmapToFile(context: Context, bitmap: Bitmap): File? {
+        val fileName = "receipt_invoice_" + UUID.randomUUID().toString() + ".png"
+        val directory =
+            File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "YourAppFolder")
+
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+
+        val file = File(directory, fileName)
+
+        try {
+            val stream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            stream.flush()
+            stream.close()
+            return file
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    fun getUriFromFile(context: Context, file: File): Uri? {
+        return try {
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, file.name)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+                put(
+                    MediaStore.Images.Media.RELATIVE_PATH,
+                    Environment.DIRECTORY_PICTURES + "/YourAppFolder"
+                )
+            }
+
+            val contentResolver: ContentResolver = context.contentResolver
+            val uri: Uri? =
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+            if (uri != null) {
+                val outputStream: OutputStream? = contentResolver.openOutputStream(uri)
+                outputStream?.use { output -> file.inputStream().copyTo(output) }
+            }
+
+            uri
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 
     private fun saveBitmapImage(bitmap: Bitmap) {
         val timestamp = System.currentTimeMillis()
@@ -202,5 +308,26 @@ class BottomSheetReceiptFragment(
                 Log.e("TAG", "saveBitmapImage: ", e)
             }
         }
+    }
+
+    fun getImageUri(inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(requireContext().contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
+
+    private fun shareApp() {
+        val bitmapUri = getBitmapFromView(binding.basePanel)
+        val uri = getImageUri(bitmapUri)
+        val share = Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.invoice))
+            putExtra(Intent.EXTRA_STREAM, bitmapUri)
+            data = uri
+            type = "image/jpeg"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }, null)
     }
 }

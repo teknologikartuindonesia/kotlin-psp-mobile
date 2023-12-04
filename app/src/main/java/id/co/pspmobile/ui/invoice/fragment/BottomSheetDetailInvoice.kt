@@ -163,19 +163,31 @@ class BottomSheetDetailInvoice(
                 rvDetailInvoice.adapter = detailInvoiceAdapter
 
                 btnDownload.setOnClickListener {
+                    val args = Bundle()
+                    args.putString("key_data", "download")
                     val bottomSheetDialogFragment: BottomSheetDialogFragment =
                         BottomSheetReceiptFragment(invoice)
+                    bottomSheetDialogFragment.arguments = args
                     bottomSheetDialogFragment.show(
                         (requireActivity()).supportFragmentManager,
                         bottomSheetDialogFragment.tag
                     )
                 }
                 btnShare.setOnClickListener {
-                    btnShare.visibility=View.GONE
-                    btnDownload.visibility=View.GONE
-                    shareApp(getBitmapUriFromView(requireContext(),binding.basePanel)!!)
-                    btnShare.visibility=View.VISIBLE
-                    btnDownload.visibility=View.VISIBLE
+                    getBitmapUriFromView(requireContext(),binding.basePanel)?.let { it1 ->
+                        shareApp(
+                            it1
+                        )
+                    }
+//                    val args = Bundle()
+//                    args.putString("key_data", "share")
+//                    val bottomSheetDialogFragment: BottomSheetDialogFragment =
+//                        BottomSheetReceiptFragment(invoice)
+//                    bottomSheetDialogFragment.arguments = args
+//                    bottomSheetDialogFragment.show(
+//                        (requireActivity()).supportFragmentManager,
+//                        bottomSheetDialogFragment.tag
+//                    )
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "onCreateView: ", e)

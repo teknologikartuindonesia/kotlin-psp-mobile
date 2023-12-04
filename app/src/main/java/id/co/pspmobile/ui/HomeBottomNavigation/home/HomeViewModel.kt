@@ -12,6 +12,7 @@ import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.model.infonews.ModelInfoNews
 import id.co.pspmobile.data.network.responses.balance.BalanceResponse
 import id.co.pspmobile.data.network.responses.checkcredential.CheckCredentialResponse
+import id.co.pspmobile.data.network.responses.customapp.CustomAppResponse
 import id.co.pspmobile.data.network.responses.infonews.BroadcastResponse
 import id.co.pspmobile.data.network.responses.infonews.InfoNewsResponse
 import kotlinx.coroutines.launch
@@ -73,5 +74,34 @@ class HomeViewModel @Inject constructor (
     ) = viewModelScope.launch {
         _fbToken.value = Resource.Loading
         _fbToken.value = authRepository.saveFirebaseToken(token,serverKeyId)
+    }
+
+    private val _customApp: MutableLiveData<Resource<CustomAppResponse>> = MutableLiveData()
+    val customAppResponse: LiveData<Resource<CustomAppResponse>> get() = _customApp
+    fun getCustomApp(companyId: String, lang: String) = viewModelScope.launch {
+        _customApp.value = Resource.Loading
+        _customApp.value = authRepository.getCustomApp(companyId, lang)
+    }
+
+    private var _checkCredential: MutableLiveData<Resource<CheckCredentialResponse>> = MutableLiveData()
+    val checkCredential: LiveData<Resource<CheckCredentialResponse>> get() = _checkCredential
+    fun checkCredential() = viewModelScope.launch {
+        _checkCredential.value = Resource.Loading
+        _checkCredential.value = authRepository.getCredentialInfo()
+    }
+
+    fun getLanguage(): String {
+        return userPreferences.getLanguage()
+    }
+    fun getLocalCustomApp(): CustomAppResponse? {
+        return userPreferences.getCustomApp()
+    }
+
+    fun saveLocalCustomApp(customApp: CustomAppResponse) = viewModelScope.launch {
+        userPreferences.saveCustomApp(customApp)
+    }
+
+    fun saveUserData(value: CheckCredentialResponse) = viewModelScope.launch {
+        userPreferences.saveUserData(value)
     }
 }
