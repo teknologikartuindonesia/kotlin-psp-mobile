@@ -75,19 +75,18 @@ class LanguageActivity : AppCompatActivity() {
         viewModel.saveLanguage(lang)
         resources.updateConfiguration(configuration, resources.displayMetrics)
         Log.d("Language", "Success set "+Locale.getDefault().language)
-        if(viewModel.getUserData().activeCompany.customApps){
-            viewModel.getCustomApp(
-                viewModel.getUserData().activeCompany.id,
-                if (lang == "en") "EN" else "ID"
-            )
-        }else{
-            finish()
-        }
     }
     fun setLocale(language: String?) {
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
         AppCompatDelegate.setApplicationLocales(appLocale)
         viewModel.saveLanguage(language!!)
-        finish()
+        if(viewModel.getUserData().activeCompany.customApps){
+            viewModel.getCustomApp(
+                viewModel.getUserData().activeCompany.id,
+                if (language == "en") "EN" else "ID"
+            )
+        }else{
+            finish()
+        }
     }
 }
