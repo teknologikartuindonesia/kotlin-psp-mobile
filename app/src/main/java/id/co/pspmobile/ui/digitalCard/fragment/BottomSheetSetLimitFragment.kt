@@ -1,104 +1,117 @@
 package id.co.pspmobile.ui.digitalCard.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.data.local.SharePreferences
-import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
-import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
+import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.CardDataItem
 import id.co.pspmobile.data.network.responses.digitalCard.NewDigitalCardData
-import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCard
-import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
-import id.co.pspmobile.data.network.user.VaResDto
 import id.co.pspmobile.databinding.FragmentBottomSheetSetLimitBinding
-import id.co.pspmobile.ui.HomeBottomNavigation.home.BottomSheetOtherMenuViewModel
-import id.co.pspmobile.ui.HomeBottomNavigation.profile.ProfileMenuModel
-import id.co.pspmobile.ui.Utils.visible
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
-import id.co.pspmobile.ui.invoice.InvoiceViewModel
-import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
-import kotlinx.coroutines.runBlocking
-import java.util.Date
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
 @AndroidEntryPoint
-class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
-    BottomSheetDialogFragment() {
+class BottomSheetSetLimitFragment(
+    modelDigitalCard: ModelDigitalCard,
+    val setLimitCallback: (modelDigitalCard: ModelDigitalCard) -> (Unit)
+) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentBottomSheetSetLimitBinding
     private val viewModel: DigitalCardViewModel by viewModels()
-    private lateinit var userPreferences: UserPreferences
-    private val item = item
-    private var vaResponseDto: VaResDto = VaResDto()
-    private var syncDigitalCard : SyncDigitalCard= SyncDigitalCard(arrayListOf())
+    private val modelDigitalCard = modelDigitalCard
+    private val formatter: DecimalFormat = NumberFormat.getInstance(Locale.US) as DecimalFormat
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBottomSheetSetLimitBinding.inflate(inflater)
 
-        binding.apply {
+        formatter.applyPattern("#,###,###,###")
 
-            limitDaily.setText(item.limitDaily.toString())
-            limitMax.setText(item.limitMax.toString())
-            btnSave.setOnClickListener {
-                update()
-            }
-            btnCancel.setOnClickListener { dismiss() }
+        val userData = viewModel.getUserData()
+
+        binding.apply {
+            limitDaily.setText(formatter.format(modelDigitalCard.limitDaily.toString().toDouble()))
+            limitDaily.addTextChangedListener(onTextChangedListener(limitDaily))
+
+            limitMax.setText(formatter.format(modelDigitalCard.limitMax.toString().toDouble()))
+            limitMax.addTextChangedListener(onTextChangedListener(limitMax))
+
+            switchUnlimitedTransaction.isChecked = userData.user.accounts[0].transactionUnlimited
+
             viewModel.updateDigitalCardResponse.observe(viewLifecycleOwner) {
                 when (it is Resource.Loading) {
                     true -> showLottieLoader()
                     else -> hideLottieLoader()
                 }
                 if (it is Resource.Success) {
-                    dismiss()
-                    runBlocking {
-                    }
                     Toast.makeText(context, "Atur Limit Berhasil", Toast.LENGTH_SHORT).show()
-                    saveLimit(it.value)
+                    saveLimit(modelDigitalCard)
+                    setLimitCallback(modelDigitalCard)
 
+                    dismiss()
                 } else if (it is Resource.Failure) {
                 }
             }
+
+            viewModel.updateAccount.observe(viewLifecycleOwner) {
+                when (it is Resource.Loading) {
+                    true -> showLottieLoader()
+                    else -> hideLottieLoader()
+                }
+                if (it is Resource.Success) {
+                    Toast.makeText(context, "Atur Limit Berhasil", Toast.LENGTH_SHORT).show()
+                    viewModel.saveUserData(userData)
+
+                    dismiss()
+                } else if (it is Resource.Failure) {
+                }
+            }
+
+            btnSave.setOnClickListener {
+                var isDifference = false
+                if (modelDigitalCard.limitDaily != limitDaily.text.toString().replace(",", "").toDouble() ||
+                    modelDigitalCard.limitMax != limitMax.text.toString().replace(",", "").toDouble()) {
+                    isDifference = true
+                    modelDigitalCard.limitDaily =
+                        limitDaily.text.toString().replace(",", "").toDouble()
+                    modelDigitalCard.limitMax =
+                        limitMax.text.toString().replace(",", "").toDouble()
+                    viewModel.updateDigitalCard(modelDigitalCard)
+                }
+                if (switchUnlimitedTransaction.isChecked != userData.user.accounts[0].transactionUnlimited) {
+                    isDifference = true
+                    userData.user.accounts[0].transactionUnlimited = switchUnlimitedTransaction.isChecked
+                    viewModel.updateAccount(userData.user, modelDigitalCard)
+                }
+
+                if (!isDifference) {
+                    dismiss()
+                }
+            }
+
+            btnCancel.setOnClickListener { dismiss() }
         }
 
         return binding.root
 
     }
 
-    fun update() {
-        viewModel.updateDigitalCard(
-            item.id,
-            item.accountId,
-            item.active,
-            item.amount,
-            item.balance,
-            item.callerId,
-            item.callerName,
-            item.cardBalance,
-            item.ceiling,
-            item.companyId,
-            item.deviceBalance,
-            item.id,
-            binding.limitDaily.text.toString().toDouble(),
-            binding.limitMax.text.toString().toDouble(),
-            item.name,
-            item.nfcId,
-            item.photoUrl,
-            item.usePin
-        )
-
-    }
-
-    fun saveLimit(item: DigitalCardDtoItem) {
+    private fun saveLimit(item: ModelDigitalCard) {
        val existing = SharePreferences.getNewSyncDigitalCard(requireContext()) // viewModel.getSyncDataNew()
         if (existing == null){
             val newItem = CardDataItem(item.nfcId, mutableListOf("date"))
@@ -143,5 +156,30 @@ class BottomSheetSetLimitFragment(item: DigitalCardDtoItem) :
         val loaderDialogFragment =
             parentFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
         loaderDialogFragment?.dismiss()
+    }
+
+    private fun onTextChangedListener(editText: EditText): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                editText.removeTextChangedListener(this)
+                try {
+                    var originalString = s.toString()
+                    if (originalString.contains(",")) {
+                        originalString = originalString.replace(",".toRegex(), "")
+                    }
+                    val longVal: Long = originalString.toLong()
+                    val formattedString: String = formatter.format(longVal)
+
+                    //setting text after format to EditText
+                    editText.setText(formattedString)
+                    editText.setSelection(editText.text.length)
+                } catch (nfe: NumberFormatException) {
+                    nfe.printStackTrace()
+                }
+                editText.addTextChangedListener(this)
+            }
+        }
     }
 }

@@ -1,16 +1,10 @@
 package id.co.pspmobile.ui.digitalCard
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Resources
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -21,16 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
-import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
-import id.co.pspmobile.data.network.responses.digitalCard.SyncDigitalCardItem
+import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.databinding.ActivityDigitalCardBinding
-import id.co.pspmobile.ui.HomeBottomNavigation.profile.ProfileMenuModel
 import id.co.pspmobile.ui.Utils.formatCurrency
-import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetCardDigitalHelpFragment
 import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetSetLimitFragment
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
-import id.co.pspmobile.ui.preloader.LottieLoaderViewModel
-import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import java.lang.Math.abs
 
 
@@ -38,7 +28,6 @@ import java.lang.Math.abs
 class DigitalCardActivity : AppCompatActivity() {
     private val viewModel: DigitalCardViewModel by viewModels()
     private lateinit var binding: ActivityDigitalCardBinding
-    private lateinit var carouselRVAdapter: CarouselRVAdapter
     private lateinit var itemCard: DigitalCardDto
     private var activePosition: Int = 0
 
@@ -116,9 +105,16 @@ class DigitalCardActivity : AppCompatActivity() {
 
         }
         binding.btnSetLimit.setOnClickListener {
-
             val bottomSheetDialogFragment: BottomSheetDialogFragment =
-                BottomSheetSetLimitFragment(itemCard[activePosition])
+                BottomSheetSetLimitFragment(itemCard[activePosition], ::setLimitCallback)
+            bottomSheetDialogFragment.show(
+                (this as FragmentActivity).supportFragmentManager,
+                bottomSheetDialogFragment.tag
+            )
+        }
+        binding.btnHelp.setOnClickListener {
+            val bottomSheetDialogFragment: BottomSheetDialogFragment =
+                BottomSheetCardDigitalHelpFragment()
             bottomSheetDialogFragment.show(
                 (this as FragmentActivity).supportFragmentManager,
                 bottomSheetDialogFragment.tag
@@ -137,6 +133,10 @@ class DigitalCardActivity : AppCompatActivity() {
         loaderDialogFragment?.dismiss()
     }
 
-
+    private fun setLimitCallback(modelDigitalCard: ModelDigitalCard) {
+        itemCard[activePosition] = modelDigitalCard
+        binding.tvBatasHarian.text = formatCurrency(modelDigitalCard.limitDaily!!)
+        binding.tvBatasMaks.text = formatCurrency(modelDigitalCard.limitMax!!)
+    }
 
 }

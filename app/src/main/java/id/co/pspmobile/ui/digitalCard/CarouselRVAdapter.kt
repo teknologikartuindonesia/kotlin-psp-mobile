@@ -1,22 +1,19 @@
 package id.co.pspmobile.ui.digitalCard
 
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.R
-import id.co.pspmobile.data.network.digitalCard.DigitalCardDtoItem
+import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.databinding.ItemDigitalCardBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 
 
 class CarouselRVAdapter(
-    private val carouselDataList: ArrayList<DigitalCardDtoItem>,
+    private val carouselDataList: ArrayList<ModelDigitalCard>,
     private val context: Context
 ) :
     RecyclerView.Adapter<CarouselRVAdapter.CarouselItemViewHolder>() {

@@ -1,5 +1,7 @@
 package id.co.pspmobile.data.network.model
 
+import java.io.Serializable
+
 data class ModelDigitalCard(
     val accountId: String,
     val active: Boolean,
@@ -12,10 +14,10 @@ data class ModelDigitalCard(
     val companyId: String,
     val deviceBalance: Double,
     val id: String,
-    val limitDaily: Double,
-    val limitMax: Double,
+    var limitDaily: Double,
+    var limitMax: Double,
     val name: String,
     val nfcId: String,
     val photoUrl: String,
     val usePin: Boolean
-)
+): Serializable

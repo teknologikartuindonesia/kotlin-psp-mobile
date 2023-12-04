@@ -110,12 +110,12 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:layout_weight="1"
-            android:text="Batas Akumulasi Maksimal"
+            android:text="Transaksi tak Terbatas"
             android:textSize="14dp"
             android:textStyle="bold" />
 
         <Switch
-            android:id="@+id/switch_button"
+            android:id="@+id/switch_unlimited_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
