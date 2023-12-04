@@ -202,4 +202,6 @@
     <string name="profile">Profile</string>
     <string name="faq">FAQ</string>
     <string name="logout">Logout</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure_to_pay">are you sure to pay?</string>
 </resources>

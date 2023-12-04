@@ -28,7 +28,8 @@ class InvoiceViewModel @Inject constructor(
     private var _allInvoiceResponse: MutableLiveData<Resource<InvoiceResDto>> = MutableLiveData()
     val allInvoiceResponse: LiveData<Resource<InvoiceResDto>> get() = _allInvoiceResponse
 
-    private var _paymentInvoiceResponse: MutableLiveData<Resource<InvoicePaymentDto>> = MutableLiveData()
+    private var _paymentInvoiceResponse: MutableLiveData<Resource<InvoicePaymentDto>> =
+        MutableLiveData()
     val paymentInvoiceResponse: LiveData<Resource<InvoicePaymentDto>> get() = _paymentInvoiceResponse
 
 
@@ -47,11 +48,13 @@ class InvoiceViewModel @Inject constructor(
         _allInvoiceResponse.value = invoiceRepository.getAllInvoice(page, 10)
     }
 
-    fun paymentInvoice(amount: Double,invoiceId:String) = viewModelScope.launch {
+    fun paymentInvoice(amount: Double, invoiceId: String) = viewModelScope.launch {
         _paymentInvoiceResponse.value = Resource.Loading
-        _paymentInvoiceResponse.value = invoiceRepository.paymentInvoice(amount,invoiceId)
+        _paymentInvoiceResponse.value = invoiceRepository.paymentInvoice(amount, invoiceId)
     }
 
     fun getUserData() = userPreferences.getUserData()
     fun getLanguage() = userPreferences.getLanguage()
+
+    fun getBalanceUser() = userPreferences.getBalanceData()
 }

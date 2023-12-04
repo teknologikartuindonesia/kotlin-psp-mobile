@@ -108,7 +108,7 @@ class BottomSheetPaymentSuccessInvoice(
                 }
             }
             tvPaid.text =
-                formatCurrency(invoicePayment.inquiryResponseDto.amount - invoicePayment.inquiryResponseDto.paidAmount)
+                formatCurrency(invoicePayment.inquiryResponseDto.amount)
 
             Log.e("r", invoice.detail.toString())
             detailInvoiceAdapter.setDetail(invoice.detail)
@@ -133,7 +133,15 @@ class BottomSheetPaymentSuccessInvoice(
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             }
 
+            Log.e("r", invoice.detail.toString())
+            detailInvoiceAdapter.setDetail(invoice.detail)
+            rvDetailInvoice.setHasFixedSize(true)
+            rvDetailInvoice.layoutManager = layoutManager
+            rvDetailInvoice.adapter = detailInvoiceAdapter
+
         }
+
+
 
         return binding.root
     }
