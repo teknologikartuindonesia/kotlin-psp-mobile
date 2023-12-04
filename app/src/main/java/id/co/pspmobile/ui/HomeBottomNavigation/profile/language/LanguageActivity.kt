@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityLanguageBinding
+import id.co.pspmobile.ui.Utils.hideLottieLoader
+import id.co.pspmobile.ui.Utils.showLottieLoader
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
@@ -42,6 +44,19 @@ class LanguageActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+
+        viewModel.customAppResponse.observe(this ){
+            when(it is id.co.pspmobile.data.network.Resource.Loading){
+                true -> showLottieLoader(supportFragmentManager)
+                else -> hideLottieLoader(supportFragmentManager)
+            }
+            if (it is id.co.pspmobile.data.network.Resource.Success){
+                viewModel.saveLocalCustomApp(it.value)
+                finish()
+            }else {
+                finish()
+            }
+        }
     }
 
     fun setLang(lang: String){
@@ -59,6 +74,13 @@ class LanguageActivity : AppCompatActivity() {
         viewModel.saveLanguage(lang)
         resources.updateConfiguration(configuration, resources.displayMetrics)
         Log.d("Language", "Success set "+Locale.getDefault().language)
-        finish()
+        if(viewModel.getUserData().activeCompany.customApps){
+            viewModel.getCustomApp(
+                viewModel.getUserData().activeCompany.id,
+                if (lang == "en") "EN" else "ID"
+            )
+        }else{
+            finish()
+        }
     }
 }
