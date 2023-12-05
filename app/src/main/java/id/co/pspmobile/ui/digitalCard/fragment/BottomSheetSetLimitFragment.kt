@@ -96,7 +96,11 @@ class BottomSheetSetLimitFragment(
                 if (switchUnlimitedTransaction.isChecked != userData.user.accounts[0].transactionUnlimited) {
                     isDifference = true
                     userData.user.accounts[0].transactionUnlimited = switchUnlimitedTransaction.isChecked
+                    userData.user.socmedAccounts = mutableListOf()
+                    Log.d("test", userData.user.toString())
+                    Log.d("test", modelDigitalCard.toString())
                     viewModel.updateAccount(userData.user, modelDigitalCard)
+
                 }
 
                 if (!isDifference) {
