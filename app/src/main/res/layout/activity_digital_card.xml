@@ -81,12 +81,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginHorizontal="14dp"
                         android:background="@color/white"
                         android:padding="6dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat"
                             android:text="Batas Akumulasi Maksimal" />
@@ -109,12 +109,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginHorizontal="14dp"
                         android:background="@color/white"
                         android:padding="6dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat"
                             android:text="Batas Harian" />
@@ -137,12 +137,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginHorizontal="14dp"
                         android:background="@color/white"
                         android:padding="6dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat"
                             android:text="Terakhir Sinkron" />

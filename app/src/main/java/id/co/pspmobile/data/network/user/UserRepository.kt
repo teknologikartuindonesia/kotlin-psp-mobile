@@ -36,4 +36,12 @@ class UserRepository @Inject constructor (
         },
         userPreferences
     )
+
+    suspend fun updateAccount(userReqDto: UserReqDto) = safeApiCall(
+        {
+            api.updateAccount(userReqDto)
+        },
+        userPreferences
+    )
+
 }

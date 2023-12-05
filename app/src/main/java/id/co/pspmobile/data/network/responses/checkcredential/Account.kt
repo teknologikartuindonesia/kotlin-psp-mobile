@@ -10,6 +10,6 @@ data class Account(
     val note: String,
     val roles: List<String>,
     val sourceOfFund: SourceOfFund,
-    val transactionUnlimited: Boolean,
+    var transactionUnlimited: Boolean,
     val vaNumbers: List<VaNumber>
 )

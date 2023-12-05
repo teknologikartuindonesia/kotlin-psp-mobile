@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llBottomSheetOtherMenu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="50dp"
+    android:background="@drawable/bg_bottom_sheet_dialog">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="3dp"
+            android:src="@drawable/bg_bottom_sheet_view"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="12dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_help_card"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Bantuan"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginVertical="12dp"
+                android:textSize="14dp"
+                android:text="Batas Akumulasi Maksimal"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_close"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Tutup"
+                android:textSize="14dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:background="@drawable/bg_button_red"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
