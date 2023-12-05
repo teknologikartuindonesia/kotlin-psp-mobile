@@ -52,17 +52,32 @@ class InvoicePaymentActivity : AppCompatActivity() {
         val intent = intent?.extras
         val c = intent?.getString("content")
         invoice = c?.let { Gson().fromJson(it, InvoiceDto::class.java) }!!
+        var balance = viewModel.getBalanceUser().balance
 
         binding.apply {
             edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
             btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
             btnPay.isEnabled = false
+
             edNominal.addTextChangedListener {
                 try {
-                    Log.d("nominal",viewModel.getBalanceUser().toString())
-                    if (it.toString().trim().replace(".", "").replace(",", "").toInt() < 10000) {
+                    var amountInput = it.toString().trim().replace(".", "").replace(",", "").toInt()
+                    if ((amountInput < 10000)) {
                         btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
                         btnPay.isEnabled = false
+                        alertNominal.text = resources.getString(R.string.minimum_payment)
+                        alertNominal.visibility = View.VISIBLE
+
+                    } else if ((invoice.amount - invoice.paidAmount) - amountInput < 10000) {
+                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+                        btnPay.isEnabled = false
+                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
+                        alertNominal.visibility = View.VISIBLE
+
+                    } else if (balance.toInt() < (invoice.amount - invoice.paidAmount)) {
+                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+                        btnPay.isEnabled = false
+                        alertNominal.text = resources.getString(R.string.insufficient_balance)
                         alertNominal.visibility = View.VISIBLE
 
                     } else {

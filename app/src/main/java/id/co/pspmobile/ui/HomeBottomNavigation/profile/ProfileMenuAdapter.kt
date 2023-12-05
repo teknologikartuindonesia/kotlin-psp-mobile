@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import id.co.pspmobile.R
 import id.co.pspmobile.data.service.FirebaseService
 import id.co.pspmobile.databinding.ItemProfileMenuBinding
 import id.co.pspmobile.ui.Utils.logout
@@ -51,12 +52,12 @@ class ProfileMenuAdapter(viewModel: ProfileViewModel) :
                 imgProfileMenu.setImageResource(menuModel.icon)
                 txtProfileMenu.text = menuModel.name
                 llProfileMenu.setOnClickListener {
-                    if (menuModel.name == "Logout") {
+                    if (menuModel.name == context.getString(R.string.logout)) {
                         val dialog = DialogYesNo(
-                            "Logout",
-                            "Apakah anda yakin ingin logout?",
-                            "Ya",
-                            "Tidak",
+                            context.getString(R.string.logout),
+                            context.getString(R.string.are_you_sure_to_logout),
+                            context.getString(R.string.yes),
+                            context.getString(R.string.no),
                             {
                                 unsubscribeAll()
                                 context.logout()
