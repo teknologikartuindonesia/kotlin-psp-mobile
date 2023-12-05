@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.invoice.fragment
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 
-class HistorySyncDigitalCardAdapter(private var viewModel: DigitalCardViewModel) :
+class HistorySyncDigitalCardAdapter(viewModel: DigitalCardViewModel) :
     RecyclerView.Adapter<HistorySyncDigitalCardAdapter.ViewHolder>() {
 
     private lateinit var list: List<CardDataItem>
@@ -23,8 +24,8 @@ class HistorySyncDigitalCardAdapter(private var viewModel: DigitalCardViewModel)
 
     @SuppressLint("NotifyDataSetChanged")
     fun setHistorySyncDigitalCard(list: List<CardDataItem>) {
+        Log.d("HistorySyncDigitalCardAdapter", "bind: $list")
         this.list = list
-
         notifyDataSetChanged()
     }
 
@@ -32,8 +33,8 @@ class HistorySyncDigitalCardAdapter(private var viewModel: DigitalCardViewModel)
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CardDataItem) {
             with(binding) {
-                nfcId.text = item.nfcId
-                createDate.text = formatDateTime(item.history.toString(), "DD MMMM YYYY HH:MM")
+                nfcId.text = "NFC ID: "+item.nfcId
+                createDate.text = item.history.joinToString("\n")
                 callerName.text = vm.getUserData().user.name
             }
         }

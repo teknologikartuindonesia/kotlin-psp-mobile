@@ -18,7 +18,7 @@ data class UserX(
     val placeOfBirth: String,
     val regDate: String,
     val religion: String,
-    val socmedAccounts: List<SocmedAccount>,
+    var socmedAccounts: List<SocmedAccount>,
     val tags: String?,
     val validationStatus: Boolean
 )

@@ -18,10 +18,14 @@ import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.CardDataItem
 import id.co.pspmobile.data.network.responses.digitalCard.NewDigitalCardData
 import id.co.pspmobile.databinding.FragmentBottomSheetSetLimitBinding
+import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -84,8 +88,11 @@ class BottomSheetSetLimitFragment(
 
             btnSave.setOnClickListener {
                 var isDifference = false
-                if (modelDigitalCard.limitDaily != limitDaily.text.toString().replace(",", "").toDouble() ||
-                    modelDigitalCard.limitMax != limitMax.text.toString().replace(",", "").toDouble()) {
+                if (modelDigitalCard.limitDaily != limitDaily.text.toString().replace(",", "")
+                        .toDouble() ||
+                    modelDigitalCard.limitMax != limitMax.text.toString().replace(",", "")
+                        .toDouble()
+                ) {
                     isDifference = true
                     modelDigitalCard.limitDaily =
                         limitDaily.text.toString().replace(",", "").toDouble()
@@ -95,8 +102,13 @@ class BottomSheetSetLimitFragment(
                 }
                 if (switchUnlimitedTransaction.isChecked != userData.user.accounts[0].transactionUnlimited) {
                     isDifference = true
-                    userData.user.accounts[0].transactionUnlimited = switchUnlimitedTransaction.isChecked
+                    userData.user.accounts[0].transactionUnlimited =
+                        switchUnlimitedTransaction.isChecked
+                    userData.user.socmedAccounts = mutableListOf()
+                    Log.d("test", userData.user.toString())
+                    Log.d("test", modelDigitalCard.toString())
                     viewModel.updateAccount(userData.user, modelDigitalCard)
+
                 }
 
                 if (!isDifference) {
@@ -112,30 +124,39 @@ class BottomSheetSetLimitFragment(
     }
 
     private fun saveLimit(item: ModelDigitalCard) {
-       val existing = SharePreferences.getNewSyncDigitalCard(requireContext()) // viewModel.getSyncDataNew()
-        if (existing == null){
-            val newItem = CardDataItem(item.nfcId, mutableListOf("date"))
+
+        val today = Calendar.getInstance()
+        val sendDateUAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(today.time)
+        val dateNow = Utils.formatDateTime(sendDateUAT, "dd-MM-yyyy HH:mm")
+        val existing =
+            SharePreferences.getNewSyncDigitalCard(requireContext()) // viewModel.getSyncDataNew()
+        if (existing == null) {
+            val newItem = CardDataItem(item.nfcId, mutableListOf(dateNow))
             val newSync = NewDigitalCardData(mutableListOf(newItem))
             Log.d("test", "tambah baru $newSync")
             SharePreferences.saveNewSyncDigitalCard(requireContext(), newSync)
-        }
-        else{
+        } else {
             var isExist = false
             var indexExist = 0
             for (i in existing.dataList) {
-                if(i.nfcId == item.nfcId){
+                if (i.nfcId == item.nfcId) {
                     isExist = true
                     indexExist = existing.dataList.indexOf(i)
                 }
             }
-            if(isExist) {
+
+            if (isExist) {
+
                 val temp = mutableListOf<CardDataItem>()
                 temp.addAll(existing.dataList)
-                temp[indexExist].history.add("date")
+                temp[indexExist].history.add(dateNow)
                 Log.d("test", "update $temp")
                 SharePreferences.saveNewSyncDigitalCard(requireContext(), NewDigitalCardData(temp))
-            }else{
-                val newItem = CardDataItem(item.nfcId, mutableListOf("date"))
+            } else {
+                val newItem = CardDataItem(
+                    item.nfcId,
+                    mutableListOf(dateNow)
+                )
                 val temp = mutableListOf<CardDataItem>()
                 temp.addAll(existing.dataList)
                 temp.add(newItem)
