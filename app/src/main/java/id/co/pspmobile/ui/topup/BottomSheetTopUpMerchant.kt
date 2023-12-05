@@ -38,6 +38,7 @@ class BottomSheetTopUpMerchant(
         binding = BottomSheetTopupMerchantBinding.inflate(inflater)
 
         binding.apply {
+            etAmount.setText("0")
             ivMerchant.setImageDrawable(context.let { ActivityCompat.getDrawable(requireContext(), getMerchantIcon(merchantName)) })
 
             viewModel.topUpIdnResponse.observe(viewLifecycleOwner) {
@@ -51,14 +52,6 @@ class BottomSheetTopUpMerchant(
                     i.putExtra("cid", it.value.billReq?.branch_code)
                     i.putExtra("amount", etAmount.text.toString().trim())
                     requireContext().startActivity(i)
-//                    AlertDialog.Builder(requireContext())
-//                        .setMessage("Silahkan melakukan top up berdasarkan panduan yang ada.")
-//                        .setCancelable(false)
-//                        .setPositiveButton("OK") { _, _ ->
-//                            dismiss()
-//                        }
-//                        .create()
-//                        .show()
                 } else if (it is Resource.Failure) {
                     requireActivity().handleApiError(btnProcess, it)
                 }
