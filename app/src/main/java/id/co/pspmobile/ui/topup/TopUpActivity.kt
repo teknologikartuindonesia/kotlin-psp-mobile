@@ -60,7 +60,7 @@ class TopUpActivity : AppCompatActivity() {
             }
             if (it is Resource.Success) {
                 viewModel.getVa()
-                Toast.makeText(this, "No VA berhasil dibuat", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, resources.getString(R.string.va_has_been_created), Toast.LENGTH_SHORT).show()
             } else if (it is Resource.Failure) {
                 handleApiError(binding.rvBank, it)
             }

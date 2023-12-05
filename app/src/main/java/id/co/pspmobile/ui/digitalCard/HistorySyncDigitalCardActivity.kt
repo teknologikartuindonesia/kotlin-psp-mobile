@@ -33,6 +33,7 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
         binding = ActivityHistorySyncDigitalCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         historySyncDigitalCardAdapter = HistorySyncDigitalCardAdapter(viewModel)
@@ -40,8 +41,9 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
         val existing =
             SharePreferences.getNewSyncDigitalCard(this)
         val cardDataList = mutableListOf<CardDataItem>()
+
         for (item in existing!!.dataList) {
-            for (historyEntry in item.history) {
+            for (historyEntry in item.history.sortedBy { it }) {
                 cardDataList.add(CardDataItem(item.nfcId, mutableListOf(historyEntry)))
             }
         }

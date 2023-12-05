@@ -74,13 +74,15 @@ class InvoicePaymentActivity : AppCompatActivity() {
                         alertNominal.text = resources.getString(R.string.minimum_payment_input)
                         alertNominal.visibility = View.VISIBLE
 
-                    } else if (balance.toInt() < (invoice.amount - invoice.paidAmount)) {
-                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
-                        btnPay.isEnabled = false
-                        alertNominal.text = resources.getString(R.string.insufficient_balance)
-                        alertNominal.visibility = View.VISIBLE
-
-                    } else {
+                    }
+//                    else if (balance.toInt() < (invoice.amount - invoice.paidAmount)) {
+//                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+//                        btnPay.isEnabled = false
+//                        alertNominal.text = resources.getString(R.string.insufficient_balance)
+//                        alertNominal.visibility = View.VISIBLE
+//
+//                    }
+                    else {
                         btnPay.setBackgroundColor(resources.getColor(R.color.blue))
                         btnPay.isEnabled = true
                         alertNominal.visibility = View.INVISIBLE

@@ -80,6 +80,12 @@ class BottomSheetReceiptFragment(
             var kekurangan = (invoice.amount - invoice.paidAmount)
             tvMinus.text = "Rp " + formatCurrency(kekurangan)
 
+            if (invoice!!.showDetail) {
+                rvDetailInvoice.visibility = View.VISIBLE
+            } else {
+                rvDetailInvoice.visibility = View.GONE
+            }
+
             if (invoice.partialMethod) {
                 tvType.text = "CREDIT"
             } else {

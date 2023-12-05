@@ -205,4 +205,6 @@
     <string name="minimum_payment_input">Sisa kekurangan pembayaran harus lebih besar atau sama dengan Rp. 10.000.</string>
     <string name="are_you_sure_to_logout">Apakah anda yakin ingin keluar?</string>
     <string name="insufficient_balance">Saldo tidak mencukupi</string>
+    <string name="va_has_been_created">No VA berhasil dibuat</string>
+    <string name="account_number_copied_to_clipboard">No akun berhasil disalin</string>
 </resources>

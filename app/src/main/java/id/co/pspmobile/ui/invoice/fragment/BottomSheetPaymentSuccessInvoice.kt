@@ -79,6 +79,11 @@ class BottomSheetPaymentSuccessInvoice(
             } else {
                 parentNameContainer.visibility = View.VISIBLE
             }
+            if (invoice!!.showDetail) {
+                rvDetailInvoice.visibility = View.VISIBLE
+            } else {
+                rvDetailInvoice.visibility = View.GONE
+            }
 
             if (invoice.partialMethod) {
                 when (viewModel.getLanguage().toString()) {

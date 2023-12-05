@@ -10,6 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.R
 import id.co.pspmobile.data.network.user.VaNumber
 import id.co.pspmobile.databinding.BottomSheetTopupBinding
 import id.co.pspmobile.ui.Utils
@@ -60,7 +61,7 @@ class BottomSheetTopUp(
     }
 
     private fun copyToClipboard(vaNumber: String) {
-        copyToClipboard(requireContext(), vaNumber, "Account number copied to clipboard")
+        copyToClipboard(requireContext(), vaNumber, resources.getString(R.string.account_number_copied_to_clipboard))
     }
 
 }
