@@ -27,7 +27,7 @@ class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.V
                 tvDate.text = formatDateTime(
                     transaction.createDate.toString(),
                     "dd MMMM yyyy "
-                ) + "Pukul" + formatDateTime(transaction.createDate.toString(), " HH:MM")
+                ) + "Pukul" + formatDateTime(transaction.createDate.toString(), " HH:mm")
                 tvTransactionName.text = transaction.transactionName
                 if (transaction.credit == 0.0) {
                     tvAmount.text = "Rp " + formatCurrency(transaction.debit)

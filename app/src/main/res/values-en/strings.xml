@@ -119,6 +119,7 @@
     <string name="account">Account</string>
     <string name="attendance">Attendance</string>
     <string name="transaction">Transaction</string>
+    <string name="detail_transaction">Detail Transaction</string>
     <string name="mutation">Mutation</string>
     <string name="invoice">Invoice</string>
     <string name="more">See More</string>
@@ -126,7 +127,6 @@
     <string name="help_center">Help Center</string>
     <string name="explore_help_topics">Explore Help Topics</string>
     <string name="contact_us">Contact Us</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="all_menu">All Menu</string>
     <string name="name">Name</string>
     <string name="NIS">NIS</string>
