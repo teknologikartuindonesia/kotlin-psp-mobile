@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:text="Transaction Detail"
+            android:text="@string/detail_transaction"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

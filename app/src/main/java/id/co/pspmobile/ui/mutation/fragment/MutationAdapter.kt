@@ -38,7 +38,7 @@ class MutationAdapter(private val context: Context, private val viewModel: Mutat
         @SuppressLint("ResourceAsColor")
         fun bind(mutation: MutationDto) {
             with(binding) {
-                tvDateTime.text = formatDateTime(mutation.dateTime, "dd-MM-YYYY H:MM")
+                tvDateTime.text = formatDateTime(mutation.dateTime, "dd MMMM YYYY H:mm")
                 if (mutation.debit == 0.0) {
                     tvDebitCredit.text = "Rp " + formatCurrency(mutation.credit)
                     tvDebitCredit.setTextColor(context.getColor(R.color.green))
@@ -52,7 +52,8 @@ class MutationAdapter(private val context: Context, private val viewModel: Mutat
                     "en" ->tvBalance.text = "Balance: Rp " + formatCurrency(mutation.balance)
                     else -> tvBalance.text = "Saldo: Rp " + formatCurrency(mutation.balance)
                 }
-                tvNote.text = mutation.callerName
+                tvAccountName.text = mutation.callerName
+                tvNote.text = mutation.note
 
                 if (mutation.tags.indexOf("invoice") >= 0) {
                     ivIcon.setImageDrawable(itemView.context?.let {

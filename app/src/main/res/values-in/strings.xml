@@ -119,6 +119,7 @@
     <string name="account">Akun</string>
     <string name="attendance">Absensi</string>
     <string name="transaction">Transaksi</string>
+    <string name="detail_transaction">Detail Transaksi</string>
     <string name="invoice">Tagihan</string>
     <string name="more">Lihat Semua</string>
     <string name="invoice_date">Tgl Tagihan</string>
