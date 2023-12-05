@@ -69,7 +69,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
                         btnPay.setBackgroundColor(resources.getColor(R.color.blue))
                         btnPay.isEnabled = true
                         alertNominal.visibility = View.INVISIBLE
-
                     }
                 } catch (e: Exception) {
 
