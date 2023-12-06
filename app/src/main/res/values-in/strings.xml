@@ -33,9 +33,9 @@
     <string name="save">Simpan</string>
     <string name="create_password">Buat Password</string>
     <string name="digital_card">Kartu Digital</string>
-    <string name="subtitle_intro_1">Kartu jajan digital mempermudah belanja tanpa tunai, menawarkan kemudahan pembayaran, dan memberikan kontrol atas pengeluaran sesuai kebutuhan.</string>
-    <string name="subtitle_intro_2">Pembayaran tagihan dengan solusi praktis, memberikan kenyamanan tanpa kerumitan.</string>
-    <string name="subtitle_intro_3">Optimalkan Kehadiran, Meningkatkan Pendidikan, Membentuk Masa Depan</string>
+    <string name="subtitle_intro_1">Kartu digital menawarkan kemudahan pembayaran transaksi jajan secara non-tunai dan memberikan kontrol atas pengeluaran harian sesuai kebutuhan.</string>
+    <string name="subtitle_intro_2">Solusi praktis pembayaran tagihan anda.</string>
+    <string name="subtitle_intro_3">Optimalkan kehadiran, meningkatkan pendidikan, dan membentuk masa depan.</string>
     <string name="digital_invoice">Tagihan Digital</string>
     <string name="memuat">Memuat…</string>
     <string name="input_name">Masukkan Nama Anda</string>

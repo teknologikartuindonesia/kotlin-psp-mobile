@@ -95,9 +95,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.layoutHomeMoreMenu.setOnClickListener {
-            openBottomSheet()
-        }
+//        binding.layoutHomeMoreMenu.setOnClickListener {
+//            openBottomSheet()
+//        }
 
         // add onscroll listener when on top, enable swipe refresh
         binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
