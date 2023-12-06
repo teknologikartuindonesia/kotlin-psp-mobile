@@ -81,13 +81,14 @@ class FaqActivity : AppCompatActivity() {
         }
         val intent = intent
         val key = intent.getStringExtra("key")
+        val lang  = viewModel.getLanguage().toString()
         if (key == "profile") {
 //            showFaqWithToken()
-            viewModel.getFaq("PSPMOBILE", "id", "LOGIN")
+            viewModel.getFaq("PSPMOBILE", lang, "LOGIN")
 
         } else {
 //            showFaq()
-            viewModel.getFaq("PSPMOBILE", "id", "LOGIN")
+            viewModel.getFaq("PSPMOBILE", lang, "LOGIN")
 
         }
 

@@ -218,4 +218,9 @@
     <string name="sync_history">Sync History</string>
     <string name="help">Help</string>
     <string name="balance_card">Card Balance</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="phone">Phone</string>
+    <string name="edit">Edit</string>
 </resources>

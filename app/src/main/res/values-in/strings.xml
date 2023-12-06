@@ -217,4 +217,8 @@
     <string name="sync_history">Riwayat Sinkron</string>
     <string name="help">Bantuan</string>
     <string name="balance_card">Saldo Kartu</string>
+    <string name="something_went_wrong">Terjadi Kesalahan Sistem</string>
+    <string name="edit_profile">Sunting Profil</string>
+    <string name="phone">No Telepon</string>
+    <string name="edit">Sunting</string>
 </resources>

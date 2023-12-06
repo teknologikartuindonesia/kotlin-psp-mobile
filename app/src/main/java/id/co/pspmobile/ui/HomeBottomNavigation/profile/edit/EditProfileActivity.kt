@@ -71,7 +71,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.btnEditProfile.setOnClickListener {
             if (isInputMode) {
-                binding.btnEditProfile.text = "Edit Profile"
+                binding.btnEditProfile.text = getString(R.string.edit_profile)
                 binding.btnUploadImage.visibility = View.GONE
                 binding.btnSaveProfile.visibility = View.GONE
                 binding.btnEditProfile.visibility = View.VISIBLE
@@ -81,7 +81,7 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.llPhone.background = resources.getDrawable(R.drawable.input_bg_inactive)
                 isInputMode = false
             } else {
-                binding.btnEditProfile.text = "Cancel"
+                binding.btnEditProfile.text = getString(R.string.cancel)
                 binding.btnUploadImage.visibility = View.VISIBLE
                 binding.btnSaveProfile.visibility = View.VISIBLE
                 binding.btnEditProfile.visibility = View.GONE
@@ -117,10 +117,10 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             }
             if(it is Resource.Success){
-                Snackbar.make(binding.root, "Profile updated", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.profile_updated), Snackbar.LENGTH_SHORT).show()
                 viewModel.checkCredential()
             }else if(it is Resource.Failure){
-                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -137,7 +137,7 @@ class EditProfileActivity : AppCompatActivity() {
                 viewModel.saveUserInfo(it.value)
                 finish()
             }else if(it is Resource.Failure){
-                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
             }
 
         }
@@ -154,7 +154,7 @@ class EditProfileActivity : AppCompatActivity() {
             if(it is Resource.Success){
                 updatePhotoProfile(it.value.name)
             }else if(it is Resource.Failure){
-                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -188,7 +188,7 @@ class EditProfileActivity : AppCompatActivity() {
                     .into(binding.imgProfile)
 
             }else if(it is Resource.Failure){
-                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -212,7 +212,7 @@ class EditProfileActivity : AppCompatActivity() {
             )
             viewModel.updateProfile(newUserResponse)
         }catch (e: Exception){
-            Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
         }
     }
     fun updatePhotoProfile(photoUrl: String){
@@ -221,7 +221,7 @@ class EditProfileActivity : AppCompatActivity() {
             temp.photoUrl = photoUrl
             viewModel.updateProfile(temp)
         }catch (e: Exception){
-            Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -282,7 +282,7 @@ class EditProfileActivity : AppCompatActivity() {
                 viewModel.uploadImage(accProfileImage)
             }
             catch (e: Exception) {
-                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
                 return@launch
             }
             Log.d("MyActivity", "on finish upload file")
