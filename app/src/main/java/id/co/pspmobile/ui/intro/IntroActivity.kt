@@ -1,20 +1,34 @@
 package id.co.pspmobile.ui.intro
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
 import id.co.pspmobile.databinding.ActivityIntroBinding
 import id.co.pspmobile.ui.Utils
+import id.co.pspmobile.ui.Utils.getAndroidVersion
 import id.co.pspmobile.ui.Utils.slideAnimation
 import id.co.pspmobile.ui.Utils.startNewActivity
 import id.co.pspmobile.ui.Utils.visible
+import id.co.pspmobile.ui.dialog.DialogYesNo
 import id.co.pspmobile.ui.login.LoginActivity
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
+@AndroidEntryPoint
 class IntroActivity : AppCompatActivity() {
 
     var step = 0
     private lateinit var binding: ActivityIntroBinding
+    private val viewModel: IntroViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityIntroBinding.inflate(layoutInflater)
@@ -63,6 +77,88 @@ class IntroActivity : AppCompatActivity() {
                 }
             }
 
+        }
+        readExisting()
+    }
+    // read file from Download folder named "credential-pspmobile.txt"
+    fun readExisting(){
+        val currentAndroidVersion = getAndroidVersion()
+        if (currentAndroidVersion >= 13) {
+            return
+        }
+        try {
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "credential-pspmobile.txt")
+            if (file.exists()) {
+                val fileInputStream = FileInputStream(file)
+                val inputStreamReader = InputStreamReader(fileInputStream)
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val stringBuilder = StringBuilder()
+                var text: String?
+                while (run {
+                        text = bufferedReader.readLine()
+                        text
+                    } != null) {
+                    stringBuilder.append(text)
+                }
+                // {"username":"bob","password":"12345678"}
+
+                if (!stringBuilder.toString().isNullOrEmpty()){
+                    val username = getUsername(stringBuilder.toString())
+                    val password = getPassword(stringBuilder.toString())
+                    viewModel.saveUsername(username)
+                    viewModel.savePassword(password)
+                    binding.txtTitle.text =
+                        "$stringBuilder \n $username \n $password \n " +
+                                "${viewModel.getUsername()} \n ${viewModel.getPassword()}"
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    // request permission to read external storage
+    fun requestPermission() {
+        val currentAndroidVersion = getAndroidVersion()
+        if (currentAndroidVersion >= 13) {
+            return
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        }else{
+            readExisting()
+        }
+    }
+
+    private fun getUsername(str: String): String{
+        return str.split(",")[0].split(":")[1].replace("\"", "")
+    }
+
+    private fun getPassword(str: String): String{
+        return str.split(",")[1].split(":")[1].replace("\"", "")
+    }
+
+    // handle permission request result
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readExisting()
+            } else {
+                val dialogYesNo = DialogYesNo(
+                    "Permission Dibutuhkan",
+                    "Mohon izinkan aplikasi untuk mengakses file di penyimpanan eksternal Anda.",
+                    "OK",
+                    "Tidak",
+                    yesListener = {
+                        requestPermission()
+                    },
+                    noListener = {
+                        finish()
+                    }
+                )
+                dialogYesNo.show(supportFragmentManager, "dialog")
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
@@ -315,6 +316,23 @@ object Utils {
         }
     }
 
+    fun getAndroidVersion(): Double{
+        return when(Build.VERSION.SDK_INT){
+            22-> 5.1
+            23-> 6.0
+            24-> 7.0
+            25-> 7.1
+            26-> 8.0
+            27-> 8.1
+            28-> 9.0
+            29-> 10.0
+            30-> 11.0
+            31-> 12.0
+            33-> 13.0
+            34-> 14.0
+            else -> 0.0
+        }
+    }
     data class Bank(
         val name: String,
         val showName: String,
