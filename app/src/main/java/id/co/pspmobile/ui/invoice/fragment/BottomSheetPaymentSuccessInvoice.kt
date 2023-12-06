@@ -58,6 +58,7 @@ class BottomSheetPaymentSuccessInvoice(
         binding = BottomSheetPaymentSuccessInvoiceBinding.inflate(inflater)
         layoutManager = LinearLayoutManager(requireContext())
         detailInvoiceAdapter = DetailInvoiceAdapter()
+        detailInvoiceAdapter.clear()
 
         binding.apply {
             tvInvoiceName.text = invoicePayment.inquiryResponseDto.title

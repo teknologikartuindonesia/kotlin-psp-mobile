@@ -68,12 +68,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
                         alertNominal.text = resources.getString(R.string.minimum_payment)
                         alertNominal.visibility = View.VISIBLE
 
-                    } else if ((invoice.amount - invoice.paidAmount) - amountInput < 10000) {
-                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
-                        btnPay.isEnabled = false
-                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
-                        alertNominal.visibility = View.VISIBLE
-
                     }
 //                    else if (balance.toInt() < (invoice.amount - invoice.paidAmount)) {
 //                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
@@ -159,6 +153,8 @@ class InvoicePaymentActivity : AppCompatActivity() {
                     }
 
                 }
+
+
             } else {
                 containerNominal.visibility = View.GONE
                 btnPay.setBackgroundColor(resources.getColor(R.color.primary))
@@ -167,6 +163,8 @@ class InvoicePaymentActivity : AppCompatActivity() {
                     "en" -> tvType.text = "CASH"
                     else -> tvType.text = "TUNAI"
                 }
+                // 20000-10000
+                //20000-0
 
                 if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
                     when (viewModel.getLanguage().toString()) {
@@ -174,9 +172,16 @@ class InvoicePaymentActivity : AppCompatActivity() {
                         else -> tvStatus.text = "Lunas"
                     }
                 } else {
-                    when (viewModel.getLanguage().toString()) {
-                        "en" -> tvStatus.text = "Unpaid"
-                        else -> tvStatus.text = "Belum Terbayar"
+                    if ((invoice.paidAmount.toInt() == 0)) {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Unpaid"
+                            else -> tvStatus.text = "Belum Terbayar"
+                        }
+                    } else {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Partially Paid"
+                            else -> tvStatus.text = "Terbayar Sebagian"
+                        }
                     }
                 }
 
@@ -194,12 +199,24 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
-                    OpenCustomDialog(
-                        resources.getString(R.string.confirmation),
-                        resources.getString(R.string.are_you_sure_to_pay),
-                        "invoice",
-                        "partial"
-                    )
+                    if ((invoice.amount - invoice.paidAmount).toInt() != 0 && (invoice.amount - invoice.paidAmount) < 10000) {
+                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
+                        alertNominal.visibility = View.VISIBLE
+                    } else if (balance.toInt() < (invoice.amount - invoice.paidAmount).toInt()) {
+                        alertNominal.text = resources.getString(R.string.insufficient_balance)
+                        alertNominal.visibility = View.VISIBLE
+                    } else {
+                        alertNominal.visibility = View.INVISIBLE
+                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
+                        OpenCustomDialog(
+                            resources.getString(R.string.confirmation),
+                            resources.getString(R.string.are_you_sure_to_pay),
+                            "invoice",
+                            "partial"
+                        )
+                    }
+
+
                 } else {
                     OpenCustomDialog(
                         resources.getString(R.string.confirmation),

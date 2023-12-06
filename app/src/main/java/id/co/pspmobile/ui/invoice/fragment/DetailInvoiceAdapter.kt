@@ -45,5 +45,10 @@ class DetailInvoiceAdapter : RecyclerView.Adapter<DetailInvoiceAdapter.ViewHolde
         holder.bind(list[position])
     }
 
+    fun clear() {
+        list.clear()
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = list.size
 }

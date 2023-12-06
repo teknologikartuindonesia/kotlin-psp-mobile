@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'com.google.devtools.ksp'
+    id 'com.google.firebase.crashlytics'
 }
 
 def secretPropertiesFile = rootProject.file("secret.properties")
@@ -22,7 +23,7 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        resValue "color", "primary", "#66545d"
+        resValue "color", "primary", "#42f542"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "SERVER_KEY_ID", secretProperties['SERVER_KEY_ID_2'])
@@ -126,5 +127,10 @@ dependencies {
 
     //lottie
     implementation 'com.airbnb.android:lottie:6.2.0'
+
+    //crashLythic
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 
 }
