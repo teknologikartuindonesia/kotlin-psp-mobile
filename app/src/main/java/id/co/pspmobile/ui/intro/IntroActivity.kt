@@ -78,7 +78,7 @@ class IntroActivity : AppCompatActivity() {
             }
 
         }
-        readExisting()
+        requestPermission()
     }
     // read file from Download folder named "credential-pspmobile.txt"
     fun readExisting(){
@@ -103,18 +103,29 @@ class IntroActivity : AppCompatActivity() {
                 // {"username":"bob","password":"12345678"}
 
                 if (!stringBuilder.toString().isNullOrEmpty()){
-                    val username = getUsername(stringBuilder.toString())
-                    val password = getPassword(stringBuilder.toString())
+                    val reverseBack = reverseBackToNormal(stringBuilder.toString())
+                    val username = getUsername(reverseBack)
+                    val password = getPassword(reverseBack)
                     viewModel.saveUsername(username)
                     viewModel.savePassword(password)
                     binding.txtTitle.text =
-                        "$stringBuilder \n $username \n $password \n " +
+                        "$stringBuilder \n $reverseBack \n $username \n $password \n " +
                                 "${viewModel.getUsername()} \n ${viewModel.getPassword()}"
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun reverseBackToNormal(reversedString: String): String {
+        val result = StringBuilder()
+
+        for (i in reversedString.indices step 3) {
+            val chunk = reversedString.subSequence(i, minOf(i + 3, reversedString.length))
+            result.append(chunk.reversed())
+        }
+        return result.toString()
     }
 
     // request permission to read external storage
@@ -131,11 +142,13 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun getUsername(str: String): String{
-        return str.split(",")[0].split(":")[1].replace("\"", "")
+        return str.split(",")[0].split(":")[1]
+            .replace("\"", "").replace("{","").replace("}","")
     }
 
     private fun getPassword(str: String): String{
-        return str.split(",")[1].split(":")[1].replace("\"", "")
+        return str.split(",")[1].split(":")[1]
+            .replace("\"", "").replace("{","").replace("}","")
     }
 
     // handle permission request result
