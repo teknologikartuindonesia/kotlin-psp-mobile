@@ -83,7 +83,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
 //
 //                    }
                     else {
-                        btnPay.setBackgroundColor(resources.getColor(R.color.blue))
+                        btnPay.setBackgroundColor(resources.getColor(R.color.primary))
                         btnPay.isEnabled = true
                         alertNominal.visibility = View.INVISIBLE
                     }
@@ -136,7 +136,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
             tvMinus.text = Utils.formatCurrency(invoice.amount - invoice.paidAmount)
             if (invoice.partialMethod) {
                 containerNominal.visibility = View.VISIBLE
-
                 when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CREDIT"
                     else -> tvType.text = "KREDIT"
@@ -147,22 +146,40 @@ class InvoicePaymentActivity : AppCompatActivity() {
                         else -> tvStatus.text = "Lunas"
                     }
                 } else {
-                    when (viewModel.getLanguage().toString()) {
-                        "en" -> tvStatus.text = "Partially Paid"
-                        else -> tvStatus.text = "Terbayar Sebagian"
+                    if (invoice.paidAmount.toInt() == 0) {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Unpaid"
+                            else -> tvStatus.text = "Belum Terbayar"
+                        }
+                    } else {
+                        when (viewModel.getLanguage().toString()) {
+                            "en" -> tvStatus.text = "Partially Paid"
+                            else -> tvStatus.text = "Terbayar Sebagian"
+                        }
                     }
+
                 }
             } else {
                 containerNominal.visibility = View.GONE
+                btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                btnPay.isEnabled = true
                 when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CASH"
                     else -> tvType.text = "TUNAI"
                 }
 
-                when (viewModel.getLanguage().toString()) {
-                    "en" -> tvStatus.text = "Paid Off"
-                    else -> tvStatus.text = "Lunas"
+                if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvStatus.text = "Paid Off"
+                        else -> tvStatus.text = "Lunas"
+                    }
+                } else {
+                    when (viewModel.getLanguage().toString()) {
+                        "en" -> tvStatus.text = "Unpaid"
+                        else -> tvStatus.text = "Belum Terbayar"
+                    }
                 }
+
             }
             tvAmount.text = Utils.formatCurrency(invoice.amount)
 
