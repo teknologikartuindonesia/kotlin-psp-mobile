@@ -147,7 +147,7 @@
     <string name="amount">Amount</string>
     <string name="invoice_due_date">Invoice Due Date</string>
     <string name="paid">Paid</string>
-    <string name="minus">Minus</string>
+    <string name="minus">Remaining Invoice</string>
     <string name="input_amount">Input Amount</string>
     <string name="minimum_payment">Minimum Payment Rp 10.000</string>
     <string name="pay_now">Pay Now</string>
@@ -209,4 +209,13 @@
     <string name="insufficient_balance">Insufficient Balance</string>
     <string name="va_has_been_created">VA number has been created</string>
     <string name="account_number_copied_to_clipboard">Account number copied to clipboard</string>
+    <string name="card_information">Information Card</string>
+    <string name="maximum_limit">Maximum Accumulation Limit</string>
+    <string name="daily_limit">Daily Limit</string>
+    <string name="last_sync">Last Sync</string>
+    <string name="card_menu">Card Menu</string>
+    <string name="set_limit">Set Limit</string>
+    <string name="sync_history">Sync History</string>
+    <string name="help">Help</string>
+    <string name="balance_card">Card Balance</string>
 </resources>

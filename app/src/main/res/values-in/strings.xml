@@ -140,7 +140,7 @@
     <string name="invoice_status">Status Tagihan</string>
     <string name="amount">Nominal</string>
     <string name="paid">Terbayar</string>
-    <string name="minus">Kekurangan</string>
+    <string name="minus">Sisa Tagihan</string>
     <string name="input_amount">Masukkan Nominal</string>
     <string name="minimum_payment">Minimal Pembayaran Rp 10.000</string>
     <string name="invoice_due_date">Jatuh Tempo Tagihan</string>
@@ -208,4 +208,13 @@
     <string name="insufficient_balance">Saldo tidak mencukupi</string>
     <string name="va_has_been_created">No VA berhasil dibuat</string>
     <string name="account_number_copied_to_clipboard">No akun berhasil disalin</string>
+    <string name="card_information">Informasi Kartu</string>
+    <string name="maximum_limit">Batas Akumulasi Maksimal</string>
+    <string name="daily_limit">Batas Harian</string>
+    <string name="last_sync">Terakhir Sinkron</string>
+    <string name="card_menu">Menu Kartu</string>
+    <string name="set_limit">Atur Batas</string>
+    <string name="sync_history">Riwayat Sinkron</string>
+    <string name="help">Bantuan</string>
+    <string name="balance_card">Saldo Kartu</string>
 </resources>

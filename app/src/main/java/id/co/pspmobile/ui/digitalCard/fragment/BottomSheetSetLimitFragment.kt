@@ -12,13 +12,16 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.R
 import id.co.pspmobile.data.local.SharePreferences
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.CardDataItem
 import id.co.pspmobile.data.network.responses.digitalCard.NewDigitalCardData
 import id.co.pspmobile.databinding.FragmentBottomSheetSetLimitBinding
+import id.co.pspmobile.ui.HomeActivity
 import id.co.pspmobile.ui.Utils
+import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import java.text.DecimalFormat
@@ -45,6 +48,8 @@ class BottomSheetSetLimitFragment(
         binding = FragmentBottomSheetSetLimitBinding.inflate(inflater)
 
         formatter.applyPattern("#,###,###,###")
+        val args = arguments
+        val nfcId = args?.getString("nfcId")
 
         val userData = viewModel.getUserData()
 
@@ -105,9 +110,9 @@ class BottomSheetSetLimitFragment(
                     userData.user.accounts[0].transactionUnlimited =
                         switchUnlimitedTransaction.isChecked
                     userData.user.socmedAccounts = mutableListOf()
-                    Log.d("test", userData.user.toString())
-                    Log.d("test", modelDigitalCard.toString())
+
                     viewModel.updateAccount(userData.user, modelDigitalCard)
+                    (activity as DigitalCardActivity?)?.refreshLastSync()
 
                 }
 

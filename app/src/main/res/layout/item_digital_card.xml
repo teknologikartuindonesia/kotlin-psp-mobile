@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Saldo Kartu"
+                    android:text="@string/balance_card"
                     android:textColor="@color/white"
                     android:textSize="14dp"
                     android:fontFamily="@font/montserrat"

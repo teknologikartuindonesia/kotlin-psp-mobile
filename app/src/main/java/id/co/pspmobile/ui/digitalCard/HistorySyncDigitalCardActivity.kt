@@ -38,13 +38,21 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
         setContentView(binding.root)
         historySyncDigitalCardAdapter = HistorySyncDigitalCardAdapter(viewModel)
 
+        val nfcId = intent.getStringExtra("nfcId") ?: ""
+
+
         val existing =
             SharePreferences.getNewSyncDigitalCard(this)
         val cardDataList = mutableListOf<CardDataItem>()
 
         for (item in existing!!.dataList) {
             for (historyEntry in item.history.sortedBy { it }) {
-                cardDataList.add(CardDataItem(item.nfcId, mutableListOf(historyEntry)))
+                if (item.nfcId == nfcId) cardDataList.add(
+                    CardDataItem(
+                        item.nfcId,
+                        mutableListOf(historyEntry)
+                    )
+                )
             }
         }
 
@@ -63,4 +71,6 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
             finish()
         }
     }
+
+
 }
