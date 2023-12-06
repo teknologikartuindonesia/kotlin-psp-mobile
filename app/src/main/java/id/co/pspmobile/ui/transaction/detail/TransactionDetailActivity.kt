@@ -40,7 +40,7 @@ class TransactionDetailActivity : AppCompatActivity() {
             }
         }
 
-        transactionDetailAdapter = TransactionDetailAdapter()
+        transactionDetailAdapter = TransactionDetailAdapter(viewModel)
 
         binding.btnBack.setOnClickListener {
             finish()

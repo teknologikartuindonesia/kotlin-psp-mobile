@@ -23,7 +23,7 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        resValue "color", "primary", "#42f542"
+        resValue "color", "primary", "#3c2670"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "SERVER_KEY_ID", secretProperties['SERVER_KEY_ID_2'])

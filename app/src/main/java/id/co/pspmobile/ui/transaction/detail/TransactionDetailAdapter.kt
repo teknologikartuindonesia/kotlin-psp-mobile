@@ -8,10 +8,13 @@ import id.co.pspmobile.data.network.report.TransactionDetailDto
 import id.co.pspmobile.databinding.AdapterTransactionDetailBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.Utils.formatDateTime
+import id.co.pspmobile.ui.digitalCard.DigitalCardViewModel
 
-class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.ViewHolder>() {
+class TransactionDetailAdapter(viewModel: TransactionDetailViewModel) :
+    RecyclerView.Adapter<TransactionDetailAdapter.ViewHolder>() {
 
     private lateinit var list: List<TransactionDetailDto>
+    var vm = viewModel
 
     @SuppressLint("NotifyDataSetChanged")
     fun setTransactions(list: List<TransactionDetailDto>) {
@@ -29,12 +32,13 @@ class TransactionDetailAdapter : RecyclerView.Adapter<TransactionDetailAdapter.V
                     "dd MMMM yyyy "
                 ) + "Pukul" + formatDateTime(transaction.createDate.toString(), " HH:mm")
                 tvTransactionName.text = transaction.transactionName
+                tvTransactionNote.text = transaction.note
                 if (transaction.credit == 0.0) {
                     tvAmount.text = "Rp " + formatCurrency(transaction.debit)
                 } else {
                     tvAmount.text = "Rp " + formatCurrency(transaction.credit)
                 }
-                tvUserName.text = transaction.callerName
+                tvUserName.text = vm.getUserData().user.name
             }
         }
     }
