@@ -111,5 +111,8 @@ class DigitalCardViewModel @Inject constructor(
     fun saveUserData(checkCredentialResponse: CheckCredentialResponse) = viewModelScope.launch {
         userPreferences.saveUserData(checkCredentialResponse)
     }
+    fun getLanguage(): String {
+        return userPreferences.getLanguage()
+    }
 
 }

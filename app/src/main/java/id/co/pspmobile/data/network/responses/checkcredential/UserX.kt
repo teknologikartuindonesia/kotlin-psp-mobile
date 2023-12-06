@@ -2,7 +2,7 @@ package id.co.pspmobile.data.network.responses.checkcredential
 
 data class UserX(
     val accounts: List<Account>,
-    val address: String,
+    var address: String,
     val banks: List<Any>,
     val dateOfBirth: String,
     var email: String?,

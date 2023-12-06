@@ -32,29 +32,17 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
     private lateinit var layoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutManager = LinearLayoutManager(this)
-        layoutManager.reverseLayout = true
         binding = ActivityHistorySyncDigitalCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        layoutManager = LinearLayoutManager(this)
+        layoutManager.reverseLayout = true
         historySyncDigitalCardAdapter = HistorySyncDigitalCardAdapter(viewModel)
 
         val nfcId = intent.getStringExtra("nfcId") ?: ""
 
-
         val existing =
             SharePreferences.getNewSyncDigitalCard(this)
         val cardDataList = mutableListOf<CardDataItem>()
-
-        for (item in existing!!.dataList) {
-            for (historyEntry in item.history.sortedBy { it }) {
-                if (item.nfcId == nfcId) cardDataList.add(
-                    CardDataItem(
-                        item.nfcId,
-                        mutableListOf(historyEntry)
-                    )
-                )
-            }
-        }
 
         binding.apply {
             rvHistorySync.setHasFixedSize(true)
@@ -62,10 +50,29 @@ class HistorySyncDigitalCardActivity : AppCompatActivity() {
             rvHistorySync.layoutManager = layoutManager
         }
 
-        if (existing != null) {
-            Log.d("HistorySyncDigitalCardActivity", "onCreate: ${existing?.dataList}")
+        try {
+            if (existing != null) {
+                for (item in existing!!.dataList) {
+                    for (historyEntry in item.history.sortedBy { it }) {
+                        if (item.nfcId == nfcId) cardDataList.add(
+                            CardDataItem(
+                                item.nfcId,
+                                mutableListOf(historyEntry)
+                            )
+                        )
+                    }
+                }
+            }
             historySyncDigitalCardAdapter.setHistorySyncDigitalCard(cardDataList)
+
+        } catch (e: Exception) {
+            Log.d("HistorySyncDigitalCardActivity", "onCreate: ${e.message}")
         }
+
+
+
+
+
 
         binding.btnBack.setOnClickListener {
             finish()

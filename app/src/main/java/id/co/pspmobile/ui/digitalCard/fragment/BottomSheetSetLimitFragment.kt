@@ -109,7 +109,8 @@ class BottomSheetSetLimitFragment(
                     isDifference = true
                     userData.user.accounts[0].transactionUnlimited =
                         switchUnlimitedTransaction.isChecked
-                    userData.user.socmedAccounts = mutableListOf()
+                    if (userData.user.socmedAccounts == null) userData.user.socmedAccounts = mutableListOf()
+                    if (userData.user.address == null) userData.user.address = ""
 
                     viewModel.updateAccount(userData.user, modelDigitalCard)
                     (activity as DigitalCardActivity?)?.refreshLastSync()

@@ -78,14 +78,17 @@ class DigitalCardActivity : AppCompatActivity() {
                 binding.tvBatasMaks.text = formatCurrency(it.value[0].limitMax!!)
                 nfcId = it.value[0].nfcId!!
 
-                for (item in existing!!.dataList) {
-                    if (item.nfcId == it.value[0].nfcId!!) {
-                        binding.tvLastSync.text = item.history.last().toString()
-                        break
-                    } else {
-                        binding.tvLastSync.text = "-"
+                if (existing!=null) {
+                    for (item in existing!!.dataList) {
+                        if (item.nfcId == it.value[0].nfcId!!) {
+                            binding.tvLastSync.text = item.history.last().toString()
+                            break
+                        } else {
+                            binding.tvLastSync.text = "-"
+                        }
                     }
                 }
+
                 viewPager.adapter = CarouselRVAdapter(it.value, this)
             } else if (it is Resource.Failure) {
 //                handleApiError(binding.viewPager, it)
@@ -107,15 +110,15 @@ class DigitalCardActivity : AppCompatActivity() {
                 nfcId = itemCard[position].nfcId!!
                 binding.tvBatasHarian.text = formatCurrency(itemCard[position].limitDaily!!)
                 binding.tvBatasMaks.text = formatCurrency(itemCard[position].limitMax!!)
-                for (item in existing!!.dataList) {
+                if (existing != null) {
+                    for (item in existing!!.dataList) {
+                        if (item.nfcId == itemCard[position].nfcId!!) {
+                            binding.tvLastSync.text = item.history.last().toString()
+                            break
+                        } else {
+                            binding.tvLastSync.text = "-"
 
-
-                    if (item.nfcId == itemCard[position].nfcId!!) {
-                        binding.tvLastSync.text = item.history.last().toString()
-                        break
-                    } else {
-                        binding.tvLastSync.text = "-"
-
+                        }
                     }
                 }
 
