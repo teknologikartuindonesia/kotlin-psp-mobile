@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.login
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -72,6 +73,8 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.btnForgotPassword.paintFlags = binding.btnForgotPassword.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         binding.btnCs.setOnClickListener {
             val intent = Intent(this, FaqActivity::class.java)

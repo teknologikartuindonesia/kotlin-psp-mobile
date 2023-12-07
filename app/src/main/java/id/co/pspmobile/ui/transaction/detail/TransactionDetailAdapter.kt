@@ -43,7 +43,7 @@ class TransactionDetailAdapter(viewModel: TransactionDetailViewModel) :
                 } else {
                     tvAmount.text = "Rp " + formatCurrency(transaction.credit)
                 }
-                tvUserName.text = vm.getUserData().user.name
+                tvUserName.text = transaction.callerName
             }
         }
     }
