@@ -2,6 +2,7 @@ package id.co.pspmobile.ui.transaction.detail
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.co.pspmobile.data.network.report.TransactionDetailDto
@@ -32,7 +33,11 @@ class TransactionDetailAdapter(viewModel: TransactionDetailViewModel) :
                     "dd MMMM yyyy "
                 ) + "Pukul" + formatDateTime(transaction.createDate.toString(), " HH:mm")
                 tvTransactionName.text = transaction.transactionName
-                tvTransactionNote.text = transaction.note
+                tvTransactionNote.visibility = View.GONE
+                if (transaction.note != "") {
+                    tvTransactionNote.text = transaction.note
+                    tvTransactionNote.visibility = View.VISIBLE
+                }
                 if (transaction.credit == 0.0) {
                     tvAmount.text = "Rp " + formatCurrency(transaction.debit)
                 } else {
