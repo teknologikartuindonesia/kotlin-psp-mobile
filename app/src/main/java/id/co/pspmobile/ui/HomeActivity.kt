@@ -4,15 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.pspmobile.R
+import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.databinding.ActivityHomeBinding
+import id.co.pspmobile.ui.HomeBottomNavigation.home.HomeViewModel
 import id.co.pspmobile.ui.Utils.showToast
 import id.co.pspmobile.ui.calendar.CalendarActivity
+import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.invoice.InvoiceActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 
@@ -24,6 +29,8 @@ class HomeActivity : AppCompatActivity() {
     private var exit = false
     private lateinit var navController: NavController
     private lateinit var menuBottom: ChipNavigationBar
+    private val viewModel: HomeViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +39,22 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment_activity_home)
+
+        viewModel.broadcastResponse.observe(this) {
+            if (it is Resource.Success) {
+                val broadcastResponse = it.value
+                if (broadcastResponse.content.isNotEmpty()) {
+                    val x = supportFragmentManager
+                    val dialogBroadcast = DialogBroadcast(
+                        broadcastResponse.content[0],
+                        x
+                    )
+                    dialogBroadcast.show(x, dialogBroadcast.tag)
+                }
+            }
+        }
+
+        getActiveBroadcast()
 
         menuBottom = binding.bottomNavBar
         menuBottom.setItemSelected(R.id.navigation_home, true)
@@ -70,7 +93,16 @@ class HomeActivity : AppCompatActivity() {
                 "notification" -> Handler().postDelayed({
                     menuBottom.setItemSelected(R.id.navigation_message, true)
                     navController.navigate(R.id.navigation_message)
+                }, 500)
 
+                "broadcast-text" -> Handler().postDelayed({
+                    menuBottom.setItemSelected(R.id.navigation_message, true)
+                    navController.navigate(R.id.navigation_message)
+                }, 500)
+
+                "broadcast-image" -> Handler().postDelayed({
+                    menuBottom.setItemSelected(R.id.navigation_message, true)
+                    navController.navigate(R.id.navigation_message)
                 }, 500)
 
                 "academic-calendar" -> Handler().postDelayed({
@@ -123,9 +155,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun info() {
-            navController.navigate(R.id.navigation_information)
-            menuBottom = binding.bottomNavBar
-            menuBottom.setItemSelected(R.id.navigation_information, true)
+        navController.navigate(R.id.navigation_information)
+        menuBottom = binding.bottomNavBar
+        menuBottom.setItemSelected(R.id.navigation_information, true)
 
+    }
+
+    fun getActiveBroadcast() {
+        viewModel.getBroadcastMessage()
     }
 }

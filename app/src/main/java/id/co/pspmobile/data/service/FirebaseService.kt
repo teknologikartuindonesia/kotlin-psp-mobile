@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
+import android.text.Html
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
@@ -135,7 +136,7 @@ class FirebaseService : FirebaseMessagingService() {
             if (p0.getNotification() != null) {
                 Log.e("", "Notification Body: " + p0.getNotification()!!.getBody());
                 //Show Notfication
-                generateNotification(applicationContext, title.toString(), body.toString(),type.toString())
+                generateNotification(applicationContext, title.toString(), subtitle.toString(),type.toString())
 
             }
         } catch (ex: Exception) {
@@ -157,7 +158,7 @@ class FirebaseService : FirebaseMessagingService() {
         val intent = Intent("myFunction")
         intent.putExtra("title", title)
         notifyIntent.putExtra("id", "notification")
-        intent.putExtra("body", message)
+        intent.putExtra("body",message)
         intent.putExtra("type", "openActivity")
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)

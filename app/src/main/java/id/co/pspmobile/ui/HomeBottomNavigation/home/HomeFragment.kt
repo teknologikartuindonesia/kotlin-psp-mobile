@@ -111,7 +111,6 @@ class HomeFragment : Fragment() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             getBalance()
             getInfoHeadline()
-            getActiveBroadcast()
             viewModel.checkCredential()
             binding.swipeRefreshLayout.isRefreshing = false
         }
@@ -190,29 +189,11 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.broadcastResponse.observe(viewLifecycleOwner) {
-            if (it is Resource.Success) {
-                val broadcastResponse = it.value
-                if (broadcastResponse.content.isNotEmpty()) {
-                    val x = requireActivity().supportFragmentManager
-                    val dialogBroadcast = DialogBroadcast(
-                        broadcastResponse.content[0],
-                        x
-                    )
-                    dialogBroadcast.show(x, dialogBroadcast.tag)
-                }
-            }
-        }
-        getActiveBroadcast()
 
         configureFirebase()
         return root
 
 
-    }
-
-    fun getActiveBroadcast() {
-        viewModel.getBroadcastMessage()
     }
 
     fun getBalance() {
