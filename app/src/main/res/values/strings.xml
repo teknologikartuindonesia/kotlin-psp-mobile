@@ -223,4 +223,6 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="phone">Phone</string>
     <string name="edit">Edit</string>
+    <string name="donation_is_empty">Amount of donation cant empty</string>
+    <string name="donation_minimum">Minimum amount Rp 10</string>
 </resources>

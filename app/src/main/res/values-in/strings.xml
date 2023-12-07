@@ -221,4 +221,6 @@
     <string name="edit_profile">Sunting Profil</string>
     <string name="phone">No Telepon</string>
     <string name="edit">Sunting</string>
+    <string name="donation_is_empty">Jumlah donasi harus diisi</string>
+    <string name="donation_minimum">Donasi minimal Rp 10</string>
 </resources>

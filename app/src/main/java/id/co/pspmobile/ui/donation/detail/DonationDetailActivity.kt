@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import id.co.pspmobile.R
 import id.co.pspmobile.data.network.Resource
 import id.co.pspmobile.data.network.donation.DonationDto
 import id.co.pspmobile.data.network.donation.DonationPayDto
@@ -88,9 +89,11 @@ class DonationDetailActivity : AppCompatActivity() {
         binding.btnDonation.setOnClickListener {
             this.amount = "Rp. ${binding.etAmount.text.toString().trim()}"
             val amount = binding.etAmount.text.toString().trim().replace(".", "").replace(",", "")
+            val intAmount = amount.toIntOrNull()
             if (amount.isEmpty()){
-                val msg = if (lang == "id") "Jumlah donasi harus diisi" else "Donation amount must be filled"
-                binding.etAmount.error = msg
+                binding.root.snackbar(resources.getString(R.string.donation_is_empty))
+            } else if(intAmount != null && intAmount < 10){
+                binding.root.snackbar(resources.getString(R.string.donation_minimum))
             }else{
                 val accountId = viewModel.getUserData().user.accounts[0].id
                 val body = DonationPayDto(
