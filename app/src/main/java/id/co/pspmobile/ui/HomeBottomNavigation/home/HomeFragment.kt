@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import coil.ImageLoader
@@ -45,7 +44,6 @@ import id.co.pspmobile.ui.dialog.DialogBroadcast
 import id.co.pspmobile.ui.digitalCard.DigitalCardActivity
 import id.co.pspmobile.ui.donation.DonationActivity
 import id.co.pspmobile.ui.invoice.InvoiceActivity
-import id.co.pspmobile.ui.main.MainActivity
 import id.co.pspmobile.ui.mutation.MutationActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import id.co.pspmobile.ui.schedule.ScheduleActivity
@@ -95,9 +93,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-//        binding.layoutHomeMoreMenu.setOnClickListener {
+        binding.layoutHomeMoreMenu.setOnClickListener {
+            Log.e("HomeFragment", "onCreateView: clicked")
+            var intent = Intent(requireContext(), MenuActivity::class.java)
+
+            intent.putExtra("isCustomApp", true)
+            intent.putExtra("isSeeMore", false)
+            startActivity(intent)
 //            openBottomSheet()
-//        }
+        }
 
         // add onscroll listener when on top, enable swipe refresh
         binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -112,16 +116,16 @@ class HomeFragment : Fragment() {
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        viewModel.customAppResponse.observe(viewLifecycleOwner){
+        viewModel.customAppResponse.observe(viewLifecycleOwner) {
             binding.progressbar.visible(it is Resource.Loading)
-            if(it is Resource.Success){
+            if (it is Resource.Success) {
                 setupUICustomApp(it.value)
                 viewModel.saveLocalCustomApp(it.value)
             }
         }
 
-        viewModel.checkCredential.observe(viewLifecycleOwner){
-            if(it is Resource.Success){
+        viewModel.checkCredential.observe(viewLifecycleOwner) {
+            if (it is Resource.Success) {
                 val checkCredentialResponse = it.value
                 viewModel.saveUserData(checkCredentialResponse)
                 if (checkCredentialResponse.activeCompany.customApps) {
@@ -253,8 +257,9 @@ class HomeFragment : Fragment() {
     fun configureAssets() {
         if (viewModel.getUserData().activeCompany.customApps) {
             showImage(binding.imgHomeLogo, viewModel.getLocalCustomApp()?.app_icon_url ?: "psp.svg")
-            binding.txtHomeCompanyName.text = if (viewModel.getLocalCustomApp()?.app_display_name.isNullOrEmpty())
-                viewModel.getUserData().activeCompany.name else viewModel.getLocalCustomApp()?.app_display_name
+            binding.txtHomeCompanyName.text =
+                if (viewModel.getLocalCustomApp()?.app_display_name.isNullOrEmpty())
+                    viewModel.getUserData().activeCompany.name else viewModel.getLocalCustomApp()?.app_display_name
         } else {
             showImage(binding.imgHomeLogo, "psp.svg")
             binding.txtHomeCompanyName.text = viewModel.getUserData().activeCompany.name
@@ -266,11 +271,11 @@ class HomeFragment : Fragment() {
 
         val menuList = ArrayList<AppMenu>()
 
-        if(viewModel.getUserData().activeCompany.customApps){
+        if (viewModel.getUserData().activeCompany.customApps) {
 //         pake custom app
-            if(viewModel.getLocalCustomApp() != null){
+            if (viewModel.getLocalCustomApp() != null) {
                 setupUICustomApp(viewModel.getLocalCustomApp()!!)
-            }else{
+            } else {
                 viewModel.getCustomApp(
                     viewModel.getUserData().activeCompany.id,
                     viewModel.getLanguage().uppercase()
@@ -298,14 +303,14 @@ class HomeFragment : Fragment() {
 
 //            rv.adapter = menuAdapter
         } else {
-        // ga pake custom app
+            // ga pake custom app
             setUIDefault()
         }
 
 
     }
 
-    fun setupUICustomApp(custom: CustomAppResponse){
+    fun setupUICustomApp(custom: CustomAppResponse) {
         val rv = binding.rvMenu
         val rvSpanCount = 4
         val layoutManager =
@@ -315,9 +320,10 @@ class HomeFragment : Fragment() {
         val baseUrl = viewModel.getBaseUrl()
 
         val defaultMenuList = ArrayList<MenuModel>()
-        for (i in custom.app_menu){
-            val imageUrl = "${baseUrl}/main_a/web_view/custom_apps/icon/${viewModel.getUserData().activeCompany.id}/${i.menu_icon_url}"
-            val intent = when(i.menu_path){
+        for (i in custom.app_menu) {
+            val imageUrl =
+                "${baseUrl}/main_a/web_view/custom_apps/icon/${viewModel.getUserData().activeCompany.id}/${i.menu_icon_url}"
+            val intent = when (i.menu_path) {
                 "/topup" -> Intent(requireContext(), TopUpActivity::class.java)
                 "/invoice" -> Intent(requireContext(), InvoiceActivity::class.java)
                 "/mutation" -> Intent(requireContext(), MutationActivity::class.java)
@@ -331,13 +337,16 @@ class HomeFragment : Fragment() {
                 "/support" -> Intent(requireContext(), FaqActivity::class.java)
                 "/etc" -> Intent(requireContext(), FaqActivity::class.java)
                 else ->
-                    if (i.menu_path.contains("http")) Intent(Intent.ACTION_VIEW, Uri.parse(i.menu_path))
+                    if (i.menu_path.contains("http")) Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(i.menu_path)
+                    )
                     else Intent(requireContext(), MenuActivity::class.java)
             }
             if (i.menu_is_show) defaultMenuList.add(MenuModel(i.menu_name, imageUrl, intent))
         }
         Log.d("HomeFragment", "setupUICustomApp(${defaultMenuList.size}): $defaultMenuList")
-        if (defaultMenuList.isEmpty()){
+        if (defaultMenuList.isEmpty()) {
             setUIDefault()
         } else {
             val menuAdapter = MenuAdapter()
@@ -345,7 +354,11 @@ class HomeFragment : Fragment() {
             Log.d("HomeFragment", "setupUICustomApp: $defaultMenuList")
             val intentMoreMenu = Intent(requireContext(), MenuActivity::class.java)
             intentMoreMenu.putExtra("isCustomApp", true)
-            intentMoreMenu.putExtra("allMenu", Gson().toJson(defaultMenuList))
+            intentMoreMenu.putExtra("isSeeMore", true)
+            intentMoreMenu.putExtra(
+                "allMenu",
+                Gson().toJson(defaultMenuList.subList(7, defaultMenuList.size))
+            )
             val limitedMenuList = ArrayList(defaultMenuList.subList(0, 7))
             limitedMenuList.add(
                 MenuModel(
@@ -355,7 +368,11 @@ class HomeFragment : Fragment() {
                 )
             )
             Log.d("HomeFragment", "setupUICustomApp: $defaultMenuList")
-            menuAdapter.setMenuList(limitedMenuList, viewModel.getBaseUrl(), viewModel.getUserData().activeCompany.id)
+            menuAdapter.setMenuList(
+                limitedMenuList,
+                viewModel.getBaseUrl(),
+                viewModel.getUserData().activeCompany.id
+            )
             rv.adapter = menuAdapter
             showImage(binding.imgHomeLogo, custom.app_icon_url)
             binding.txtHomeCompanyName.text = if (custom.app_display_name.isNullOrEmpty())
@@ -363,7 +380,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setUIDefault(){
+    fun setUIDefault() {
         val rv = binding.rvMenu
         val rvSpanCount = 4
         val layoutManager =

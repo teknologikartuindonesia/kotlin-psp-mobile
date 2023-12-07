@@ -1,27 +1,17 @@
 package id.co.pspmobile.ui.HomeBottomNavigation.home
 
-import android.graphics.drawable.BitmapDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.Coil
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import coil.load
 import coil.request.ImageRequest
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import id.co.pspmobile.R
 import id.co.pspmobile.data.local.UserPreferences
-import id.co.pspmobile.data.network.responses.customapp.AppMenu
 import id.co.pspmobile.databinding.ItemHomeMenuBinding
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 
 class MenuAdapter: RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
