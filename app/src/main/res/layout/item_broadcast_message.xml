@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="9dp"
-                android:textColor="@color/subtitle"
+                android:textColor="@color/title"
                 tools:text="20/09/2023"/>
             <TextView
                 android:id="@+id/txt_broadcast_title"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="0dp"
                 android:fontFamily="@font/montserrat"
-                android:textColor="@color/subtitle"
+                android:textColor="@color/black"
                 android:maxLines="5"
                 android:textSize="9dp"
                 tools:text="Description"/>

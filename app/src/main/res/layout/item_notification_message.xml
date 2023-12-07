@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:maxLines="5"
             android:textSize="9dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/subtitle"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/black"
             tools:text="Long Description"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
