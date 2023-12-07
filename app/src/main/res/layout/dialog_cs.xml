@@ -79,7 +79,7 @@
             android:layout_marginStart="5dp"
             android:background="@drawable/bg_button_blue"
             android:fontFamily="@font/montserrat_bold"
-            android:text="@string/yes"
+            android:text="@string/send"
             android:textSize="14dp" />
     </LinearLayout>
 </LinearLayout>

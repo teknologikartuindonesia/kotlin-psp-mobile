@@ -122,12 +122,12 @@
     <string name="detail_transaction">Detail Transaction</string>
     <string name="mutation">Mutation</string>
     <string name="invoice">Invoice</string>
-    <string name="more">More</string>
+    <string name="more">Others</string>
     <string name="unanswered">Kendala anda belum terjawab silahkan hubungi kami</string>
     <string name="help_center">Pusat Bantuan</string>
     <string name="explore_help_topics">Jelajahi topik bantuan</string>
     <string name="contact_us">Hubungi Kami</string>
-    <string name="all_menu">All Menu</string>
+    <string name="all_menu">Others Menu</string>
     <string name="name">Name</string>
     <string name="NIS">NIS</string>
     <string name="invoice_date">Invoice Date</string>
@@ -225,4 +225,5 @@
     <string name="edit">Edit</string>
     <string name="donation_is_empty">Amount of donation cant empty</string>
     <string name="donation_minimum">Minimum amount Rp 10</string>
+    <string name="others_menu">Others Menu</string>
 </resources>

@@ -121,7 +121,7 @@
     <string name="transaction">Transaksi</string>
     <string name="detail_transaction">Detail Transaksi</string>
     <string name="invoice">Tagihan</string>
-    <string name="more">Lihat Semua</string>
+    <string name="more">Lainnya</string>
     <string name="invoice_date">Tgl Tagihan</string>
     <string name="name">Nama</string>
     <string name="NIS">NIS</string>
@@ -169,7 +169,7 @@
     <string name="help_center">Pusat Bantuan</string>
     <string name="explore_help_topics">Jelajahi topik bantuan</string>
     <string name="contact_us">Hubungi Kami</string>
-    <string name="all_menu">Semua Menu</string>
+    <string name="all_menu">Menu Lainnya</string>
     <string name="transaction_in">Transaksi Masuk</string>
     <string name="transaction_out">Transaksi Keluar</string>
     <string name="number_of_transaction">Jumlah Transaksi</string>
@@ -223,4 +223,5 @@
     <string name="edit">Sunting</string>
     <string name="donation_is_empty">Jumlah donasi harus diisi</string>
     <string name="donation_minimum">Donasi minimal Rp 10</string>
+    <string name="others_menu">Menu Lainnya</string>
 </resources>

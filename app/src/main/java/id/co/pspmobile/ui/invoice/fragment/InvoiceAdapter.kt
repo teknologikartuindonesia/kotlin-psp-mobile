@@ -3,16 +3,13 @@ package id.co.pspmobile.ui.invoice.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import id.co.pspmobile.data.network.invoice.InvoiceDto
 import id.co.pspmobile.databinding.AdapterInvoiceBinding
-import id.co.pspmobile.ui.HomeBottomNavigation.message.BroadcastDetailActivity
 import id.co.pspmobile.ui.Utils.formatCurrency
 import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
 import id.co.pspmobile.ui.invoice.InvoiceViewModel
@@ -25,6 +22,7 @@ class InvoiceAdapter(private val context: Context,private val viewModel: Invoice
     @SuppressLint("NotifyDataSetChanged")
     fun setInvoices(item: ArrayList<InvoiceDto>) {
         list.addAll(item)
+        Log.e("list", "list ${list.size}")
         notifyDataSetChanged()
     }
 
@@ -73,7 +71,7 @@ class InvoiceAdapter(private val context: Context,private val viewModel: Invoice
 
     fun clear() {
         list.clear()
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(0, itemCount)
     }
 
     override fun getItemCount(): Int = list.size

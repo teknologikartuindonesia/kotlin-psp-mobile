@@ -115,9 +115,12 @@ class InvoiceFragment() : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             // Get extra data included in the Intent
             val reload = intent.getStringExtra("reload")
+            Log.d("receiver", "Got message: $reload")
             if (reload == "reload") {
                 invoiceAdapter.clear()
-                viewModel.getUnpaidInvoice(page)
+                invoiceAdapter.notifyDataSetChanged()
+                viewModel.getUnpaidInvoice(0)
+                page = 0
             }
         }
     }

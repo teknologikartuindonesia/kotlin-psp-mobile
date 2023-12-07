@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:text="@string/all_menu"
+            android:text="@string/others_menu"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

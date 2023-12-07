@@ -133,7 +133,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
                     "en" -> tvType.text = "CREDIT"
                     else -> tvType.text = "KREDIT"
                 }
-                if ((invoice.amount.toInt()-invoice.paidAmount.toInt()) < 10000) {
+                if ((invoice.amount.toInt() - invoice.paidAmount.toInt()) < 10000) {
                     btnPay.setBackgroundColor(resources.getColor(R.color.primary))
                     btnPay.isEnabled = true
                     edNominal.setText(invoice.amount.toBigDecimal().toString())
@@ -161,7 +161,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
                 }
 
-
             } else {
                 containerNominal.visibility = View.GONE
                 btnPay.setBackgroundColor(resources.getColor(R.color.primary))
@@ -170,8 +169,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
                     "en" -> tvType.text = "CASH"
                     else -> tvType.text = "TUNAI"
                 }
-                // 20000-10000
-                //20000-0
 
                 if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
                     when (viewModel.getLanguage().toString()) {
@@ -203,13 +200,14 @@ class InvoicePaymentActivity : AppCompatActivity() {
             rvDetailInvoice.layoutManager = layoutManager
             rvDetailInvoice.adapter = detailInvoiceAdapter
 
-
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
                     if ((invoice.amount - invoice.paidAmount).toInt() != 0 && (invoice.amount - invoice.paidAmount) < 10000 && invoice.amount > 10000) {
                         alertNominal.text = resources.getString(R.string.minimum_payment_input)
                         alertNominal.visibility = View.VISIBLE
-                    } else if (balance.toInt() < (invoice.amount - invoice.paidAmount).toInt()) {
+                    } else if (balance.toInt() < edNominal.text.toString().trim().replace(".", "")
+                            .replace(",", "").toInt()
+                    ) {
                         alertNominal.text = resources.getString(R.string.insufficient_balance)
                         alertNominal.visibility = View.VISIBLE
                     } else {
@@ -222,8 +220,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
                             "partial"
                         )
                     }
-
-
                 } else {
                     OpenCustomDialog(
                         resources.getString(R.string.confirmation),
