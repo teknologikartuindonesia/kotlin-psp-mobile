@@ -62,7 +62,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
             edNominal.addTextChangedListener {
                 try {
                     var amountInput = it.toString().trim().replace(".", "").replace(",", "").toInt()
-                    if ((amountInput < 10000)) {
+                    if ((amountInput < 10000) && (invoice.amount.toInt() - invoice.paidAmount.toInt()) > 10000) {
                         btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
                         btnPay.isEnabled = false
                         alertNominal.text = resources.getString(R.string.minimum_payment)
@@ -119,7 +119,6 @@ class InvoicePaymentActivity : AppCompatActivity() {
                             invoice.description!!.length.toString().subSequence(0, 100)
                     }
                 }
-
             }
 
             tvParentName.text = viewModel.getUserData().user.name
@@ -133,6 +132,14 @@ class InvoicePaymentActivity : AppCompatActivity() {
                 when (viewModel.getLanguage().toString()) {
                     "en" -> tvType.text = "CREDIT"
                     else -> tvType.text = "KREDIT"
+                }
+                if ((invoice.amount.toInt()-invoice.paidAmount.toInt()) < 10000) {
+                    btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                    btnPay.isEnabled = true
+                    edNominal.setText(invoice.amount.toBigDecimal().toString())
+                    edNominal.isEnabled = false
+                    alertNominal.text = resources.getString(R.string.minimum_payment)
+                    alertNominal.visibility = View.INVISIBLE
                 }
                 if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
                     when (viewModel.getLanguage().toString()) {
@@ -199,7 +206,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
-                    if ((invoice.amount - invoice.paidAmount).toInt() != 0 && (invoice.amount - invoice.paidAmount) < 10000) {
+                    if ((invoice.amount - invoice.paidAmount).toInt() != 0 && (invoice.amount - invoice.paidAmount) < 10000 && invoice.amount > 10000) {
                         alertNominal.text = resources.getString(R.string.minimum_payment_input)
                         alertNominal.visibility = View.VISIBLE
                     } else if (balance.toInt() < (invoice.amount - invoice.paidAmount).toInt()) {
