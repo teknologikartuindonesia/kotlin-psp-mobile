@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
-                android:text="Riwayat Sinkron"
+                android:text="@string/sync_history"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
