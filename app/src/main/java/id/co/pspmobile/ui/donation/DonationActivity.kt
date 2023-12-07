@@ -73,6 +73,12 @@ class DonationActivity : AppCompatActivity() {
             }
         })
 
+        binding.swipeRefresh.setOnRefreshListener {
+            page = 0
+            getData(true)
+            binding.swipeRefresh.isRefreshing = false
+        }
+
         binding.btnBack.setOnClickListener {
             finish()
         }
