@@ -12,11 +12,9 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -53,7 +51,7 @@ object Utils {
             }
             failure.errorCode == 400 -> {
                 if (this is InvoicePaymentActivity) {
-                    view.snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi")
+                    view.snackbar(failure.errorBody?.string().toString())
                 } else if(this is DonationDetailActivity){
                     val error = failure.errorBody?.string().toString()
                     view.snackbar(error)
@@ -112,10 +110,15 @@ object Utils {
     }
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        val snackbarView = snackbar.view
         val layoutParams = FrameLayout.LayoutParams(snackbar.view.layoutParams)
+        val snackTextView =
+            snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+
         layoutParams.setMargins(10, 10, 10, 10)
         layoutParams.gravity = Gravity.BOTTOM
         snackbar.view.setPadding(10, 10, 10, 10)
+        snackTextView.maxLines = 5
         snackbar.view.layoutParams = layoutParams
         snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snackbar.show()
