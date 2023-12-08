@@ -36,7 +36,8 @@ class TopUpActivity : AppCompatActivity() {
         binding = ActivityTopupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        init()
+        bankAdapter = BankAdapter()
+        bankAdapter.setBanks(arrayListOf())
         binding.swipeRefresh.setOnRefreshListener {
             getUserInfo()
             binding.swipeRefresh.isRefreshing = false
@@ -73,7 +74,7 @@ class TopUpActivity : AppCompatActivity() {
             }
             if (it is Resource.Success) {
                 viewModel.saveUserData(it.value)
-                init()
+                init(it.value.activeCompany.banks)
             } else if (it is Resource.Failure) {
                 handleApiError(binding.rvBank, it)
             }
@@ -104,6 +105,8 @@ class TopUpActivity : AppCompatActivity() {
             scrollViewOnTop = scrollY == 0
             binding.swipeRefresh.isEnabled = rvBankOnTop && scrollViewOnTop
         }
+
+        getUserInfo()
     }
 
 
@@ -112,9 +115,9 @@ class TopUpActivity : AppCompatActivity() {
         viewModel.checkCredential()
     }
 
-    fun init(){
+    fun init(bankList: List<String> = listOf()){
         val userData = viewModel.getUserData()
-        val banks: List<String> = userData.activeCompany.banks
+        val banks: List<String> = bankList.ifEmpty { userData.activeCompany.banks }
         val balance = viewModel.getBalanceData().balance
 
         if (banks.contains("IDN")) {
@@ -140,9 +143,12 @@ class TopUpActivity : AppCompatActivity() {
             progressbar.visible(false)
             tvBalance.text = Utils.formatCurrency(balance)
         }
+        initAdapterBank(banks)
 
+        viewModel.getVa()
+    }
 
-        bankAdapter = BankAdapter()
+    fun initAdapterBank(banks: List<String>){
         bankAdapter.setOnItemClickListener { view ->
             val bankName = view!!.tag as String
 
@@ -181,8 +187,6 @@ class TopUpActivity : AppCompatActivity() {
             }
         }
         bankAdapter.setBanks(banks as ArrayList<String>)
-
-        viewModel.getVa()
     }
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()
