@@ -76,6 +76,7 @@ class DonationActivity : AppCompatActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             page = 0
             getData(true)
+            donationAdapter.clear()
             binding.swipeRefresh.isRefreshing = false
         }
 

@@ -94,6 +94,8 @@ class DonationDetailActivity : AppCompatActivity() {
                 binding.root.snackbar(resources.getString(R.string.donation_is_empty))
             } else if(intAmount != null && intAmount < 10){
                 binding.root.snackbar(resources.getString(R.string.donation_minimum))
+            } else if(intAmount != null && intAmount>balance){
+                binding.root.snackbar(resources.getString(R.string.insufficient_balance))
             }else{
                 val accountId = viewModel.getUserData().user.accounts[0].id
                 val body = DonationPayDto(

@@ -24,6 +24,11 @@ class DonationAdapter(private val context: Context) : RecyclerView.Adapter<Donat
         notifyDataSetChanged()
     }
 
+    fun clear() {
+        this.list.clear()
+        notifyDataSetChanged()
+    }
+
     fun setOnItemClickListener(onItemClickListener: View.OnClickListener) {
         this.onItemClickListener = onItemClickListener
     }
