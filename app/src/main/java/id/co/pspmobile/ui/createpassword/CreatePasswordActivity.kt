@@ -232,6 +232,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                         waEmpty = true
                     }
 
+                    binding.btnCreatePassword.isEnabled = !emailEmpty && !waEmpty
                     wasInputted = true
                 }
             }
