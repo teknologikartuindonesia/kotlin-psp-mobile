@@ -127,6 +127,11 @@ class BottomSheetReceiptFragment(
             }
 
             else -> {
+                getBitmapUriFromView(requireContext(), binding.basePanel)?.let { it1 ->
+                    shareApp(
+                        it1
+                    )
+                }
             }
         }
         binding.tvStatusPayment.setOnClickListener {
@@ -134,7 +139,6 @@ class BottomSheetReceiptFragment(
                 "TAG",
                 getBitmapUriFromView(requireActivity(), binding.parentNameContainer).toString()
             )
-            shareApp()
         }
 
         Log.e("r", invoice.detail.toString())
@@ -320,20 +324,33 @@ class BottomSheetReceiptFragment(
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path =
-            MediaStore.Images.Media.insertImage(requireContext().contentResolver, inImage, "Title", null)
+            MediaStore.Images.Media.insertImage(
+                requireContext().contentResolver,
+                inImage,
+                "Title",
+                null
+            )
         return Uri.parse(path)
     }
 
-    private fun shareApp() {
-        val bitmapUri = getBitmapFromView(binding.basePanel)
-        val uri = getImageUri(bitmapUri)
-        val share = Intent.createChooser(Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.invoice))
-            putExtra(Intent.EXTRA_STREAM, bitmapUri)
-            data = uri
-            type = "image/jpeg"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }, null)
+    //    private fun shareApp() {
+//        val bitmapUri = getBitmapFromView(binding.basePanel)
+//        val uri = getImageUri(bitmapUri)
+//        val share = Intent.createChooser(Intent().apply {
+//            action = Intent.ACTION_SEND
+//            putExtra(Intent.EXTRA_TEXT, getString(R.string.invoice))
+//            putExtra(Intent.EXTRA_STREAM, bitmapUri)
+//            data = uri
+//            type = "image/jpeg"
+//            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//        }, null)
+//    }
+    private fun shareApp(bitmapUri: Uri) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+        intent.type = "image/jpeg"
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        requireContext().startActivity(Intent.createChooser(intent, "Bagikan bukti pembayaran"))
     }
 }

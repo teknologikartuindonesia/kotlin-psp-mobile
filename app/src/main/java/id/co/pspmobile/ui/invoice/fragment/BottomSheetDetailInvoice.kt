@@ -174,20 +174,20 @@ class BottomSheetDetailInvoice(
                     )
                 }
                 btnShare.setOnClickListener {
-                    getBitmapUriFromView(requireContext(),binding.basePanel)?.let { it1 ->
-                        shareApp(
-                            it1
-                        )
-                    }
-//                    val args = Bundle()
-//                    args.putString("key_data", "share")
-//                    val bottomSheetDialogFragment: BottomSheetDialogFragment =
-//                        BottomSheetReceiptFragment(invoice)
-//                    bottomSheetDialogFragment.arguments = args
-//                    bottomSheetDialogFragment.show(
-//                        (requireActivity()).supportFragmentManager,
-//                        bottomSheetDialogFragment.tag
-//                    )
+//                    getBitmapUriFromView(requireContext(),binding.basePanel)?.let { it1 ->
+//                        shareApp(
+//                            it1
+//                        )
+//                    }
+                    val args = Bundle()
+                    args.putString("key_data", "share")
+                    val bottomSheetDialogFragment: BottomSheetDialogFragment =
+                        BottomSheetReceiptFragment(invoice)
+                    bottomSheetDialogFragment.arguments = args
+                    bottomSheetDialogFragment.show(
+                        (requireActivity()).supportFragmentManager,
+                        bottomSheetDialogFragment.tag
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "onCreateView: ", e)
