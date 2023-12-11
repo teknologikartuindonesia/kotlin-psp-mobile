@@ -224,4 +224,6 @@
     <string name="donation_is_empty">Jumlah donasi harus diisi</string>
     <string name="donation_minimum">Donasi minimal Rp 10</string>
     <string name="others_menu">Menu Lainnya</string>
+    <string name="transaction_unlimited">Transaksi Tak Terbatas</string>
+    <string name="adjustment_limit">Penyesuaian batas kartu akan berubah di hari berikutnya.</string>
 </resources>

@@ -226,4 +226,6 @@
     <string name="donation_is_empty">Amount of donation cant empty</string>
     <string name="donation_minimum">Minimum amount Rp 10</string>
     <string name="others_menu">Others Menu</string>
+    <string name="transaction_unlimited">Transaction Unlimited</string>
+    <string name="adjustment_limit">The adjustment of card limits will be changed on the following day.</string>
 </resources>

@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Atur Batas"/>
+            android:text="@string/set_limit"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
         android:textColor="@color/danger"
         android:textSize="10dp"
         android:fontFamily="@font/montserrat"
-        android:text="Penyesuaian batas kartu akan berubah di hari berikutnya"/>
+        android:text="@string/adjustment_limit"/>
 
     <LinearLayout
         android:id="@+id/container_nominal"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
-            android:text="Batas Akumulasi Maksimal"
+            android:text="@string/maximum_limit"
             android:layout_marginVertical="12dp"
             android:textSize="14dp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
-            android:text="Batas Harian"
+            android:text="@string/daily_limit"
             android:layout_marginVertical="12dp"
             android:textSize="14dp"
             android:textStyle="bold" />
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:layout_weight="1"
-            android:text="Transaksi tak Terbatas"
+            android:text="@string/transaction_unlimited"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
             android:id="@+id/btn_cancel"
             android:layout_width="130dp"
             android:layout_height="48dp"
-            android:text="Batal"
+            android:text="@string/cancel"
             android:textSize="14dp"
             android:fontFamily="@font/montserrat_bold"
             android:background="@drawable/bg_button_red"/>
@@ -139,7 +139,7 @@
             android:id="@+id/btn_save"
             android:layout_width="130dp"
             android:layout_height="48dp"
-            android:text="Simpan"
+            android:text="@string/save"
             android:textSize="14dp"
             android:fontFamily="@font/montserrat_bold"
             android:background="@drawable/bg_button_blue"/>
@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_retry"
         android:layout_centerHorizontal="true"
-        android:text="Data tidak ditemukan"
+        android:text="@string/data_empty"
         android:visibility="gone"
         tools:visibility="visible" />
 
