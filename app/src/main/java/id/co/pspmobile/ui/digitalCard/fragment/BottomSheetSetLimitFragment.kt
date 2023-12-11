@@ -106,14 +106,22 @@ class BottomSheetSetLimitFragment(
                     viewModel.updateDigitalCard(modelDigitalCard)
                 }
                 if (switchUnlimitedTransaction.isChecked != userData.user.accounts[0].transactionUnlimited) {
-                    isDifference = true
-                    userData.user.accounts[0].transactionUnlimited =
-                        switchUnlimitedTransaction.isChecked
-                    if (userData.user.socmedAccounts == null) userData.user.socmedAccounts = mutableListOf()
-                    if (userData.user.address == null) userData.user.address = ""
 
-                    viewModel.updateAccount(userData.user, modelDigitalCard)
-                    (activity as DigitalCardActivity?)?.refreshLastSync()
+                    try {
+                        isDifference = true
+                        userData.user.accounts[0].transactionUnlimited =
+                            switchUnlimitedTransaction.isChecked
+                        if (userData.user.socmedAccounts == null) userData.user.socmedAccounts =
+                            mutableListOf()
+                        if (userData.user.address == null) userData.user.address = ""
+
+                        viewModel.updateAccount(userData.user, modelDigitalCard)
+                        (activity as DigitalCardActivity?)?.refreshLastSync()
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
 
                 }
 
