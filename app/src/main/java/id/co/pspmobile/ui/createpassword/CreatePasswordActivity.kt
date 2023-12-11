@@ -60,7 +60,7 @@ class CreatePasswordActivity : AppCompatActivity() {
             sendCreatePassword()
         }
 
-        binding.edOldPassword.setText(viewModel.getPassword())
+        binding.edOldPassword.setText(oldPass.ifEmpty { viewModel.getPassword() })
 
         checkRole()
 
