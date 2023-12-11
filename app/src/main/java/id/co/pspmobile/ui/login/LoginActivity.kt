@@ -58,6 +58,8 @@ class LoginActivity : AppCompatActivity() {
             if (it is Resource.Success) {
                 viewModel.saveUsername(binding.edUsername.text.toString())
                 viewModel.savePassword(binding.edPassword.text.toString())
+                binding.edPassword.setText("")
+//                binding.edUsername.setText("")
                 if (it.value.firstLogin) {
                     // go to create password
                     val i = Intent(this, CreatePasswordActivity::class.java)
@@ -68,13 +70,14 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.checkCredential()
                 }
             } else if (it is Resource.Failure) {
-                if (it.errorCode == 401){
+                if (it.errorCode == 401) {
                     binding.root.snackbar(resources.getString(R.string.wrong_username_password))
                 }
             }
         }
 
-        binding.btnForgotPassword.paintFlags = binding.btnForgotPassword.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.btnForgotPassword.paintFlags =
+            binding.btnForgotPassword.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         binding.btnCs.setOnClickListener {
             val intent = Intent(this, FaqActivity::class.java)
@@ -180,10 +183,10 @@ class LoginActivity : AppCompatActivity() {
             binding.lineBtnBiometric.visible(true)
         }
 
-        viewModel.broadcastResponse.observe(this){
-            if (it is Resource.Success){
+        viewModel.broadcastResponse.observe(this) {
+            if (it is Resource.Success) {
                 val broadcastResponse = it.value
-                if (broadcastResponse.content.isNotEmpty()){
+                if (broadcastResponse.content.isNotEmpty()) {
                     val x = supportFragmentManager
                     val dialogBroadcast = DialogBroadcast(
                         broadcastResponse.content[0],
@@ -196,7 +199,7 @@ class LoginActivity : AppCompatActivity() {
         getActiveBroadcast()
     }
 
-    fun getActiveBroadcast(){
+    fun getActiveBroadcast() {
         viewModel.getBroadcastMessage()
     }
 
