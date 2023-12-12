@@ -99,7 +99,7 @@ class DonationDetailActivity : AppCompatActivity() {
             }else{
                 val accountId = viewModel.getUserData().user.accounts[0].id
                 val body = DonationPayDto(
-                    accountId,"",
+                    accountId!!,"",
                     amount.toInt()?:0,true,
                     "PSP Mobile", donationDto.id)
                 viewModel.donate(body)

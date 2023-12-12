@@ -53,11 +53,11 @@ class DialogCS: DialogFragment() {
         binding.btnSubmit.setOnClickListener {
             if (isFromHome){
                 val userData = viewModel.getUserData()
-                name = userData.user.name
+                name = userData.user.name!!
                 if (userData.user.accounts[0].callerIdentities.size == 1){
-                    callerName = userData.user.accounts[0].callerIdentities[0].name
+                    callerName = userData.user.accounts[0].callerIdentities[0].name!!
                 } else if (userData.user.accounts[0].callerIdentities.size > 1){
-                    callerName = userData.user.accounts[0].callerIdentities[0].name
+                    callerName = userData.user.accounts[0].callerIdentities[0].name!!
                     for (i in 1 until userData.user.accounts[0].callerIdentities.size){
                         callerName += ", ${userData.user.accounts[0].callerIdentities[i].name}"
                     }
@@ -65,7 +65,7 @@ class DialogCS: DialogFragment() {
                     callerName = ""
                 }
                 name = "$name orang tua dari $callerName"
-                institute = userData.activeCompany.name
+                institute = userData.activeCompany.name!!
             }else{
                 name = binding.edNameCs.text.toString()
                 institute = binding.edInstituteCs.text.toString()

@@ -27,7 +27,7 @@ class AccountAdapter : RecyclerView.Adapter<AccountAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(callerIdentity: CallerIdentity) {
             with(binding) {
-                if (callerIdentity.photoUrl.isNotEmpty()) {
+                if (callerIdentity.photoUrl!!.isNotEmpty()) {
                     Picasso.get()
                         .load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas")
                         .noFade().fit()

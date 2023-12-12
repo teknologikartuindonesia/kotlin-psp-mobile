@@ -57,30 +57,46 @@ class InvoicePaymentActivity : AppCompatActivity() {
         binding.apply {
             edNominal.addTextChangedListener(NumberTextWatcher(binding.edNominal));
             btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+
+            val unpaidAmount = invoice.amount - invoice.paidAmount
+            edNominal.setText("0")
+            val inputNominal = edNominal.text.toString().trim().replace(".", "")
+                .replace(",", "").toInt()
             btnPay.isEnabled = false
 
             edNominal.addTextChangedListener {
                 try {
-                    var amountInput = it.toString().trim().replace(".", "").replace(",", "").toInt()
-                    if ((amountInput < 10000) && (invoice.amount.toInt() - invoice.paidAmount.toInt()) > 10000) {
+                    val edValue =
+                        it.toString().trim().replace(".", "").replace(",", "").toInt()
+
+                    if (unpaidAmount >= 10000) {
                         btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
                         btnPay.isEnabled = false
-                        alertNominal.text = resources.getString(R.string.minimum_payment)
-                        alertNominal.visibility = View.VISIBLE
+
+                        if (edValue.toInt()
+                            > balance.toInt()
+                        ) {
+                            alertNominal.text = resources.getString(R.string.insufficient_balance)
+                            alertNominal.visibility = View.VISIBLE
+                        } else if (edValue.toInt()
+                            > unpaidAmount
+                        ) {
+                            alertNominal.text =
+                                resources.getString(R.string.input_amount_cant_more_than_unpaid)
+                            alertNominal.visibility = View.VISIBLE
+                        } else if (edValue.toInt() < 10000) {
+                            alertNominal.text =
+                                resources.getString(R.string.minimum_payment)
+                            alertNominal.visibility = View.VISIBLE
+                        } else {
+                            alertNominal.visibility = View.GONE
+                            btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                            btnPay.isEnabled = true
+                            Log.d("partialMethod", "validation is true")
+                        }
 
                     }
-//                    else if (balance.toInt() < (invoice.amount - invoice.paidAmount)) {
-//                        btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
-//                        btnPay.isEnabled = false
-//                        alertNominal.text = resources.getString(R.string.insufficient_balance)
-//                        alertNominal.visibility = View.VISIBLE
-//
-//                    }
-                    else {
-                        btnPay.setBackgroundColor(resources.getColor(R.color.primary))
-                        btnPay.isEnabled = true
-                        alertNominal.visibility = View.INVISIBLE
-                    }
+
                 } catch (e: Exception) {
 
                 }
@@ -88,6 +104,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
             tvInvoiceName.text = invoice?.title
             tvInvoiceNameDetail.text = invoice?.title
+
             if (invoice!!.showDetail) {
                 rvDetailInvoice.visibility = View.VISIBLE
             } else {
@@ -107,14 +124,15 @@ class InvoicePaymentActivity : AppCompatActivity() {
             tvShowAll.text = resources.getString(android.R.string.cut)
             tvInvoiceDescription.text = Utils.subString(invoice.description!!, 0, 100) + "..."
             tvShowAll.setOnClickListener {
+
                 when (tvShowAll.text) {
                     "Tampilkan Semua" -> {
-                        tvShowAll.text = "Tampilkan lebih sedikit"
+                        tvShowAll.text = getString(R.string.show_less)
                         tvInvoiceDescription.text = invoice.description
                     }
 
                     else -> {
-                        tvShowAll.text = "Tampilkan Semua"
+                        tvShowAll.text = getString(R.string.show_all)
                         tvInvoiceDescription.text =
                             invoice.description!!.length.toString().subSequence(0, 100)
                     }
@@ -127,74 +145,74 @@ class InvoicePaymentActivity : AppCompatActivity() {
             tvDueDate.text = invoice.dueDate
             tvPaid.text = Utils.formatCurrency(invoice.paidAmount)
             tvMinus.text = Utils.formatCurrency(invoice.amount - invoice.paidAmount)
+
+
+
             if (invoice.partialMethod) {
-                containerNominal.visibility = View.VISIBLE
-                when (viewModel.getLanguage().toString()) {
-                    "en" -> tvType.text = "CREDIT"
-                    else -> tvType.text = "KREDIT"
-                }
-                if ((invoice.amount.toInt() - invoice.paidAmount.toInt()) < 10000) {
-                    btnPay.setBackgroundColor(resources.getColor(R.color.primary))
-                    btnPay.isEnabled = true
-                    edNominal.setText(invoice.amount.toBigDecimal().toString())
-                    edNominal.isEnabled = false
-                    alertNominal.text = resources.getString(R.string.minimum_payment)
-                    alertNominal.visibility = View.INVISIBLE
-                }
+                tvType.text = getString(R.string.credit)
                 if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
-                    when (viewModel.getLanguage().toString()) {
-                        "en" -> tvStatus.text = "Paid Off"
-                        else -> tvStatus.text = "Lunas"
-                    }
+                    tvStatus.text = getString(R.string.paid)
                 } else {
                     if (invoice.paidAmount.toInt() == 0) {
-                        when (viewModel.getLanguage().toString()) {
-                            "en" -> tvStatus.text = "Unpaid"
-                            else -> tvStatus.text = "Belum Terbayar"
-                        }
+                        tvStatus.text = getString(R.string.unpaid)
                     } else {
-                        when (viewModel.getLanguage().toString()) {
-                            "en" -> tvStatus.text = "Partially Paid"
-                            else -> tvStatus.text = "Terbayar Sebagian"
-                        }
+                        tvStatus.text = getString(R.string.partially_paid)
                     }
 
+                }
+
+                if (unpaidAmount < 10000) {
+                    btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                    btnPay.isEnabled = true
+                    edNominal.setText(unpaidAmount.toDouble().toString())
+                    edNominal.isEnabled = false
+
+                    if (inputNominal.toInt() > balance.toInt()
+                    ) {
+                        alertNominal.text =
+                            resources.getString(R.string.insufficient_balance)
+                        alertNominal.visibility = View.VISIBLE
+                    } else if (inputNominal.toInt()
+                        > unpaidAmount
+                    ) {
+                        alertNominal.text =
+                            resources.getString(R.string.input_amount_cant_more_than_unpaid)
+                        alertNominal.visibility = View.VISIBLE
+                    } else {
+                        Log.d("partialMethod", "validation is true")
+                    }
                 }
 
             } else {
-                containerNominal.visibility = View.GONE
-                btnPay.setBackgroundColor(resources.getColor(R.color.primary))
-                btnPay.isEnabled = true
-                when (viewModel.getLanguage().toString()) {
-                    "en" -> tvType.text = "CASH"
-                    else -> tvType.text = "TUNAI"
-                }
+                // is not partial
+                edNominal.visibility = View.GONE
+                tvDetailTag.visibility = View.GONE
+                tvType.text = getString(R.string.cash)
 
-                if ((invoice.amount - invoice.paidAmount).toInt() == 0) {
-                    when (viewModel.getLanguage().toString()) {
-                        "en" -> tvStatus.text = "Paid Off"
-                        else -> tvStatus.text = "Lunas"
-                    }
+                if (unpaidAmount.toInt() == 0) {
+                    tvStatus.text = getString(R.string.paid)
                 } else {
-                    if ((invoice.paidAmount.toInt() == 0)) {
-                        when (viewModel.getLanguage().toString()) {
-                            "en" -> tvStatus.text = "Unpaid"
-                            else -> tvStatus.text = "Belum Terbayar"
-                        }
-                    } else {
-                        when (viewModel.getLanguage().toString()) {
-                            "en" -> tvStatus.text = "Partially Paid"
-                            else -> tvStatus.text = "Terbayar Sebagian"
-                        }
+                    if (invoice.paidAmount.toInt() == 0) {
+                        tvStatus.text = getString(R.string.unpaid)
                     }
                 }
 
+                btnPay.setBackgroundColor(resources.getColor(R.color.grey_font))
+                btnPay.isEnabled = false
+                if (unpaidAmount.toInt() > balance
+                ) {
+                    alertNominal.text =
+                        resources.getString(R.string.note) + " " + resources.getString(R.string.insufficient_balance)
+                    alertNominal.visibility = View.VISIBLE
+                } else {
+                    btnPay.setBackgroundColor(resources.getColor(R.color.primary))
+                    btnPay.isEnabled = true
+                    Log.d("nonPartialMethod", "validation is true")
+                }
             }
+
             tvAmount.text = Utils.formatCurrency(invoice.amount)
 
-            for (i in invoice.detail) {
-
-            }
             detailInvoiceAdapter.setDetail(invoice.detail)
             rvDetailInvoice.setHasFixedSize(true)
             rvDetailInvoice.layoutManager = layoutManager
@@ -202,24 +220,12 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
             btnPay.setOnClickListener {
                 if (invoice.partialMethod) {
-                    if ((invoice.amount - invoice.paidAmount).toInt() != 0 && (invoice.amount - invoice.paidAmount) < 10000 && invoice.amount > 10000) {
-                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
-                        alertNominal.visibility = View.VISIBLE
-                    } else if (balance.toInt() < edNominal.text.toString().trim().replace(".", "")
-                            .replace(",", "").toInt()
-                    ) {
-                        alertNominal.text = resources.getString(R.string.insufficient_balance)
-                        alertNominal.visibility = View.VISIBLE
-                    } else {
-                        alertNominal.visibility = View.INVISIBLE
-                        alertNominal.text = resources.getString(R.string.minimum_payment_input)
-                        OpenCustomDialog(
-                            resources.getString(R.string.confirmation),
-                            resources.getString(R.string.are_you_sure_to_pay),
-                            "invoice",
-                            "partial"
-                        )
-                    }
+                    OpenCustomDialog(
+                        resources.getString(R.string.confirmation),
+                        resources.getString(R.string.are_you_sure_to_pay),
+                        "invoice",
+                        "partial"
+                    )
                 } else {
                     OpenCustomDialog(
                         resources.getString(R.string.confirmation),

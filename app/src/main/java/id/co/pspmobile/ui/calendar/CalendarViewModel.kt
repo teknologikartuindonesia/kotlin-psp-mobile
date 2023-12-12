@@ -33,6 +33,6 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun getCompanyId(): String {
-        return userPreferences.getUserData().activeCompany.id
+        return userPreferences.getUserData().activeCompany.id!!
     }
 }

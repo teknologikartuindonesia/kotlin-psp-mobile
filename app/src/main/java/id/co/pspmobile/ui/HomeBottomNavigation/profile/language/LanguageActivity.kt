@@ -82,7 +82,7 @@ class LanguageActivity : AppCompatActivity() {
         viewModel.saveLanguage(language!!)
         if(viewModel.getUserData().activeCompany.customApps){
             viewModel.getCustomApp(
-                viewModel.getUserData().activeCompany.id,
+                viewModel.getUserData().activeCompany.id!!,
                 if (language == "en") "EN" else "ID"
             )
         }else{

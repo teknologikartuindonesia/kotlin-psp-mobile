@@ -39,7 +39,7 @@ class AttendanceDetailActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            if (callerIdentity!!.photoUrl.isNotEmpty()) {
+            if (callerIdentity!!.photoUrl!!.isNotEmpty()) {
                 Picasso.get().load(viewModel.getBaseUrl() + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas").noFade().fit()
                     .into(ivPhoto);
             }
@@ -62,7 +62,7 @@ class AttendanceDetailActivity : AppCompatActivity() {
                         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         selectedDate = formatter.format(selectedCalendar.time)
 
-                        viewModel.getAttendance(callerIdentity.callerId, selectedDate)
+                        viewModel.getAttendance(callerIdentity.callerId!!, selectedDate)
                     },
                     selectedDate.split("-")[0].toInt(),
                     selectedDate.split("-")[1].toInt() - 1,
@@ -98,7 +98,7 @@ class AttendanceDetailActivity : AppCompatActivity() {
 
         selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
         viewModel.getAttendance(
-            callerIdentity!!.callerId,
+            callerIdentity!!.callerId!!,
             selectedDate
         )
 

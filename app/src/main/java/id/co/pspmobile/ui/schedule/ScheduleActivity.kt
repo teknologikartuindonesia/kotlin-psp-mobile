@@ -44,7 +44,7 @@ class ScheduleActivity : AppCompatActivity() {
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        companyId = viewModel.getUser().activeCompany.id
+        companyId = viewModel.getUser().activeCompany.id!!
 
         binding.progressBar.visible(false)
 
@@ -71,7 +71,7 @@ class ScheduleActivity : AppCompatActivity() {
                         break
                     }
                 }
-                getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+                getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
             }
             else if (it is Resource.Failure){
 //                handleApiError(binding.root, it)
@@ -158,7 +158,7 @@ class ScheduleActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // Handle item selection if needed
                 selectedCaller = callers[position]
-                getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+                getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -176,10 +176,10 @@ class ScheduleActivity : AppCompatActivity() {
         val index = days.indexOf(currentDay)
         if (index > 0){
             currentDay = days[index - 1]
-            getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+            getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
         } else if (index == 0){
             currentDay = days[6]
-            getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+            getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
         }
         configureAsset()
     }
@@ -228,10 +228,10 @@ class ScheduleActivity : AppCompatActivity() {
         val index = days.indexOf(currentDay)
         if (index < 6){
             currentDay = days[index + 1]
-            getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+            getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
         } else if (index == 6){
             currentDay = days[0]
-            getSchedulePerDay(selectedYear, selectedCaller.callerId, currentDay)
+            getSchedulePerDay(selectedYear, selectedCaller.callerId!!, currentDay)
         }
         configureAsset()
     }

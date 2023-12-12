@@ -226,4 +226,11 @@
     <string name="others_menu">Menu Lainnya</string>
     <string name="transaction_unlimited">Transaksi Tak Terbatas</string>
     <string name="adjustment_limit">Penyesuaian batas kartu akan berubah di hari berikutnya.</string>
+    <string name="input_amount_cant_more_than_unpaid">Nominal tagihan melebihi jumlah sisa tagihan</string>
+    <string name="credit">KREDIT</string>
+    <string name="unpaid">Belum Terbayar</string>
+    <string name="partially_paid">Terbayar Sebagian</string>
+    <string name="show_less">Tampilkan lebih sedikit</string>
+    <string name="show_all">Tampilkan semua</string>
+    <string name="cash">TUNAI</string>
 </resources>

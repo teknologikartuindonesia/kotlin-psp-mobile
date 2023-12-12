@@ -35,7 +35,7 @@ class AttendanceAdapter : RecyclerView.Adapter<AttendanceAdapter.ViewHolder>() {
             itemView.setOnClickListener(onItemClickListener)
 
             with(binding) {
-                if (callerIdentity.photoUrl.isNotEmpty()) {
+                if (callerIdentity.photoUrl!!.isNotEmpty()) {
                     Picasso.get().load(baseUrl + "/main_a/image/get/" + callerIdentity.photoUrl + "/pas").noFade().fit()
                         .into(ivPhoto);
                 }

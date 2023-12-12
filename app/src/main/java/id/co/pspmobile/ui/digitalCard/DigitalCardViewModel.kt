@@ -78,28 +78,28 @@ class DigitalCardViewModel @Inject constructor(
             tags = user.tags.split(",")
         }
         val userReqDto = UserReqDto(
-            user.name,
+            user.name!!,
             user.phone.toString(),
             user.email.toString(),
-            user.address,
-            user.nik,
-            user.gender,
-            user.placeOfBirth,
-            user.dateOfBirth,
-            user.religion,
-            user.maritalStatus,
-            user.photoUrl,
+            user.address!!,
+            user.nik!!,
+            user.gender!!,
+            user.placeOfBirth!!,
+            user.dateOfBirth!!,
+            user.religion!!,
+            user.maritalStatus!!,
+            user.photoUrl!!,
             user.socmedAccounts,
             user.accounts[0].active,
             user.accounts[0].transactionUnlimited,
             user.accounts[0].roles,
-            callerIdentity!!.callerId,
-            callerIdentity!!.name,
-            callerIdentity!!.title,
+            callerIdentity!!.callerId!!,
+            callerIdentity!!.name!!,
+            callerIdentity!!.title!!,
             tags,
             user.banks,
             user.accounts[0].sourceOfFund,
-            user.accounts[0].note)
+            user.accounts[0].note!!)
 
         _updateAccount.value = userRepository.updateAccount(userReqDto)
     }

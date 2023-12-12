@@ -118,7 +118,7 @@ class MenuActivity : AppCompatActivity() {
         menuAdapter.setMenuList(
             menuArray,
             viewModel.getBaseUrl(),
-            viewModel.getUserData().activeCompany.id
+            viewModel.getUserData().activeCompany.id!!
         )
         rv.adapter = menuAdapter
     }

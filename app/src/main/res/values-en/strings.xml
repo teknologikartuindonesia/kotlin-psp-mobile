@@ -227,4 +227,11 @@
     <string name="others_menu">Others Menu</string>
     <string name="transaction_unlimited">Transaction Unlimited</string>
     <string name="adjustment_limit">The adjustment of card limits will be changed on the following day.</string>
+    <string name="input_amount_cant_more_than_unpaid">The input amount must not exceed the remaining amp billing.</string>
+    <string name="credit">CREDIT</string>
+    <string name="unpaid">Unpaid</string>
+    <string name="partially_paid">Partially Paid</string>
+    <string name="show_less">Show Less</string>
+    <string name="show_all">Show All</string>
+    <string name="cash">CASH</string>
 </resources>

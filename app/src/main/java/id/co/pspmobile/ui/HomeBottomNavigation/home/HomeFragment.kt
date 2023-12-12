@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
                 viewModel.saveUserData(checkCredentialResponse)
                 if (checkCredentialResponse.activeCompany.customApps) {
                     viewModel.getCustomApp(
-                        checkCredentialResponse.activeCompany.id,
+                        checkCredentialResponse.activeCompany.id!!,
                         viewModel.getLanguage().uppercase()
                     )
                 } else {
@@ -258,7 +258,7 @@ class HomeFragment : Fragment() {
                 setupUICustomApp(viewModel.getLocalCustomApp()!!)
             } else {
                 viewModel.getCustomApp(
-                    viewModel.getUserData().activeCompany.id,
+                    viewModel.getUserData().activeCompany.id!!,
                     viewModel.getLanguage().uppercase()
                 )
             }
@@ -352,7 +352,7 @@ class HomeFragment : Fragment() {
             menuAdapter.setMenuList(
                 limitedMenuList,
                 viewModel.getBaseUrl(),
-                viewModel.getUserData().activeCompany.id
+                viewModel.getUserData().activeCompany.id!!
             )
             rv.adapter = menuAdapter
             showImage(binding.imgHomeLogo, custom.app_icon_url)
