@@ -117,6 +117,7 @@ class BottomSheetPaymentSuccessInvoice(
                 formatCurrency(invoicePayment.inquiryResponseDto.amount)
 
             Log.e("r", invoice.detail.toString())
+
             detailInvoiceAdapter.setDetail(invoice.detail)
             rvDetailInvoice.setHasFixedSize(true)
             rvDetailInvoice.layoutManager = layoutManager
@@ -138,12 +139,6 @@ class BottomSheetPaymentSuccessInvoice(
                 intent.putExtra("finish", "finish")
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             }
-
-            Log.e("r", invoice.detail.toString())
-            detailInvoiceAdapter.setDetail(invoice.detail)
-            rvDetailInvoice.setHasFixedSize(true)
-            rvDetailInvoice.layoutManager = layoutManager
-            rvDetailInvoice.adapter = detailInvoiceAdapter
 
         }
 

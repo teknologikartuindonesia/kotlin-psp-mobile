@@ -71,6 +71,7 @@ class InvoiceAdapter(private val context: Context,private val viewModel: Invoice
 
     fun clear() {
         list.clear()
+        Log.e("list", "list ${list.size}")
         notifyItemRangeRemoved(0, itemCount)
     }
 

@@ -119,8 +119,9 @@ class InvoiceFragment() : Fragment() {
             if (reload == "reload") {
                 invoiceAdapter.clear()
                 invoiceAdapter.notifyDataSetChanged()
-                viewModel.getUnpaidInvoice(0)
                 page = 0
+                totalContent = 0
+                viewModel.getUnpaidInvoice(0)
             }
         }
     }
