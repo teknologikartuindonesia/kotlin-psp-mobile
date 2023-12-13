@@ -16,7 +16,7 @@ class InvoiceRepository @Inject constructor (
         size: Int
     ) : Resource<InvoiceResDto> = safeApiCall(
         {
-            api.getUnpaidInvoice("invoiceDate,Desc", page, size)
+            api.getUnpaidInvoice("createDate,Desc", page, size)
         },
         userPreferences
     )

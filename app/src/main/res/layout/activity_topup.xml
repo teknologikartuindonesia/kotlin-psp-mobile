@@ -168,6 +168,7 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="20dp"
                         android:overScrollMode="never"
+                        tools:itemCount="34"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/adapter_bank" />

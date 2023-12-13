@@ -1,6 +1,7 @@
 package id.co.pspmobile.ui.topup
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class MerchantAdapter : RecyclerView.Adapter<MerchantAdapter.ViewHolder>() {
     @SuppressLint("NotifyDataSetChanged")
     fun setMerchants(list: List<String>) {
         this.list = list
+        Log.e("list", "list ${this.list}")
         notifyDataSetChanged()
     }
 
@@ -29,7 +31,7 @@ class MerchantAdapter : RecyclerView.Adapter<MerchantAdapter.ViewHolder>() {
             with(binding) {
                 itemView.tag = merchant
                 itemView.setOnClickListener(onItemClickListener)
-
+                Log.e("list", "list ${merchant}")
 
                 when (merchant) {
                     "INDOMARET" -> {

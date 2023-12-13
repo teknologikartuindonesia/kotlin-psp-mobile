@@ -283,7 +283,7 @@ class InvoicePaymentActivity : AppCompatActivity() {
 
     fun paymentCash(invoice: InvoiceDto) {
         viewModel.paymentInvoice(
-            invoice.amount,
+            invoice.amount - invoice.paidAmount,
             invoice.invoiceId!!
         )
     }
