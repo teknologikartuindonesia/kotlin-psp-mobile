@@ -36,8 +36,7 @@ class TopUpActivity : AppCompatActivity() {
         binding = ActivityTopupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        bankAdapter = BankAdapter()
-        bankAdapter.setBanks(arrayListOf())
+        init()
         binding.swipeRefresh.setOnRefreshListener {
             getUserInfo()
             binding.swipeRefresh.isRefreshing = false
@@ -61,7 +60,6 @@ class TopUpActivity : AppCompatActivity() {
             }
             if (it is Resource.Success) {
                 viewModel.getVa()
-                Toast.makeText(this, resources.getString(R.string.va_has_been_created), Toast.LENGTH_SHORT).show()
             } else if (it is Resource.Failure) {
                 handleApiError(binding.rvBank, it)
             }
@@ -74,7 +72,7 @@ class TopUpActivity : AppCompatActivity() {
             }
             if (it is Resource.Success) {
                 viewModel.saveUserData(it.value)
-                init(it.value.activeCompany.banks)
+                init()
             } else if (it is Resource.Failure) {
                 handleApiError(binding.rvBank, it)
             }
@@ -105,8 +103,6 @@ class TopUpActivity : AppCompatActivity() {
             scrollViewOnTop = scrollY == 0
             binding.swipeRefresh.isEnabled = rvBankOnTop && scrollViewOnTop
         }
-
-        getUserInfo()
     }
 
 
@@ -115,9 +111,9 @@ class TopUpActivity : AppCompatActivity() {
         viewModel.checkCredential()
     }
 
-    fun init(bankList: List<String> = listOf()){
+    fun init(){
         val userData = viewModel.getUserData()
-        val banks: List<String> = bankList.ifEmpty { userData.activeCompany.banks }
+        val banks: List<String> = userData.activeCompany.banks
         val balance = viewModel.getBalanceData().balance
 
         if (banks.contains("IDN")) {
@@ -143,12 +139,9 @@ class TopUpActivity : AppCompatActivity() {
             progressbar.visible(false)
             tvBalance.text = Utils.formatCurrency(balance)
         }
-        initAdapterBank(banks)
 
-        viewModel.getVa()
-    }
 
-    fun initAdapterBank(banks: List<String>){
+        bankAdapter = BankAdapter()
         bankAdapter.setOnItemClickListener { view ->
             val bankName = view!!.tag as String
 
@@ -187,6 +180,8 @@ class TopUpActivity : AppCompatActivity() {
             }
         }
         bankAdapter.setBanks(banks as ArrayList<String>)
+
+        viewModel.getVa()
     }
     private fun showLottieLoader() {
         val loaderDialogFragment = LottieLoaderDialogFragment()

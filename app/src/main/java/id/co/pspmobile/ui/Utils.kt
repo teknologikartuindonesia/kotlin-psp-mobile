@@ -39,9 +39,10 @@ object Utils {
         failure: Resource.Failure,
     ) {
         when {
-            failure.isNetworkError ->  {
+            failure.isNetworkError -> {
                 view.snackbar("Gagal koneksi. Silahkan check kembali koneksi jaringan anda")
             }
+
             failure.errorCode == 401 -> {
                 if (this is LoginActivity) {
                     view.snackbar("Username dan password tidak valid")
@@ -49,21 +50,23 @@ object Utils {
                     this.logout()
                 }
             }
+
             failure.errorCode == 400 -> {
                 if (this is InvoicePaymentActivity) {
                     view.snackbar(failure.errorBody?.string().toString())
-                } else if(this is DonationDetailActivity){
+                } else if (this is DonationDetailActivity) {
                     val error = failure.errorBody?.string().toString()
                     view.snackbar(error)
                 } else {
                     val error = failure.errorBody?.string().toString()
-                    if(!error.isNullOrEmpty()){
+                    if (!error.isNullOrEmpty()) {
                         view.snackbar(error)
-                    }else{
+                    } else {
                         view.snackbar("Mohon Maaf, sedang tidak dapat memproses request anda.")
                     }
                 }
             }
+
             else -> {
                 val error = failure.errorBody?.string().toString()
                 view.snackbar(error)
@@ -71,17 +74,19 @@ object Utils {
         }
     }
 
-//    for Fragment use handle this
+    //    for Fragment use handle this
     fun Fragment.handleFragmentApiError(
         failure: Resource.Failure,
         retry: (() -> Unit)? = null
     ) {
         when {
-            failure.isNetworkError ->  {
+            failure.isNetworkError -> {
                 requireView().snackbar("Gagal koneksi. Silahkan check kembali koneksi jaringan anda")
             }
+
             failure.errorCode == 401 -> {
             }
+
             failure.errorCode == 400 -> {
                 if (this is BottomSheetPaymentSuccessInvoice) {
                     requireView().snackbar("Transaksi Gagal, Silahkan coba beberapa saat lagi.")
@@ -89,6 +94,7 @@ object Utils {
                     this.requireActivity().logout()
                 }
             }
+
             else -> {
                 val error = failure.errorBody?.string().toString()
                 requireView().snackbar(error)
@@ -101,6 +107,7 @@ object Utils {
         runBlocking { userPreferences.saveAccessToken("") }
         startNewActivity(LoginActivity::class.java)
     }
+
     fun Context.logout() {
         val userPreferences = UserPreferences(this)
         runBlocking { userPreferences.saveAccessToken("") }
@@ -108,6 +115,7 @@ object Utils {
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
     }
+
     fun View.snackbar(message: String) {
         val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         val snackbarView = snackbar.view
@@ -134,6 +142,7 @@ object Utils {
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     fun View.visible(isVisible: Boolean) {
         visibility = if (isVisible) View.VISIBLE else View.GONE
     }
@@ -146,13 +155,14 @@ object Utils {
     }
 
     fun copyToClipboard(context: Context, text: String, notificationMessage: String) {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clipboard =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
         val clip = ClipData.newPlainText("Copied Text", text)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(context, notificationMessage, Toast.LENGTH_SHORT).show()
     }
 
-    fun formatCurrency(doubleValue: Double) : String{
+    fun formatCurrency(doubleValue: Double): String {
         val unusualSymbols = DecimalFormatSymbols()
         unusualSymbols.decimalSeparator = ','
         unusualSymbols.groupingSeparator = '.'
@@ -178,10 +188,12 @@ object Utils {
         LEFT,
         RIGHT
     }
+
     enum class SlideType {
         SHOW,
         HIDE
     }
+
     fun View.slideAnimation(direction: SlideDirection, type: SlideType, duration: Long = 250) {
         val fromX: Float
         val toX: Float
@@ -207,18 +219,21 @@ object Utils {
                 fromY = if (type == SlideType.HIDE) 0f else (array[1] + height).toFloat()
                 toY = if (type == SlideType.HIDE) -1f * (array[1] + height) else 0f
             }
+
             SlideDirection.DOWN -> {
                 fromX = 0f
                 toX = 0f
                 fromY = if (type == SlideType.HIDE) 0f else -1f * (array[1] + height)
                 toY = if (type == SlideType.HIDE) 1f * (array[1] + height) else 0f
             }
+
             SlideDirection.LEFT -> {
                 fromX = if (type == SlideType.HIDE) 0f else 1f * (array[0] + width)
                 toX = if (type == SlideType.HIDE) -1f * (array[0] + width) else 0f
                 fromY = 0f
                 toY = 0f
             }
+
             SlideDirection.RIGHT -> {
                 fromX = if (type == SlideType.HIDE) 0f else -1f * (array[0] + width)
                 toX = if (type == SlideType.HIDE) 1f * (array[0] + width) else 0f
@@ -262,6 +277,7 @@ object Utils {
         val loaderDialogFragment = LottieLoaderDialogFragment()
         loaderDialogFragment.show(supportFragmentManager, "lottieLoaderDialog")
     }
+
     fun Activity.hideLottieLoader(supportFragmentManager: FragmentManager) {
         val loaderDialogFragment =
             supportFragmentManager.findFragmentByTag("lottieLoaderDialog") as LottieLoaderDialogFragment?
@@ -281,37 +297,44 @@ object Utils {
         }
     }
 
-    fun getBankShowName(name: String): String{
+    fun getBankShowName(name: String): String {
         return allBanks.find { it.name == name }?.showName ?: name
     }
 
-    fun getBankIcon(name: String): Int{
+    fun getBankIcon(name: String): Int {
         return allBanks.find { it.name == name }?.icon ?: R.drawable.logo_default_bank
     }
 
-    fun getMerchantIcon(merchantName: String): Int{
+    fun getMerchantIcon(merchantName: String): Int {
         when (merchantName) {
             "INDOMARET" -> {
                 return R.drawable.logo_indomaret
             }
+
             "ALFAMART" -> {
                 return R.drawable.logo_alfamart
             }
+
             "GOPAY" -> {
                 return R.drawable.logo_gopay
             }
+
             "TOKOPEDIA" -> {
                 return R.drawable.logo_tokopedia
             }
+
             "SHOPEE" -> {
                 return R.drawable.logo_shopee
             }
+
             "BLIBLI" -> {
                 return R.drawable.logo_blibli
             }
+
             "AYOPOP" -> {
                 return R.drawable.logo_ayopop
             }
+
             else -> {
                 return R.drawable.logo_default_bank
             }
@@ -323,6 +346,7 @@ object Utils {
         val showName: String,
         val icon: Int
     )
+
     private val allBanks = listOf(
         Bank("TKI", "Bank Negara Indonesia", R.drawable.logo_bni),
         Bank("BNI", "Bank Negara Indonesia", R.drawable.logo_bni),
@@ -350,4 +374,10 @@ object Utils {
         Bank("MAYBANK", "Bank Maybank", R.drawable.logo_maybank),
         Bank("OCBC", "Bank OCBC NISP", R.drawable.logo_ocbc)
     )
+
+    fun splitDecimalEndPoint(input: String?): String {
+        val splitString =
+            input?.split("\\.".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
+        return splitString?.get(0) ?: "0"
+    }
 }

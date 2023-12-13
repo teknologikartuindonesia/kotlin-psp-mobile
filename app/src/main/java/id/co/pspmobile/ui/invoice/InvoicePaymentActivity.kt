@@ -28,6 +28,7 @@ import id.co.pspmobile.databinding.BottomSheetPaymentInvoiceBinding
 import id.co.pspmobile.ui.NumberTextWatcher
 import id.co.pspmobile.ui.Utils
 import id.co.pspmobile.ui.Utils.handleApiError
+import id.co.pspmobile.ui.Utils.splitDecimalEndPoint
 import id.co.pspmobile.ui.customDialog.CustomDialogFragment
 import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 import id.co.pspmobile.ui.invoice.fragment.DetailInvoiceAdapter
@@ -164,7 +165,8 @@ class InvoicePaymentActivity : AppCompatActivity() {
                 if (unpaidAmount < 10000) {
                     btnPay.setBackgroundColor(resources.getColor(R.color.primary))
                     btnPay.isEnabled = true
-                    edNominal.setText(unpaidAmount.toDouble().toString())
+
+                    edNominal.setText(splitDecimalEndPoint(unpaidAmount.toString()))
                     edNominal.isEnabled = false
 
                     if (inputNominal.toInt() > balance.toInt()
