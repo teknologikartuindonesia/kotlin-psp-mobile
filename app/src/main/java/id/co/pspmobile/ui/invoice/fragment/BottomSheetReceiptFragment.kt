@@ -115,24 +115,27 @@ class BottomSheetReceiptFragment(
 
 
         }
-        val key = arguments?.getString("key_data")
-        Log.d("key", key.toString())
-        when (key) {
+        when (arguments?.getString("key_data")) {
             "download" -> {
                 Handler().postDelayed({
                     val image = getBitmapFromUiView(binding.basePanel)
                     saveBitmapImage(image!!)
                     dismiss()
-                }, 600)
+                }, 1000)
             }
 
-            else -> {
-                getBitmapUriFromView(requireContext(), binding.basePanel)?.let { it1 ->
-                    shareApp(
-                        it1
-                    )
-                }
+            "share" -> {
+                Log.e("r", "share:open")
+                Handler().postDelayed({
+                    getBitmapUriFromView(requireContext(), binding.basePanel)?.let { it1 ->
+                        shareApp(
+                            it1
+                        )
+                    }
+                    dismiss()
+                }, 1000)
             }
+
         }
         binding.tvStatusPayment.setOnClickListener {
             Log.d(
