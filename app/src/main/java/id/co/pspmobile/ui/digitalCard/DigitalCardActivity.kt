@@ -25,6 +25,7 @@ import id.co.pspmobile.data.network.model.ModelDigitalCard
 import id.co.pspmobile.data.network.responses.digitalCard.CardDataItem
 import id.co.pspmobile.databinding.ActivityDigitalCardBinding
 import id.co.pspmobile.ui.Utils.formatCurrency
+import id.co.pspmobile.ui.Utils.handleApiError
 import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetCardDigitalHelpFragment
 import id.co.pspmobile.ui.digitalCard.fragment.BottomSheetSetLimitFragment
 import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
@@ -44,8 +45,6 @@ class DigitalCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDigitalCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val existing =
-            SharePreferences.getNewSyncDigitalCard(this)
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
 
@@ -78,7 +77,9 @@ class DigitalCardActivity : AppCompatActivity() {
                 binding.tvBatasMaks.text = formatCurrency(it.value[0].limitMax!!)
                 nfcId = it.value[0].nfcId!!
 
-                if (existing!=null) {
+                val existing =
+                    SharePreferences.getNewSyncDigitalCard(this)
+                if (existing != null) {
                     for (item in existing!!.dataList) {
                         if (item.nfcId == it.value[0].nfcId!!) {
                             binding.tvLastSync.text = item.history.last().toString()
@@ -92,6 +93,18 @@ class DigitalCardActivity : AppCompatActivity() {
                 viewPager.adapter = CarouselRVAdapter(it.value, this)
             } else if (it is Resource.Failure) {
 //                handleApiError(binding.viewPager, it)
+            }
+        }
+
+        viewModel.checkCredential.observe(this) {
+            if (it is Resource.Success) {
+                val checkCredentialResponse = it.value
+                viewModel.saveUserData(checkCredentialResponse)
+                viewModel.getDigitalCard(0)
+
+
+            } else if (it is Resource.Failure) {
+                this.handleApiError(binding.progressbar, it)
             }
         }
 
@@ -110,9 +123,12 @@ class DigitalCardActivity : AppCompatActivity() {
                 nfcId = itemCard[position].nfcId!!
                 binding.tvBatasHarian.text = formatCurrency(itemCard[position].limitDaily!!)
                 binding.tvBatasMaks.text = formatCurrency(itemCard[position].limitMax!!)
+                val existing =
+                    SharePreferences.getNewSyncDigitalCard(this@DigitalCardActivity)
                 if (existing != null) {
                     for (item in existing!!.dataList) {
                         if (item.nfcId == itemCard[position].nfcId!!) {
+                            Log.e("refreshLastSync", "history ${item.history}")
                             binding.tvLastSync.text = item.history.last().toString()
                             break
                         } else {
@@ -143,8 +159,10 @@ class DigitalCardActivity : AppCompatActivity() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getDigitalCard(0)
             refreshLastSync()
+            val existing =
+                SharePreferences.getNewSyncDigitalCard(this)
+            Log.e("refreshLastSync", "existing ${existing}")
             binding.swipeRefresh.isRefreshing = false
 
         }
@@ -195,6 +213,7 @@ class DigitalCardActivity : AppCompatActivity() {
         itemCard[activePosition] = modelDigitalCard
         binding.tvBatasHarian.text = formatCurrency(modelDigitalCard.limitDaily!!)
         binding.tvBatasMaks.text = formatCurrency(modelDigitalCard.limitMax!!)
+        this.recreate()
     }
 
     fun refreshLastSync() {
@@ -203,9 +222,18 @@ class DigitalCardActivity : AppCompatActivity() {
         for (item in existing!!.dataList) {
             if (item.nfcId == nfcId) {
                 binding.tvLastSync.text = item.history.last()
-                break
+
             }
         }
+        checkCredential()
+        Log.e("refreshLastSync", "recreate")
+    }
+    fun checkCredential(){
+        viewModel.checkCredential()
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        refreshLastSync()
+//    }
 }

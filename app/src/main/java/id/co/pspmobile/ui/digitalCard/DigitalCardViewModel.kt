@@ -1,5 +1,6 @@
 package id.co.pspmobile.ui.digitalCard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.pspmobile.data.local.UserPreferences
 import id.co.pspmobile.data.network.Resource
+import id.co.pspmobile.data.network.auth.AuthRepository
 import id.co.pspmobile.data.network.digitalCard.CardReqDto
 import id.co.pspmobile.data.network.digitalCard.DigitalCardDto
 import id.co.pspmobile.data.network.digitalCard.DigitalCardRepository
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class DigitalCardViewModel @Inject constructor(
     private val digitalCardRepository: DigitalCardRepository,
     private val userRepository: UserRepository,
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
+    private val authRepository: AuthRepository
 
 ) : ViewModel() {
 
@@ -36,6 +39,8 @@ class DigitalCardViewModel @Inject constructor(
     private val _updateAccount: MutableLiveData<Resource<Unit>> = MutableLiveData()
     val updateAccount: LiveData<Resource<Unit>> get() = _updateAccount
 
+    private var _checkCredential: MutableLiveData<Resource<CheckCredentialResponse>> = MutableLiveData()
+    val checkCredential: LiveData<Resource<CheckCredentialResponse>> get() = _checkCredential
     fun getDigitalCard(page: Int) = viewModelScope.launch {
         _digitalCardResponse.value = Resource.Loading
         _digitalCardResponse.value = digitalCardRepository.getDigitalCard(page, 10)
@@ -101,6 +106,7 @@ class DigitalCardViewModel @Inject constructor(
             user.accounts[0].sourceOfFund,
             user.accounts[0].note!!)
 
+        Log.e("test", "unlimited3 ${ user.accounts[0].transactionUnlimited}")
         _updateAccount.value = userRepository.updateAccount(userReqDto)
     }
 
@@ -113,6 +119,11 @@ class DigitalCardViewModel @Inject constructor(
     }
     fun getLanguage(): String {
         return userPreferences.getLanguage()
+    }
+
+    fun checkCredential() = viewModelScope.launch {
+        _checkCredential.value = Resource.Loading
+        _checkCredential.value = authRepository.getCredentialInfo()
     }
 
 }

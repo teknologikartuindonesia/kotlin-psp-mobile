@@ -60,13 +60,14 @@ class BottomSheetSetLimitFragment(
             limitMax.setText(formatter.format(modelDigitalCard.limitMax.toString().toDouble()))
             limitMax.addTextChangedListener(onTextChangedListener(limitMax))
 
+            Log.e("test", "unlimited ${userData.user.accounts[0].transactionUnlimited}")
             switchUnlimitedTransaction.isChecked = userData.user.accounts[0].transactionUnlimited
 
             viewModel.updateDigitalCardResponse.observe(viewLifecycleOwner) {
-                when (it is Resource.Loading) {
-                    true -> showLottieLoader()
-                    else -> hideLottieLoader()
-                }
+//                when (it is Resource.Loading) {
+//                    true -> showLottieLoader()
+//                    else -> hideLottieLoader()
+//                }
                 if (it is Resource.Success) {
                     Toast.makeText(context, "Atur Limit Berhasil", Toast.LENGTH_SHORT).show()
                     saveLimit(modelDigitalCard)
@@ -78,14 +79,15 @@ class BottomSheetSetLimitFragment(
             }
 
             viewModel.updateAccount.observe(viewLifecycleOwner) {
-                when (it is Resource.Loading) {
-                    true -> showLottieLoader()
-                    else -> hideLottieLoader()
-                }
+//                when (it is Resource.Loading) {
+//                    true -> showLottieLoader()
+//                    else -> hideLottieLoader()
+//                }
                 if (it is Resource.Success) {
                     Toast.makeText(context, "Atur Limit Berhasil", Toast.LENGTH_SHORT).show()
                     viewModel.saveUserData(userData)
-
+                    switchUnlimitedTransaction.isChecked =
+                        userData.user.accounts[0].transactionUnlimited
                     dismiss()
                 } else if (it is Resource.Failure) {
                 }
@@ -114,6 +116,11 @@ class BottomSheetSetLimitFragment(
                         if (userData.user.socmedAccounts == null) userData.user.socmedAccounts =
                             mutableListOf()
                         if (userData.user.address == null) userData.user.address = ""
+
+                        Log.e(
+                            "test",
+                            "unlimited2 ${userData.user.accounts[0].transactionUnlimited}"
+                        )
 
                         viewModel.updateAccount(userData.user, modelDigitalCard)
                         (activity as DigitalCardActivity?)?.refreshLastSync()
