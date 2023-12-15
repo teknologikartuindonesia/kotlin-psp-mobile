@@ -54,12 +54,16 @@ class TutorialTopupActivity : AppCompatActivity() {
                 for (i in tutorialResDto){
                     msg += i.tutorial
                 }
-                binding.txtTutorial.text = Html.fromHtml(msg)
+                binding.wvTutorial.settings.javaScriptEnabled = true
+                binding.wvTutorial.settings.domStorageEnabled = true
+                binding.wvTutorial.isVerticalScrollBarEnabled = false
+                binding.wvTutorial.isHorizontalScrollBarEnabled = false
+                binding.wvTutorial.loadDataWithBaseURL(null, msg, "text/html", "UTF-8", null)
                 if (msg == "") {
-                    binding.txtTutorial.visible(false)
+                    binding.wvTutorial.visible(false)
                 }
             } else if (it is Resource.Failure) {
-                binding.txtTutorial.visible(false)
+                binding.wvTutorial.visible(false)
                 Toast.makeText(this, it.errorBody?.string() ?: "", Toast.LENGTH_LONG).show()
             }
         }
