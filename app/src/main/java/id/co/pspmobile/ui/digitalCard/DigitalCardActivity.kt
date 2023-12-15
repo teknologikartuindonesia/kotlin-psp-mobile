@@ -160,9 +160,6 @@ class DigitalCardActivity : AppCompatActivity() {
 
         binding.swipeRefresh.setOnRefreshListener {
             refreshLastSync()
-            val existing =
-                SharePreferences.getNewSyncDigitalCard(this)
-            Log.e("refreshLastSync", "existing ${existing}")
             binding.swipeRefresh.isRefreshing = false
 
         }
@@ -210,25 +207,37 @@ class DigitalCardActivity : AppCompatActivity() {
     }
 
     private fun setLimitCallback(modelDigitalCard: ModelDigitalCard) {
-        itemCard[activePosition] = modelDigitalCard
-        binding.tvBatasHarian.text = formatCurrency(modelDigitalCard.limitDaily!!)
-        binding.tvBatasMaks.text = formatCurrency(modelDigitalCard.limitMax!!)
-        this.recreate()
+
+        try {
+            itemCard[activePosition] = modelDigitalCard
+            binding.tvBatasHarian.text = formatCurrency(modelDigitalCard.limitDaily!!)
+            binding.tvBatasMaks.text = formatCurrency(modelDigitalCard.limitMax!!)
+            this.recreate()
+        } catch (e: Exception) {
+            Log.e("setLimitCallback", "error ${e.message}")
+        }
+
     }
 
     fun refreshLastSync() {
-        val existing =
-            SharePreferences.getNewSyncDigitalCard(this)
-        for (item in existing!!.dataList) {
-            if (item.nfcId == nfcId) {
-                binding.tvLastSync.text = item.history.last()
+        try {
+            val existing =
+                SharePreferences.getNewSyncDigitalCard(this)
+            for (item in existing!!.dataList) {
+                if (item.nfcId == nfcId) {
+                    binding.tvLastSync.text = item.history.last()
 
+                }
             }
+            checkCredential()
+            Log.e("refreshLastSync", "recreate")
+        } catch (e: Exception) {
+            Log.e("refreshLastSync", "error ${e.message}")
         }
-        checkCredential()
-        Log.e("refreshLastSync", "recreate")
+
     }
-    fun checkCredential(){
+
+    fun checkCredential() {
         viewModel.checkCredential()
     }
 

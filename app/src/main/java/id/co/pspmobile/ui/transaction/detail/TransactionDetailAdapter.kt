@@ -38,6 +38,9 @@ class TransactionDetailAdapter(viewModel: TransactionDetailViewModel) :
                     tvTransactionNote.text = transaction.note
                     tvTransactionNote.visibility = View.VISIBLE
                 }
+                if (transaction.callerName == "") {
+                    tvUserName.visibility = View.GONE
+                }
                 if (transaction.credit == 0.0) {
                     tvAmount.text = "Rp " + formatCurrency(transaction.debit)
                 } else {

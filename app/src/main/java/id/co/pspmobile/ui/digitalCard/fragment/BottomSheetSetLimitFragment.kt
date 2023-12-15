@@ -88,6 +88,9 @@ class BottomSheetSetLimitFragment(
                     viewModel.saveUserData(userData)
                     switchUnlimitedTransaction.isChecked =
                         userData.user.accounts[0].transactionUnlimited
+                    saveLimit(modelDigitalCard)
+                    setLimitCallback(modelDigitalCard)
+
                     dismiss()
                 } else if (it is Resource.Failure) {
                 }
