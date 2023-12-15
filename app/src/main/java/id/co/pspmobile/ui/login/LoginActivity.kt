@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
             if (it is Resource.Success) {
                 viewModel.saveUsername(binding.edUsername.text.toString())
                 viewModel.savePassword(binding.edPassword.text.toString())
-                binding.edPassword.setText("")
 //                binding.edUsername.setText("")
                 if (it.value.firstLogin) {
                     // go to create password
@@ -67,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     i.putExtra("currentPassword", t)
                     startActivity(i)
                 } else {
+                    binding.edPassword.setText("")
                     viewModel.checkCredential()
                 }
             } else if (it is Resource.Failure) {
