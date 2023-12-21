@@ -141,6 +141,17 @@ class MessageFragment : Fragment() {
 
         setupRecyclerView()
         viewModel.getNotificationMessage(page)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            if (isNotificationTab){
+                notificationAdapter.clearList()
+                viewModel.getNotificationMessage(page)
+            } else {
+                broadcastAdapter.clearList()
+                viewModel.getBroadcastMessage(page)
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupRecyclerView() {
