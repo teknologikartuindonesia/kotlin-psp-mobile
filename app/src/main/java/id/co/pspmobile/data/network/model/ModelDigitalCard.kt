@@ -19,5 +19,5 @@ data class ModelDigitalCard(
     val name: String,
     val nfcId: String,
     val photoUrl: String,
-    val usePin: Boolean
+    val usePin: Boolean,
 ): Serializable
