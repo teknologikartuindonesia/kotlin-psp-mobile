@@ -19,6 +19,6 @@ data class UserResponse(
     val regDate: String,
     val religion: String,
     val socmedAccounts: List<SocmedAccount>,
-    val tags: Any,
+    val tags: Any?,
     val validationStatus: Boolean
 )

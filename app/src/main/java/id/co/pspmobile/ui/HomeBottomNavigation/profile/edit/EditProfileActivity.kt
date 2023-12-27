@@ -210,8 +210,11 @@ class EditProfileActivity : AppCompatActivity() {
                 phone, temp.photoUrl, temp.placeOfBirth, temp.regDate, temp.religion,
                 temp.socmedAccounts, temp.tags, temp.validationStatus
             )
+
             viewModel.updateProfile(newUserResponse)
         }catch (e: Exception){
+            Log.w("tag", "getUserData: $tempUserResponse")
+            Log.e("tag","errpr"+ e.toString())
             Snackbar.make(binding.root, getString(R.string.something_went_wrong), Snackbar.LENGTH_SHORT).show()
         }
     }
