@@ -165,6 +165,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                 binding.layoutSupportedBy.visible(false)
                 binding.layoutIgnoreChoice.visible(true)
             } else if (it is Resource.Failure){
+                runBlocking { viewModel.clearToken() }
                 handleApiError(binding.root, it)
             }
         }
@@ -175,7 +176,9 @@ class CreatePasswordActivity : AppCompatActivity() {
                 binding.mainScrollView.visible(false)
                 binding.slideSuccessChangePassword.visible(true)
             } else if (it is Resource.Failure){
+                runBlocking { viewModel.clearToken() }
                 handleApiError(binding.root, it)
+
             }
         }
 
@@ -188,6 +191,8 @@ class CreatePasswordActivity : AppCompatActivity() {
                 checkRole()
             } else if (it is Resource.Failure){
                 handleApiError(binding.root, it)
+                runBlocking { viewModel.clearToken() }
+
             }
         }
 
@@ -237,6 +242,7 @@ class CreatePasswordActivity : AppCompatActivity() {
                 }
             }
             else if (it is Resource.Failure){
+                runBlocking { viewModel.clearToken() }
                 handleApiError(binding.root, it)
             }
         }

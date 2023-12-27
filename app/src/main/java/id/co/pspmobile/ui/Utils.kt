@@ -25,6 +25,7 @@ import id.co.pspmobile.ui.donation.detail.DonationDetailActivity
 import id.co.pspmobile.ui.invoice.InvoicePaymentActivity
 import id.co.pspmobile.ui.invoice.fragment.BottomSheetPaymentSuccessInvoice
 import id.co.pspmobile.ui.login.LoginActivity
+import id.co.pspmobile.ui.main.MainActivity
 import id.co.pspmobile.ui.preloader.LottieLoaderDialogFragment
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
@@ -45,7 +46,8 @@ object Utils {
 
             failure.errorCode == 401 -> {
                 if (this is LoginActivity) {
-                    view.snackbar("Username dan password tidak valid")
+                    val error = failure.errorBody?.string().toString()
+
                 } else {
                     this.logout()
                 }
@@ -57,7 +59,20 @@ object Utils {
                 } else if (this is DonationDetailActivity) {
                     val error = failure.errorBody?.string().toString()
                     view.snackbar(error)
-                } else {
+                } else if(this is MainActivity){
+                    val error = failure.errorBody?.string().toString()
+                    if (error == "BLOCK_USER") {
+                        view.snackbar("Block User")
+                        this.logout()
+                    }
+                }
+                else if(this is LoginActivity){
+                    val error = failure.errorBody?.string().toString()
+                    if (error == "BLOCK_USER") {
+                        view.snackbar("Block User")
+                    }
+                }
+                else {
                     val error = failure.errorBody?.string().toString()
                     if (!error.isNullOrEmpty()) {
                         view.snackbar(error)

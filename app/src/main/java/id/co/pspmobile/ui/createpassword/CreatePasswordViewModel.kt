@@ -76,4 +76,8 @@ class CreatePasswordViewModel@Inject constructor(
     fun getPassword(): String {
         return userPreferences.getPassword()
     }
+
+    fun clearToken() = viewModelScope.launch {
+        userPreferences.saveAccessToken("")
+    }
 }
