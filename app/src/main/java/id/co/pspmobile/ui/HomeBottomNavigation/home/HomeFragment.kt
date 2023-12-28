@@ -51,7 +51,6 @@ import id.co.pspmobile.ui.topup.TopUpActivity
 import id.co.pspmobile.ui.topup.history.HistoryTopUpActivity
 import id.co.pspmobile.ui.transaction.TransactionActivity
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
